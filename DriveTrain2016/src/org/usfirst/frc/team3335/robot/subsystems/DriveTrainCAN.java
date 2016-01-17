@@ -8,10 +8,14 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc.team3335.robot.Robot;
 import org.usfirst.frc.team3335.robot.commands.TankDriveWithJoystick;
+
+import com.ni.vision.NIVision.CalibrationThumbnailType;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -19,24 +23,39 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * the robots chassis. These include four drive motors, a left and right encoder
  * and a gyro.
  */
-public class DriveTrain extends Subsystem {
-	private SpeedController front_left_motor, back_left_motor,
+public class DriveTrainCAN extends Subsystem {
+	private CANTalon front_left_motor, back_left_motor,
 							front_right_motor, back_right_motor;
 	private RobotDrive drive;
 	private Encoder left_encoder, right_encoder;
 	private AnalogInput rangefinder;
 	private AnalogGyro gyro;
 
-	public DriveTrain() {
+	public DriveTrainCAN() {
 		super();
-		front_left_motor = new Talon(0);
-		back_left_motor = new Talon(1);
-		front_right_motor = new Talon(2);
-		back_right_motor = new Talon(3);
+		front_left_motor = new CANTalon(0);
+		back_left_motor = new CANTalon(1);
+		front_right_motor = new CANTalon(2);
+		back_right_motor = new CANTalon(3);
 		drive = new RobotDrive(front_left_motor, back_left_motor,
 							   front_right_motor, back_right_motor);
 		//left_encoder = new Encoder(1, 2);
 		//right_encoder = new Encoder(3, 4);
+		
+		//percent vbus is default mode
+		front_left_motor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+		front_left_motor.set(0);
+		//percent vbus is default mode
+		front_right_motor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+		front_right_motor.set(0);
+		//percent vbus is default mode
+		back_left_motor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+		back_left_motor.set(0);
+		//percent vbus is default mode
+		back_right_motor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+		back_right_motor.set(0);
+		
+		
 
 		// Encoders may measure differently in the real world and in
 		// simulation. In this example the robot moves 0.042 barleycorns
@@ -56,10 +75,10 @@ public class DriveTrain extends Subsystem {
 //		gyro = new AnalogGyro(1);
 
 		// Let's show everything on the LiveWindow
-		LiveWindow.addActuator("Drive Train", "Front_Left Motor", (Talon) front_left_motor);
-		LiveWindow.addActuator("Drive Train", "Back Left Motor", (Talon) back_left_motor);
-		LiveWindow.addActuator("Drive Train", "Front Right Motor", (Talon) front_right_motor);
-		LiveWindow.addActuator("Drive Train", "Back Right Motor", (Talon) back_right_motor);
+		LiveWindow.addActuator("Drive Train", "Front_Left Motor", (CANTalon) front_left_motor);
+		LiveWindow.addActuator("Drive Train", "Back Left Motor", (CANTalon) back_left_motor);
+		LiveWindow.addActuator("Drive Train", "Front Right Motor", (CANTalon) front_right_motor);
+		LiveWindow.addActuator("Drive Train", "Back Right Motor", (CANTalon) back_right_motor);
 //		LiveWindow.addSensor("Drive Train", "Left Encoder", left_encoder);
 //		LiveWindow.addSensor("Drive Train", "Right Encoder", right_encoder);
 //		LiveWindow.addSensor("Drive Train", "Rangefinder", rangefinder);
@@ -83,6 +102,7 @@ public class DriveTrain extends Subsystem {
 //		SmartDashboard.putNumber("Left Speed", left_encoder.getRate());
 //		SmartDashboard.putNumber("Right Speed", right_encoder.getRate());
 //		SmartDashboard.putNumber("Gyro", gyro.getAngle());
+		//SmartDashboard.putNumber("Joystick Axis 1", );
 	}
 
 	/**
@@ -98,7 +118,7 @@ public class DriveTrain extends Subsystem {
 	 * @param joy The ps3 style joystick to use to drive tank style.
 	 */
 	public void drive(Joystick joy) {
-		drive(joy.getRawAxis(1), joy.getRawAxis(4));
+		drive(-joy.getRawAxis(1), joy.getRawAxis(4));
 		//drive(-joy.getY(), -joy.getAxis(AxisType.kThrottle));
 	}
 

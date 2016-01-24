@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc.team3335.robot.commands.Autonomous;
 import org.usfirst.frc.team3335.robot.subsystems.DriveTrainCAN;
+import org.usfirst.frc.team3335.robot.subsystems.ImageProcessorGrip;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -30,6 +32,7 @@ public class Robot extends IterativeRobot {
     //public static Wrist wrist;
     //public static Claw claw;
     public static OI oi;
+    public static ImageProcessorGrip imageProcessor;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -42,6 +45,7 @@ public class Robot extends IterativeRobot {
         //wrist = new Wrist();
         //claw = new Claw();
         oi = new OI();
+        imageProcessor = new ImageProcessorGrip();
         
         // instantiate the command used for the autonomous period
         autonomousCommand = new Autonomous();

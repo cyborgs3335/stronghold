@@ -30,13 +30,15 @@ public class DriveTrainCAN extends Subsystem {
 	private Encoder left_encoder, right_encoder;
 	private AnalogInput rangefinder;
 	private AnalogGyro gyro;
+	private double leftDriveValue;
+	private double rightDriveValue;
 
 	public DriveTrainCAN() {
 		super();
-		front_left_motor = new CANTalon(0);
-		back_left_motor = new CANTalon(1);
-		front_right_motor = new CANTalon(2);
-		back_right_motor = new CANTalon(3);
+		front_left_motor = new CANTalon(1);
+		back_left_motor = new CANTalon(2);
+		front_right_motor = new CANTalon(3);
+		back_right_motor = new CANTalon(4);
 		drive = new RobotDrive(front_left_motor, back_left_motor,
 							   front_right_motor, back_right_motor);
 		//left_encoder = new Encoder(1, 2);
@@ -103,6 +105,8 @@ public class DriveTrainCAN extends Subsystem {
 //		SmartDashboard.putNumber("Right Speed", right_encoder.getRate());
 //		SmartDashboard.putNumber("Gyro", gyro.getAngle());
 		//SmartDashboard.putNumber("Joystick Axis 1", );
+		SmartDashboard.putNumber("Left Drive Value", leftDriveValue);
+		SmartDashboard.putNumber("Right Drive Value", rightDriveValue);
 	}
 
 	/**
@@ -112,6 +116,8 @@ public class DriveTrainCAN extends Subsystem {
 	 */
 	public void drive(double left, double right) {
 		drive.tankDrive(left, right);
+		leftDriveValue = left;
+		rightDriveValue = right;
 	}
 
 	/**

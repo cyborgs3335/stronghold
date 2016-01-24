@@ -17,10 +17,13 @@ public class TankDriveWithJoystick extends Command {
     }
 
     // Called just before this Command runs the first time
-    protected void initialize() {}
+    protected void initialize() {
+    	//System.out.println(this.getClass().getName() + ": initialize");
+    }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	//System.out.println(this.getClass().getName() + ": execute");
         Robot.drivetrain.drive(Robot.oi.getJoystick());
     }
 

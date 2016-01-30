@@ -20,7 +20,7 @@ public class ProcessImage extends Command {
     Image frame;
 
 	public ProcessImage() {
-		requires(Robot.imageProcessor);
+		//requires(Robot.imageProcessor);
 		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 
         // the camera name (ex "cam0") can be found through the roborio web interface
@@ -71,7 +71,7 @@ public class ProcessImage extends Command {
 
 	@Override
 	protected void end() {
-		Robot.imageProcessor.terminate();
+		//Robot.imageProcessor.terminate();
 	}
 
 	@Override

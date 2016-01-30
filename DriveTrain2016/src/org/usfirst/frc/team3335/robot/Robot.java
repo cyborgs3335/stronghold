@@ -32,7 +32,8 @@ public class Robot extends IterativeRobot {
     //public static Wrist wrist;
     //public static Claw claw;
     public static OI oi;
-    public static ImageProcessorGrip imageProcessor;
+    //public static ImageProcessorGrip imageProcessor;
+    public static RobotPreferences robotPreferences;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -45,11 +46,14 @@ public class Robot extends IterativeRobot {
         //wrist = new Wrist();
         //claw = new Claw();
         oi = new OI();
-        imageProcessor = new ImageProcessorGrip();
+        //imageProcessor = new ImageProcessorGrip();
         
         // instantiate the command used for the autonomous period
         autonomousCommand = new Autonomous();
 
+        // Get preferences from robot
+        robotPreferences = new RobotPreferences();
+        
         // Show what command your subsystem is running on the SmartDashboard
         SmartDashboard.putData(drivetrain);
         //SmartDashboard.putData(elevator);

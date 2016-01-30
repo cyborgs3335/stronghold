@@ -32,13 +32,14 @@ public class DriveTrainCAN extends Subsystem {
 	private AnalogGyro gyro;
 	private double leftDriveValue;
 	private double rightDriveValue;
+	private boolean limitAcceleration = true;
 
 	public DriveTrainCAN() {
 		super();
 		front_left_motor = new CANTalon(1);
-		back_left_motor = new CANTalon(2);
-		front_right_motor = new CANTalon(3);
-		back_right_motor = new CANTalon(4);
+		back_left_motor = new CANTalon(4);
+		front_right_motor = new CANTalon(2);
+		back_right_motor = new CANTalon(3);
 		drive = new RobotDrive(front_left_motor, back_left_motor,
 							   front_right_motor, back_right_motor);
 		//left_encoder = new Encoder(1, 2);
@@ -124,10 +125,35 @@ public class DriveTrainCAN extends Subsystem {
 	 * @param joy The ps3 style joystick to use to drive tank style.
 	 */
 	public void drive(Joystick joy) {
-		drive(-joy.getRawAxis(1), joy.getRawAxis(4));
-		//drive(-joy.getY(), -joy.getAxis(AxisType.kThrottle));
+		double scalar = Robot.robotPreferences.getJoystickScalar();
+		double powScalar = Robot.robotPreferences.getJoystickPowerScalar();
+		double leftIn = joy.getRawAxis(1);
+		double rightIn = joy.getRawAxis(5);
+		double leftOut = scalar * Math.signum(leftIn) * Math.pow(leftIn, powScalar);
+		double rightOut = scalar * Math.signum(rightIn) * Math.pow(rightIn, powScalar);
+		drive(leftOut, rightOut);
+		if (limitAcceleration) {
+			driveLimitAcceleration(leftOut, rightOut);	
+		}	else {	
+			drive(leftOut, rightOut);
 	}
 
+		//drive(scalar*joy.getRawAxis(1),scalar*joy.getRawAxis(5));
+		//drive(-joy.getY(), -joy.getAxis(AxisType.kThrottle));
+	}
+	private void driveLimitAcceleration(double left, double right) {
+		double leftOut = left;
+		double rightOut= right;
+		double maxChange = Robot.robotPreferences.getAccelLimit();
+		if (Math.abs(leftOut - leftDriveValue) > maxChange) {
+			if (leftOut > leftDriveValue) {
+				leftOut = leftDriveValue + maxChange;
+			} else { 
+				leftOut = leftDriveValue - maxChange;
+			}
+		}
+		drive(leftOut, rightOut);
+	}
 	/**
 	 * @return The robots heading in degrees.
 	 */

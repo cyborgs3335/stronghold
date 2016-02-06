@@ -30,10 +30,10 @@ public class TowerTracker {
 	/**
 	 * static method to load opencv and networkTables
 	 */
-	static{ 
+	static { 
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		NetworkTable.setClientMode();
-		NetworkTable.setIPAddress("roborio-3019.local");
+		NetworkTable.setIPAddress("roborio-3335.local");
 	}
 	// constants for the color rbg values
 	public static final Scalar 
@@ -79,7 +79,7 @@ public class TowerTracker {
 		matHeirarchy = new Mat();
 		NetworkTable table = NetworkTable.getTable("SmartDashboard");
 		// main loop of the program
-		while(shouldRun){
+		while (shouldRun){
 			try {
 				// opens up the camera stream and tries to load it
 				videoCapture = new VideoCapture();

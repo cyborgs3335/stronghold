@@ -4,45 +4,45 @@ import org.usfirst.frc.team3335.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class SetArmPosition extends Command{
-	private double position;
-	
-	public SetArmPosition(double position) {
-		this.position = position;
-		requires(Robot.arm);
-	}
+public class SetArmPosition extends Command {
+  private double position;
 
-	@Override
-	protected void initialize() {
-		// TODO Auto-generated method stub
-		Robot.arm.enable();
-		Robot.arm.setSetpoint(position);
-		
-	}
+  public SetArmPosition(double position) {
+    this.position = position;
+    requires(Robot.arm);
+  }
 
-	@Override
-	protected void execute() {
-		// TODO Auto-generated method stub
-		
-	}
+  @Override
+  protected void initialize() {
+    // TODO Auto-generated method stub
+    Robot.arm.enable();
+    Robot.arm.setSetpoint(position);
 
-	@Override
-	protected boolean isFinished() {
-		// TODO Auto-generated method stub
-	
-		return Robot.arm.onTarget();
-	}
+  }
 
-	@Override
-	protected void end() {
-		// TODO Auto-generated method stub
-		
-	}
+  @Override
+  protected void execute() {
+    // TODO Auto-generated method stub
 
-	@Override
-	protected void interrupted() {
-		// TODO Auto-generated method stub
-		
-	}
+  }
+
+  @Override
+  protected boolean isFinished() {
+    // TODO Auto-generated method stub
+
+    return Robot.arm.onTarget();
+  }
+
+  @Override
+  protected void end() {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  protected void interrupted() {
+    // TODO Auto-generated method stub
+
+  }
 
 }

@@ -5,40 +5,40 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RobotPreferences {
 
-	private Preferences prefs;
+  private Preferences prefs;
 
-	public static String JOYSTICK_SCALAR = "JoystickScaler";
+  public static String JOYSTICK_SCALAR = "JoystickScaler";
 
-	public static String JOYSTICK_POWER_SCALAR = "JoystickPowerScaler";
+  public static String JOYSTICK_POWER_SCALAR = "JoystickPowerScaler";
 
-	private double joystickScalar;
+  private double joystickScalar;
 
-	private double joystickPowerScalar;
+  private double joystickPowerScalar;
 
-	private double accelLimit;
+  private double accelLimit;
 
-	public RobotPreferences() {
-		prefs = Preferences.getInstance();
-		joystickScalar = prefs.getDouble(JOYSTICK_SCALAR, -0.8);
-		if (prefs.containsKey(JOYSTICK_SCALAR)) {
-			prefs.putDouble(JOYSTICK_SCALAR, joystickScalar);
-		}
-		joystickPowerScalar = prefs.getDouble(JOYSTICK_POWER_SCALAR, 2);
-		accelLimit = prefs.getDouble("AccelLimit", 0.5);
-		SmartDashboard.putNumber("Joystick Scalar", joystickScalar);
-		SmartDashboard.putNumber("Joystick Power Scalar", joystickPowerScalar);
-		SmartDashboard.putNumber("Acceleration Limit", accelLimit);
-	}
+  public RobotPreferences() {
+    prefs = Preferences.getInstance();
+    joystickScalar = prefs.getDouble(JOYSTICK_SCALAR, -0.8);
+    if (prefs.containsKey(JOYSTICK_SCALAR)) {
+      prefs.putDouble(JOYSTICK_SCALAR, joystickScalar);
+    }
+    joystickPowerScalar = prefs.getDouble(JOYSTICK_POWER_SCALAR, 2);
+    accelLimit = prefs.getDouble("AccelLimit", 0.5);
+    SmartDashboard.putNumber("Joystick Scalar", joystickScalar);
+    SmartDashboard.putNumber("Joystick Power Scalar", joystickPowerScalar);
+    SmartDashboard.putNumber("Acceleration Limit", accelLimit);
+  }
 
-	public double getJoystickScalar() {
-		return joystickScalar;
-	}
-	
-	public double getJoystickPowerScalar() {
-		return joystickPowerScalar;
-	}
-	
-	public double getAccelLimit() {
-		return accelLimit;
-	}
+  public double getJoystickScalar() {
+    return joystickScalar;
+  }
+
+  public double getJoystickPowerScalar() {
+    return joystickPowerScalar;
+  }
+
+  public double getAccelLimit() {
+    return accelLimit;
+  }
 }

@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.command.Command;
 public class IntakeBoulder extends Command {
 
   public IntakeBoulder() {
-    // TODO Auto-generated constructor stub
     requires(Robot.intake);
   }
 
@@ -18,7 +17,6 @@ public class IntakeBoulder extends Command {
 
   @Override
   protected void execute() {
-    // TODO Auto-generated method stub
     Robot.intake.start();
   }
 

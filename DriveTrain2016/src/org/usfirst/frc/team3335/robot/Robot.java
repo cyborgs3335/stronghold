@@ -31,16 +31,13 @@ public class Robot extends IterativeRobot {
 
   public static DriveTrainCAN drivetrain;
   public static Intake intake;
-  // public static Elevator elevator;
-  // public static Wrist wrist;
-  // public static Claw claw;
-  public static OI oi;
-  // public static ImageProcessorGrip imageProcessor;
-  public static RobotPreferences robotPreferences;
-
   public static ArmPID arm;
   public static HoodPID hood;
   public static Turret turret;
+  // public static ImageProcessorGrip imageProcessor;
+
+  public static OI oi;
+  public static RobotPreferences robotPreferences;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -50,17 +47,14 @@ public class Robot extends IterativeRobot {
   public void robotInit() {
     // Initialize all subsystems
     drivetrain = new DriveTrainCAN();
-    // elevator = new Elevator();
-    // wrist = new Wrist();
-    // claw = new Claw();
     intake = new Intake();
     arm = new ArmPID();
     hood = new HoodPID();
     turret = new Turret();
+    // imageProcessor = new ImageProcessorGrip();
 
     // Instantiate after all subsystems - or you will die
     oi = new OI();
-    // imageProcessor = new ImageProcessorGrip();
 
     // instantiate the command used for the autonomous period
     autonomousCommand = new Autonomous();
@@ -70,9 +64,10 @@ public class Robot extends IterativeRobot {
 
     // Show what command your subsystem is running on the SmartDashboard
     SmartDashboard.putData(drivetrain);
-    // SmartDashboard.putData(elevator);
-    // SmartDashboard.putData(wrist);
-    // SmartDashboard.putData(claw);
+    SmartDashboard.putData(intake);
+    SmartDashboard.putData(arm);
+    SmartDashboard.putData(hood);
+    SmartDashboard.putData(turret);
   }
 
   @Override
@@ -119,9 +114,10 @@ public class Robot extends IterativeRobot {
    * The log method puts interesting information to the SmartDashboard.
    */
   private void log() {
-    // wrist.log();
-    // elevator.log();
     drivetrain.log();
-    // claw.log();
+    intake.log();
+    arm.log();
+    hood.log();
+    turret.log();
   }
 }

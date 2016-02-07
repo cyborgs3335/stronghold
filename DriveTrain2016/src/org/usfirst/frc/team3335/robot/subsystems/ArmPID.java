@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ArmPID extends PIDSubsystem {
 
@@ -28,6 +29,10 @@ public class ArmPID extends PIDSubsystem {
 
   public void reset() {
     motor.set(0);
+  }
+
+  public void log() {
+    SmartDashboard.putNumber("Arm Potentiometer", pot.get());
   }
 
   @Override

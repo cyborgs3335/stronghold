@@ -8,7 +8,6 @@ public class StopIntake extends Command {
   private boolean finished;
 
   public StopIntake(boolean finished) {
-    // TODO Auto-generated constructor stub
     requires(Robot.intake);
     this.finished = finished;
   }

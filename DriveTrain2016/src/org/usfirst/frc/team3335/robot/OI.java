@@ -33,7 +33,7 @@ public class OI {
     JoystickButton a4Alyssa = new JoystickButton(joy, 1);
     JoystickButton b4Brian = new JoystickButton(joy, 2);
     JoystickButton armUp = new JoystickButton(joy, 5);
-    JoystickButton armdown = new JoystickButton(joy, 6);
+    JoystickButton armDown = new JoystickButton(joy, 6);
     // JoystickButton d_up = new JoystickButton(joy, 5);
     // JoystickButton d_right= new JoystickButton(joy, 6);
     // JoystickButton d_down= new JoystickButton(joy, 7);
@@ -47,7 +47,7 @@ public class OI {
     a4Alyssa.whenPressed(new IntakeBoulder());
     b4Brian.whenPressed(new StopIntake(true));
     armUp.whenPressed(new SetArmPosition(90));
-    armdown.whenPressed(new SetArmPosition(0));
+    armDown.whenPressed(new SetArmPosition(0));
     // d_up.whenPressed(new SetElevatorSetpoint(0.2));
     // d_down.whenPressed(new SetElevatorSetpoint(-0.2));
     // d_right.whenPressed(new CloseClaw());

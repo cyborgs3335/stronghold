@@ -11,6 +11,8 @@ public class RobotPreferences {
 
   public static String JOYSTICK_POWER_SCALAR = "JoystickPowerScaler";
 
+  public static String ACCEL_LIMIT = "AccelLimit";
+
   private double joystickScalar;
 
   private double joystickPowerScalar;
@@ -24,7 +26,7 @@ public class RobotPreferences {
       prefs.putDouble(JOYSTICK_SCALAR, joystickScalar);
     }
     joystickPowerScalar = prefs.getDouble(JOYSTICK_POWER_SCALAR, 2);
-    accelLimit = prefs.getDouble("AccelLimit", 0.5);
+    accelLimit = prefs.getDouble(ACCEL_LIMIT, 0.5);
     SmartDashboard.putNumber("Joystick Scalar", joystickScalar);
     SmartDashboard.putNumber("Joystick Power Scalar", joystickPowerScalar);
     SmartDashboard.putNumber("Acceleration Limit", accelLimit);

@@ -14,7 +14,6 @@ public class SetArmPosition extends Command {
 
   @Override
   protected void initialize() {
-    // TODO Auto-generated method stub
     Robot.arm.enable();
     Robot.arm.setSetpoint(position);
 
@@ -28,8 +27,6 @@ public class SetArmPosition extends Command {
 
   @Override
   protected boolean isFinished() {
-    // TODO Auto-generated method stub
-
     return Robot.arm.onTarget();
   }
 

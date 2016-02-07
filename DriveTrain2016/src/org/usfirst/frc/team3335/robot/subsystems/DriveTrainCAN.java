@@ -34,7 +34,7 @@ public class DriveTrainCAN extends Subsystem {
 	private double rightDriveValue;
 	private boolean limitAcceleration = true;
 	//TODO calibrate the distance per pulse
-    private int distancePerPulse = 5;
+    private double distancePerPulse = 5;
 	public DriveTrainCAN() {
 		super();
 		front_left_motor = new CANTalon(1);
@@ -46,13 +46,13 @@ public class DriveTrainCAN extends Subsystem {
 		//left_encoder = new Encoder(1, 2);
 		//right_encoder = new Encoder(3, 4);
 		
-		left_encoder = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
-		left_encoder.setDistancePerPulse(distancePerPulse);
-		left_encoder.setMinRate(3.14159265);
-		
-		right_encoder = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
-		right_encoder.setDistancePerPulse(distancePerPulse);
-		right_encoder.setMinRate(3.14159265);
+//		left_encoder = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
+//		left_encoder.setDistancePerPulse(distancePerPulse);
+//		left_encoder.setMinRate(3.14159265);
+//		
+//		right_encoder = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
+//		right_encoder.setDistancePerPulse(distancePerPulse);
+//		right_encoder.setMinRate(3.14159265);
 		
 		//percent vbus is default mode
 		front_left_motor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
@@ -91,8 +91,8 @@ public class DriveTrainCAN extends Subsystem {
 		LiveWindow.addActuator("Drive Train", "Back Left Motor", (CANTalon) back_left_motor);
 		LiveWindow.addActuator("Drive Train", "Front Right Motor", (CANTalon) front_right_motor);
 		LiveWindow.addActuator("Drive Train", "Back Right Motor", (CANTalon) back_right_motor);
-		LiveWindow.addSensor("Drive Train", "Left Encoder", left_encoder);
-		LiveWindow.addSensor("Drive Train", "Right Encoder", right_encoder);
+//		LiveWindow.addSensor("Drive Train", "Left Encoder", left_encoder);
+//		LiveWindow.addSensor("Drive Train", "Right Encoder", right_encoder);
 //		LiveWindow.addSensor("Drive Train", "Rangefinder", rangefinder);
 //		LiveWindow.addSensor("Drive Train", "Gyro", gyro);
 	}
@@ -109,10 +109,10 @@ public class DriveTrainCAN extends Subsystem {
 	 * The log method puts interesting information to the SmartDashboard.
 	 */
 	public void log() {
-		SmartDashboard.putNumber("Left Distance", left_encoder.getDistance());
-		SmartDashboard.putNumber("Right Distance", right_encoder.getDistance());
-		SmartDashboard.putNumber("Left Speed", left_encoder.getRate());
-		SmartDashboard.putNumber("Right Speed", right_encoder.getRate());
+//		SmartDashboard.putNumber("Left Distance", left_encoder.getDistance());
+//		SmartDashboard.putNumber("Right Distance", right_encoder.getDistance());
+//		SmartDashboard.putNumber("Left Speed", left_encoder.getRate());
+//		SmartDashboard.putNumber("Right Speed", right_encoder.getRate());
 //		SmartDashboard.putNumber("Gyro", gyro.getAngle());
 		//SmartDashboard.putNumber("Joystick Axis 1", );
 		SmartDashboard.putNumber("Left Drive Value", leftDriveValue);
@@ -176,16 +176,16 @@ public class DriveTrainCAN extends Subsystem {
 	 */
 	public void reset() {
 //		gyro.reset();
-		left_encoder.reset();
-		right_encoder.reset();
+//		left_encoder.reset();
+//		right_encoder.reset();
 	}
 
 	/**
 	 * @return The distance driven (average of left and right encoders).
 	 */
 	public double getDistance() {
-		return (left_encoder.getDistance() + right_encoder.getDistance())/2;
-//		return 0;
+//		return (left_encoder.getDistance() + right_encoder.getDistance())/2;
+		return 0;
 	}
 
 	/**

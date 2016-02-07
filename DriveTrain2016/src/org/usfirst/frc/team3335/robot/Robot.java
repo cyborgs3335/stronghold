@@ -10,10 +10,15 @@ package org.usfirst.frc.team3335.robot;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc.team3335.robot.commands.Autonomous;
+import org.usfirst.frc.team3335.robot.subsystems.ArmPID;
 import org.usfirst.frc.team3335.robot.subsystems.DriveTrainCAN;
+import org.usfirst.frc.team3335.robot.subsystems.HoodPID;
 import org.usfirst.frc.team3335.robot.subsystems.ImageProcessorGrip;
+import org.usfirst.frc.team3335.robot.subsystems.Intake;
+import org.usfirst.frc.team3335.robot.subsystems.Turret;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -28,12 +33,17 @@ public class Robot extends IterativeRobot {
     Command autonomousCommand;
     
     public static DriveTrainCAN drivetrain;
+    public static Intake intake;
     //public static Elevator elevator;
     //public static Wrist wrist;
     //public static Claw claw;
     public static OI oi;
     //public static ImageProcessorGrip imageProcessor;
     public static RobotPreferences robotPreferences;
+
+	public static ArmPID arm;
+	public static HoodPID hood;
+	public static Turret turret;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -45,6 +55,12 @@ public class Robot extends IterativeRobot {
         //elevator = new Elevator();
         //wrist = new Wrist();
         //claw = new Claw();
+        intake = new Intake();
+        arm = new ArmPID();
+        hood = new HoodPID();
+        turret = new Turret();
+        
+        // Instantiate after all subsystems - or you will die
         oi = new OI();
         //imageProcessor = new ImageProcessorGrip();
         

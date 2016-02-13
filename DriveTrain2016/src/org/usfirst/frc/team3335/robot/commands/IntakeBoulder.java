@@ -12,7 +12,7 @@ public class IntakeBoulder extends Command {
 
   @Override
   protected void initialize() {
-    // TODO Auto-generated method stub
+    Robot.intake.intializeCounter();
   }
 
   @Override
@@ -22,20 +22,17 @@ public class IntakeBoulder extends Command {
 
   @Override
   protected boolean isFinished() {
-    // TODO Auto-generated method stub
-    return false;
+    return Robot.intake.isSwitchSet();
   }
 
   @Override
   protected void end() {
-    // TODO Auto-generated method stub
-
+    Robot.intake.stop();
   }
 
   @Override
   protected void interrupted() {
-    // TODO Auto-generated method stub
-
+    end();
   }
 
 }

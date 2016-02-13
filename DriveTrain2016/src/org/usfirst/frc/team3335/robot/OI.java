@@ -36,7 +36,7 @@ public class OI {
     JoystickButton out = new JoystickButton(joy, 2);
     JoystickButton armUp = new JoystickButton(joy, 5);
     JoystickButton armDown = new JoystickButton(joy, 6);
-
+    JoystickButton shoot = new JoystickButton(Joy, 4)
     // JoystickButton d_up = new JoystickButton(joy, 5);
     // JoystickButton d_right= new JoystickButton(joy, 6);
     // JoystickButton d_down= new JoystickButton(joy, 7);
@@ -52,6 +52,7 @@ public class OI {
     out.whenPressed(new OuttakeBoulder());
     armUp.whenPressed(new SetArmPosition(90));
     armDown.whenPressed(new SetArmPosition(0));
+    shoot.whenPressed(new StartShooter());
     // d_up.whenPressed(new SetElevatorSetpoint(0.2));
     // d_down.whenPressed(new SetElevatorSetpoint(-0.2));
     // d_right.whenPressed(new CloseClaw());

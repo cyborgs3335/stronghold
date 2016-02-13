@@ -1,10 +1,9 @@
 package org.usfirst.frc.team3335.robot;
 
-import org.usfirst.frc.team3335.robot.commands.IntakeBoulder;
-import org.usfirst.frc.team3335.robot.commands.OuttakeBoulder;
+import org.usfirst.frc.team3335.robot.commands.MoveTurret;
 import org.usfirst.frc.team3335.robot.commands.StartShooter;
-import org.usfirst.frc.team3335.robot.commands.StopIntake;
 import org.usfirst.frc.team3335.robot.commands.StopShooter;
+import org.usfirst.frc.team3335.robot.commands.StopTurret;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -32,28 +31,34 @@ public class OI {
     // SmartDashboard.putData("Deliver Soda", new Autonomous());
 
     // Create some buttons
-    JoystickButton intakeStart = new JoystickButton(joy, 1); // A button
-    JoystickButton intakeStop = new JoystickButton(joy, 2); // B button
+    // JoystickButton intakeStart = new JoystickButton(joy, 1); // A button
+    // JoystickButton intakeStop = new JoystickButton(joy, 2); // B button
+    // JoystickButton intakeReverse = new JoystickButton(joy, 4); // Y button
+    JoystickButton turretLeft = new JoystickButton(joy, 1); // A button
+    JoystickButton turretRight = new JoystickButton(joy, 4); // Y button
+    JoystickButton turretStop = new JoystickButton(joy, 2); // B button
     JoystickButton xTheShooter = new JoystickButton(joy, 3); // X Button
     JoystickButton armUp = new JoystickButton(joy, 5);
     JoystickButton armDown = new JoystickButton(joy, 6);
-    JoystickButton intakeReverse = new JoystickButton(joy, 4); // Y button
     JoystickButton shooterStart = new JoystickButton(joy, 7);
     JoystickButton shooterStop = new JoystickButton(joy, 8);
 
     // Connect the buttons to commands
-    intakeStart.whenPressed(new IntakeBoulder());
+    // intakeStart.whenPressed(new IntakeBoulder());
     // xTheShooter.whenPressed(new StopShooter(true));
-    intakeStop.whenPressed(new StopIntake(true));
+    // intakeStop.whenPressed(new StopIntake(true));
+    // intakeReverse.whenPressed(new OuttakeBoulder());
     // armUp.whenPressed(new SetArmPosition(90));
     // armDown.whenPressed(new SetArmPosition(0));
     shooterStart.whenPressed(new StartShooter());
     shooterStop.whenPressed(new StopShooter(true));
-    intakeReverse.whenPressed(new OuttakeBoulder());
     // d_up.whenPressed(new SetElevatorSetpoint(0.2));
     // d_down.whenPressed(new SetElevatorSetpoint(-0.2));
     // d_right.whenPressed(new CloseClaw());
     // d_left.whenPressed(new OpenClaw());
+    turretLeft.whenPressed(new MoveTurret(MoveTurret.Direction.LEFT));
+    turretRight.whenPressed(new MoveTurret(MoveTurret.Direction.RIGHT));
+    turretStop.whenPressed(new StopTurret(true));
 
     // r1.whenPressed(new PrepareToPickup());
     // r2.whenPressed(new Pickup());

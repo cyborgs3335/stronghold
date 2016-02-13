@@ -24,6 +24,14 @@ public class Turret extends Subsystem {
   protected void initDefaultCommand() {
   }
 
+  public void start(boolean forward) {
+    turretMotor.set(forward ? 1 : -1);
+  }
+
+  public void stop() {
+    turretMotor.set(0);
+  }
+
   /**
    * The log method puts interesting information to the SmartDashboard.
    */

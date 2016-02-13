@@ -52,7 +52,7 @@ public class Robot extends IterativeRobot {
     intake = new Intake();
     arm = null;// new ArmPID();
     hood = null;// new HoodPID();
-    turret = null;// new Turret();
+    turret = new Turret();
     fly = new FlyWheel();
     // imageProcessor = new ImageProcessorGrip();
 
@@ -70,7 +70,7 @@ public class Robot extends IterativeRobot {
     SmartDashboard.putData(intake);
     // SmartDashboard.putData(arm);
     // SmartDashboard.putData(hood);
-    // SmartDashboard.putData(turret);
+    SmartDashboard.putData(turret);
     SmartDashboard.putData(fly);
   }
 
@@ -122,7 +122,7 @@ public class Robot extends IterativeRobot {
     intake.log();
     // arm.log();
     // hood.log();
-    // turret.log();\
+    turret.log();
     fly.log();
   }
 }

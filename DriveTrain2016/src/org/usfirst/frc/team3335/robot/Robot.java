@@ -9,6 +9,7 @@ package org.usfirst.frc.team3335.robot;
 import org.usfirst.frc.team3335.robot.commands.Autonomous;
 import org.usfirst.frc.team3335.robot.subsystems.ArmPID;
 import org.usfirst.frc.team3335.robot.subsystems.DriveTrainCAN;
+import org.usfirst.frc.team3335.robot.subsystems.FlyWheel;
 import org.usfirst.frc.team3335.robot.subsystems.HoodPID;
 import org.usfirst.frc.team3335.robot.subsystems.Intake;
 import org.usfirst.frc.team3335.robot.subsystems.Turret;
@@ -34,6 +35,7 @@ public class Robot extends IterativeRobot {
   public static ArmPID arm;
   public static HoodPID hood;
   public static Turret turret;
+  public static FlyWheel fly;
   // public static ImageProcessorGrip imageProcessor;
 
   public static OI oi;
@@ -51,6 +53,7 @@ public class Robot extends IterativeRobot {
     arm = new ArmPID();
     hood = new HoodPID();
     turret = new Turret();
+    fly = new FlyWheel();
     // imageProcessor = new ImageProcessorGrip();
 
     // Instantiate after all subsystems - or you will die

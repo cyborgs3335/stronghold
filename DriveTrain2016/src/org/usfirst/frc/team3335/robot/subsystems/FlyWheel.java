@@ -1,5 +1,7 @@
 package org.usfirst.frc.team3335.robot.subsystems;
 
+import org.usfirst.frc.team3335.robot.commands.StopShooter;
+
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;

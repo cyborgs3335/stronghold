@@ -1,9 +1,10 @@
 package org.usfirst.frc.team3335.robot;
 
 import org.usfirst.frc.team3335.robot.commands.IntakeBoulder;
-import org.usfirst.frc.team3335.robot.commands.OuttakeBoulder;
 import org.usfirst.frc.team3335.robot.commands.SetArmPosition;
+import org.usfirst.frc.team3335.robot.commands.StartShooter;
 import org.usfirst.frc.team3335.robot.commands.StopIntake;
+import org.usfirst.frc.team3335.robot.commands.StopShooter;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -31,12 +32,12 @@ public class OI {
     // SmartDashboard.putData("Deliver Soda", new Autonomous());
 
     // Create some buttons
-    JoystickButton a4Alyssa = new JoystickButton(joy, 1);
-    JoystickButton b4Brian = new JoystickButton(joy, 3);
-    JoystickButton out = new JoystickButton(joy, 2);
+    JoystickButton aIntakeStart = new JoystickButton(joy, 1); // A button
+    JoystickButton xTheShooter = new JoystickButton(joy, 3); // X Button
+    JoystickButton backToStoppedIntake = new JoystickButton(joy, 2); // B button
     JoystickButton armUp = new JoystickButton(joy, 5);
     JoystickButton armDown = new JoystickButton(joy, 6);
-    JoystickButton shoot = new JoystickButton(Joy, 4)
+    JoystickButton youShoot = new JoystickButton(joy, 4); // Y button
     // JoystickButton d_up = new JoystickButton(joy, 5);
     // JoystickButton d_right= new JoystickButton(joy, 6);
     // JoystickButton d_down= new JoystickButton(joy, 7);
@@ -47,12 +48,12 @@ public class OI {
     // JoystickButton r1 = new JoystickButton(joy, 12);
 
     // Connect the buttons to commands
-    a4Alyssa.whenPressed(new IntakeBoulder());
-    b4Brian.whenPressed(new StopIntake(true));
-    out.whenPressed(new OuttakeBoulder());
+    aIntakeStart.whenPressed(new IntakeBoulder());
+    xTheShooter.whenPressed(new StopShooter(true));
+    backToStoppedIntake.whenPressed(new StopIntake(true));
     armUp.whenPressed(new SetArmPosition(90));
     armDown.whenPressed(new SetArmPosition(0));
-    shoot.whenPressed(new StartShooter());
+    youShoot.whenPressed(new StartShooter());
     // d_up.whenPressed(new SetElevatorSetpoint(0.2));
     // d_down.whenPressed(new SetElevatorSetpoint(-0.2));
     // d_right.whenPressed(new CloseClaw());

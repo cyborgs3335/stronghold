@@ -32,6 +32,7 @@ public class Intake extends Subsystem {
 
   public Intake(String name) {
     super(name);
+    intakeMotor.set(0);
     // TODO Auto-generated constructor stub
   }
 

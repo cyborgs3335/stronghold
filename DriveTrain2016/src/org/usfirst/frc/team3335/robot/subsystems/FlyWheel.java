@@ -14,8 +14,8 @@ public class FlyWheel extends Subsystem {
 
   public FlyWheel() {
     super();
-    flywheelMotor = new CANTalon(4/* Set this equal to new value */);
-    limitSwitch = new DigitalInput(1);
+    flywheelMotor = new CANTalon(8);
+    limitSwitch = new DigitalInput(6);
     counter = new Counter(limitSwitch);
     flywheelMotor.set(0);
 

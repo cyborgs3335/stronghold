@@ -14,8 +14,8 @@ public class Intake extends Subsystem {
 
   public Intake() {
     super();
-    intakeMotor = new CANTalon(4/* Set this equal to new value */);
-    limitSwitch = new DigitalInput(1);
+    intakeMotor = new CANTalon(6);
+    limitSwitch = new DigitalInput(5);
     counter = new Counter(limitSwitch);
     intakeMotor.set(0);
 

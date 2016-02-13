@@ -9,18 +9,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Turret extends Subsystem {
 
-  private CANTalon turretMotor, hoodMotor, flywheelMotor;
+  private CANTalon turretMotor;
   private AnalogInput turretEncoder;
 
   public Turret() {
-    turretMotor = new CANTalon(1);
-    hoodMotor = new CANTalon(2);
-    flywheelMotor = new CANTalon(3);
+    turretMotor = new CANTalon(7);
     turretEncoder = new AnalogInput(0);
 
     turretMotor.set(0);
-    hoodMotor.set(0);
-    flywheelMotor.set(0);
     // Let's show everything on the LiveWindow
     LiveWindow.addActuator("Turret", "Turret_Encoder", turretEncoder);
   }
@@ -38,7 +34,7 @@ public class Turret extends Subsystem {
 
   /**
    * Return the angular position in degrees.
-   * 
+   *
    * @return angular position in degrees
    */
   public float getPosition() {

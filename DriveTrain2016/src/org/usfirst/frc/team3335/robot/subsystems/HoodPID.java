@@ -22,7 +22,7 @@ public class HoodPID extends PIDSubsystem {
   public HoodPID(double p, double i, double d) {
     super(p, i, d);
     this.setAbsoluteTolerance(0.01);
-    this.motor = new CANTalon(1);
+    this.motor = new CANTalon(9);
     reset();
     // pot = new AnalogPotentiometer(2, 90);
   }

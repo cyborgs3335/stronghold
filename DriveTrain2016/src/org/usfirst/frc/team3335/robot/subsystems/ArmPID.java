@@ -22,7 +22,7 @@ public class ArmPID extends PIDSubsystem {
   public ArmPID(double p, double i, double d) {
     super(p, i, d);
     this.setAbsoluteTolerance(0.01);
-    this.motor = new CANTalon(1);
+    this.motor = new CANTalon(5);
     reset();
     // pot = new AnalogPotentiometer(2, 90);
   }

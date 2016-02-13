@@ -3,20 +3,18 @@ package org.usfirst.frc.team3335.robot.subsystems;
 import org.usfirst.frc.team3335.robot.commands.StopShooter;
 
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.Counter;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class FlyWheel extends Subsystem {
   private CANTalon flywheelMotor;
-  private DigitalInput limitSwitch;
-  private Counter counter;
+  // private DigitalInput limitSwitch;
+  // private Counter counter;
 
   public FlyWheel() {
     super();
     flywheelMotor = new CANTalon(8);
-    limitSwitch = new DigitalInput(6);
-    counter = new Counter(limitSwitch);
+    // limitSwitch = new DigitalInput(6);
+    // counter = new Counter(limitSwitch);
     flywheelMotor.set(0);
 
     // LiveWindow.addActuator("Drive Train", "Front_Left Motor", (CANTalon)
@@ -59,11 +57,11 @@ public class FlyWheel extends Subsystem {
   }
 
   public boolean isSwitchSet() {
-    return counter.get() > 0;
+    return false; // counter.get() > 0;
   }
 
   public void intializeCounter() {
-    counter.reset();
+    // counter.reset();
   }
 
   /**
@@ -79,7 +77,7 @@ public class FlyWheel extends Subsystem {
    */
   public void reset() {
     stop();
-    counter.reset();
+    // counter.reset();
     // gyro.reset();
     // left_encoder.reset();
     // right_encoder.reset();

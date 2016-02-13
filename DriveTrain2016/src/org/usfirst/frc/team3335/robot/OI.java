@@ -2,7 +2,9 @@ package org.usfirst.frc.team3335.robot;
 
 import org.usfirst.frc.team3335.robot.commands.IntakeBoulder;
 import org.usfirst.frc.team3335.robot.commands.OuttakeBoulder;
+import org.usfirst.frc.team3335.robot.commands.StartShooter;
 import org.usfirst.frc.team3335.robot.commands.StopIntake;
+import org.usfirst.frc.team3335.robot.commands.StopShooter;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -36,6 +38,8 @@ public class OI {
     JoystickButton armUp = new JoystickButton(joy, 5);
     JoystickButton armDown = new JoystickButton(joy, 6);
     JoystickButton intakeReverse = new JoystickButton(joy, 4); // Y button
+    JoystickButton shooterStart = new JoystickButton(joy, 7);
+    JoystickButton shooterStop = new JoystickButton(joy, 8);
 
     // Connect the buttons to commands
     intakeStart.whenPressed(new IntakeBoulder());
@@ -43,6 +47,8 @@ public class OI {
     intakeStop.whenPressed(new StopIntake(true));
     // armUp.whenPressed(new SetArmPosition(90));
     // armDown.whenPressed(new SetArmPosition(0));
+    shooterStart.whenPressed(new StartShooter());
+    shooterStop.whenPressed(new StopShooter(true));
     intakeReverse.whenPressed(new OuttakeBoulder());
     // d_up.whenPressed(new SetElevatorSetpoint(0.2));
     // d_down.whenPressed(new SetElevatorSetpoint(-0.2));

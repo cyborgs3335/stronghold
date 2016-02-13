@@ -53,7 +53,7 @@ public class Robot extends IterativeRobot {
     arm = null;// new ArmPID();
     hood = null;// new HoodPID();
     turret = null;// new Turret();
-    fly = null;// new FlyWheel();
+    fly = new FlyWheel();
     // imageProcessor = new ImageProcessorGrip();
 
     // Instantiate after all subsystems - or you will die
@@ -71,6 +71,7 @@ public class Robot extends IterativeRobot {
     // SmartDashboard.putData(arm);
     // SmartDashboard.putData(hood);
     // SmartDashboard.putData(turret);
+    SmartDashboard.putData(fly);
   }
 
   @Override
@@ -121,6 +122,7 @@ public class Robot extends IterativeRobot {
     intake.log();
     // arm.log();
     // hood.log();
-    // turret.log();
+    // turret.log();\
+    fly.log();
   }
 }

@@ -17,6 +17,7 @@ public class FlyWheel extends Subsystem {
     flywheelMotor = new CANTalon(4/* Set this equal to new value */);
     limitSwitch = new DigitalInput(1);
     counter = new Counter(limitSwitch);
+    flywheelMotor.set(0);
 
     // LiveWindow.addActuator("Drive Train", "Front_Left Motor", (CANTalon)
     // front_left_motor);
@@ -31,7 +32,6 @@ public class FlyWheel extends Subsystem {
 
   public FlyWheel(String name) {
     super(name);
-    flywheelMotor.set(0);
     // TODO Auto-generated constructor stub
   }
 

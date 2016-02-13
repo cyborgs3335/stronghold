@@ -13,7 +13,6 @@ public class FlyWheel extends Subsystem {
   private Counter counter;
 
   public FlyWheel() {
-    // TODO Auto-generated constructor stub
     super();
     flywheelMotor = new CANTalon(4/* Set this equal to new value */);
     limitSwitch = new DigitalInput(1);

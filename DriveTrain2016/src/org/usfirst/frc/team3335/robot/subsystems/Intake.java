@@ -13,11 +13,11 @@ public class Intake extends Subsystem {
   private Counter counter;
 
   public Intake() {
-    // TODO Auto-generated constructor stub
     super();
     intakeMotor = new CANTalon(4/* Set this equal to new value */);
     limitSwitch = new DigitalInput(1);
     counter = new Counter(limitSwitch);
+    intakeMotor.set(0);
 
     // LiveWindow.addActuator("Drive Train", "Front_Left Motor", (CANTalon)
     // front_left_motor);
@@ -32,7 +32,6 @@ public class Intake extends Subsystem {
 
   public Intake(String name) {
     super(name);
-    intakeMotor.set(0);
     // TODO Auto-generated constructor stub
   }
 

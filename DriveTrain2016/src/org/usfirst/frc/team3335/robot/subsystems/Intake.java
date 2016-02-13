@@ -34,7 +34,6 @@ public class Intake extends Subsystem {
 
   public Intake(String name) {
     super(name);
-    // TODO Auto-generated constructor stub
   }
 
   @Override
@@ -47,7 +46,7 @@ public class Intake extends Subsystem {
    * start the intake
    *
    * @param forward
-   *          - motor either goes forward or backward
+   *          - if true - goes forward, if false - goes backward
    */
   public void start(boolean forward) {
     intakeMotor.set(forward ? 1 : -1);
@@ -61,7 +60,7 @@ public class Intake extends Subsystem {
   }
 
   public boolean isSwitchSet() {
-    return false; // counter.get() > 0;
+    return false;// counter.get() > 0;
   }
 
   public void intializeCounter() {

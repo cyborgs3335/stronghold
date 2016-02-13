@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public class Intake extends Subsystem {
   private CANTalon intakeMotor;
@@ -15,8 +16,8 @@ public class Intake extends Subsystem {
   public Intake() {
     super();
     intakeMotor = new CANTalon(6);
-    limitSwitch = new DigitalInput(5);
-    counter = new Counter(limitSwitch);
+    // limitSwitch = new DigitalInput(5);
+    // counter = new Counter(limitSwitch);
     intakeMotor.set(0);
 
     // LiveWindow.addActuator("Drive Train", "Front_Left Motor", (CANTalon)
@@ -27,6 +28,7 @@ public class Intake extends Subsystem {
     // front_right_motor);
     // LiveWindow.addActuator("Drive Train", "Back Right Motor", (CANTalon)
     // back_right_motor);
+    LiveWindow.addActuator("Intake", "Motor", intakeMotor);
 
   }
 
@@ -59,19 +61,18 @@ public class Intake extends Subsystem {
   }
 
   public boolean isSwitchSet() {
-    return counter.get() > 0;
+    return false; // counter.get() > 0;
   }
 
   public void intializeCounter() {
-    counter.reset();
+    // counter.reset();
   }
 
   /**
    * The log method puts interesting information to the SmartDashboard.
    */
   public void log() {
-    // SmartDashboard.putNumber("Left Drive Value", leftDriveValue);
-    // SmartDashboard.putNumber("Right Drive Value", rightDriveValue);
+    // SmartDashboard.putNumber("Intake Motor Value", intakeMotor.get());
   }
 
   /**
@@ -79,7 +80,7 @@ public class Intake extends Subsystem {
    */
   public void reset() {
     stop();
-    counter.reset();
+    // counter.reset();
     // gyro.reset();
     // left_encoder.reset();
     // right_encoder.reset();

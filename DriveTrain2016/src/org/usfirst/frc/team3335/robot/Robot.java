@@ -49,11 +49,11 @@ public class Robot extends IterativeRobot {
   public void robotInit() {
     // Initialize all subsystems
     drivetrain = new DriveTrainCAN();
-    intake = new Intake();
-    arm = new ArmPID();
-    hood = new HoodPID();
-    turret = new Turret();
-    fly = new FlyWheel();
+    intake = null;// new Intake();
+    arm = null;// new ArmPID();
+    hood = null;// new HoodPID();
+    turret = null;// new Turret();
+    fly = null;// new FlyWheel();
     // imageProcessor = new ImageProcessorGrip();
 
     // Instantiate after all subsystems - or you will die
@@ -67,10 +67,10 @@ public class Robot extends IterativeRobot {
 
     // Show what command your subsystem is running on the SmartDashboard
     SmartDashboard.putData(drivetrain);
-    SmartDashboard.putData(intake);
-    SmartDashboard.putData(arm);
-    SmartDashboard.putData(hood);
-    SmartDashboard.putData(turret);
+    // SmartDashboard.putData(intake);
+    // SmartDashboard.putData(arm);
+    // SmartDashboard.putData(hood);
+    // SmartDashboard.putData(turret);
   }
 
   @Override
@@ -118,9 +118,9 @@ public class Robot extends IterativeRobot {
    */
   private void log() {
     drivetrain.log();
-    intake.log();
-    arm.log();
-    hood.log();
-    turret.log();
+    // intake.log();
+    // arm.log();
+    // hood.log();
+    // turret.log();
   }
 }

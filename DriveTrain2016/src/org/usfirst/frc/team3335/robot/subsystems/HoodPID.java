@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class HoodPID extends PIDSubsystem {
 
@@ -32,7 +31,7 @@ public class HoodPID extends PIDSubsystem {
   }
 
   public void log() {
-    SmartDashboard.putNumber("Hood Potentiometer", pot.get());
+    // SmartDashboard.putNumber("Hood Potentiometer", pot.get());
   }
 
   @Override

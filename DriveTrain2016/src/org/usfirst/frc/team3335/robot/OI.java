@@ -31,9 +31,11 @@ public class OI {
 
     // Create some buttons
     JoystickButton a4Alyssa = new JoystickButton(joy, 1);
-    JoystickButton b4Brian = new JoystickButton(joy, 2);
+    JoystickButton b4Brian = new JoystickButton(joy, 3);
+    JoystickButton out = new JoystickButton(joy, 2);
     JoystickButton armUp = new JoystickButton(joy, 5);
     JoystickButton armDown = new JoystickButton(joy, 6);
+
     // JoystickButton d_up = new JoystickButton(joy, 5);
     // JoystickButton d_right= new JoystickButton(joy, 6);
     // JoystickButton d_down= new JoystickButton(joy, 7);
@@ -46,6 +48,7 @@ public class OI {
     // Connect the buttons to commands
     a4Alyssa.whenPressed(new IntakeBoulder());
     b4Brian.whenPressed(new StopIntake(true));
+    out.whenPressed(new OuttakeBoulder());
     armUp.whenPressed(new SetArmPosition(90));
     armDown.whenPressed(new SetArmPosition(0));
     // d_up.whenPressed(new SetElevatorSetpoint(0.2));

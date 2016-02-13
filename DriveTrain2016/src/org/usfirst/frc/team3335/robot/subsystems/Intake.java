@@ -15,7 +15,7 @@ public class Intake extends Subsystem {
   public Intake() {
     // TODO Auto-generated constructor stub
     super();
-    intakeMotor = new CANTalon(4);
+    intakeMotor = new CANTalon(4/* Set this equal to new value */);
     limitSwitch = new DigitalInput(1);
     counter = new Counter(limitSwitch);
 
@@ -44,9 +44,12 @@ public class Intake extends Subsystem {
 
   /**
    * start the intake
+   *
+   * @param forward
+   *          - motor either goes forward or backward
    */
-  public void start() {
-    intakeMotor.set(1);
+  public void start(boolean forward) {
+    intakeMotor.set(forward ? 1 : -1);
   }
 
   /**

@@ -4,9 +4,9 @@ import org.usfirst.frc.team3335.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class IntakeBoulder extends Command {
+public class OuttakeBoulder extends Command {
 
-  public IntakeBoulder() {
+  public OuttakeBoulder() {
     requires(Robot.intake);
   }
 
@@ -17,7 +17,7 @@ public class IntakeBoulder extends Command {
 
   @Override
   protected void execute() {
-    Robot.intake.start(true); // forward motor
+    Robot.intake.start(false); // reverse motor
   }
 
   @Override

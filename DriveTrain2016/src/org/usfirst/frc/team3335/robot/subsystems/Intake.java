@@ -62,6 +62,7 @@ public class Intake extends Subsystem {
    * The log method puts interesting information to the SmartDashboard.
    */
   public void log() {
+    SmartDashboard.putNumber("Counter Value", counter.get());
     SmartDashboard.putBoolean("Switch State", isSwitchSet());
   }
 

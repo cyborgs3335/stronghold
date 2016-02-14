@@ -3,6 +3,7 @@ package org.usfirst.frc.team3335.robot;
 import org.usfirst.frc.team3335.robot.commands.IntakeBoulder;
 import org.usfirst.frc.team3335.robot.commands.MoveTurret;
 import org.usfirst.frc.team3335.robot.commands.OuttakeBoulder;
+import org.usfirst.frc.team3335.robot.commands.SetHoodPosition;
 import org.usfirst.frc.team3335.robot.commands.StartShooter;
 import org.usfirst.frc.team3335.robot.commands.StopIntake;
 import org.usfirst.frc.team3335.robot.commands.StopShooter;
@@ -39,6 +40,7 @@ public class OI {
     JoystickButton intakeStart = new JoystickButton(joyDriver, 1); // A button
     JoystickButton intakeStop = new JoystickButton(joyDriver, 2); // B button
     JoystickButton intakeReverse = new JoystickButton(joyDriver, 4); // Y button
+    JoystickButton lowerHood = new JoystickButton(joyDriver, 3);
     JoystickButton turretLeft = new JoystickButton(joyShooter, 1); // A button
     JoystickButton turretRight = new JoystickButton(joyShooter, 4); // Y button
     JoystickButton turretStop = new JoystickButton(joyShooter, 2); // B button
@@ -51,6 +53,7 @@ public class OI {
     intakeStart.whenPressed(new IntakeBoulder());
     intakeStop.whenPressed(new StopIntake(true));
     intakeReverse.whenPressed(new OuttakeBoulder());
+    lowerHood.whenPressed(new SetHoodPosition(90));
     // armUp.whenPressed(new SetArmPosition(90));
     // armDown.whenPressed(new SetArmPosition(0));
     shooterStart.whenPressed(new StartShooter());

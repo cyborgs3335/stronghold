@@ -9,8 +9,10 @@ import org.usfirst.frc.team3335.robot.commands.StopShooter;
 import org.usfirst.frc.team3335.robot.commands.StopTurret;
 import org.usfirst.frc.team3335.robot.subsystems.Turret;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -26,27 +28,32 @@ public class OI {
     // SmartDashboard.putData("Elevator Platform", new
     // SetElevatorSetpoint(0.2));
     // SmartDashboard.putData("Elevator Top", new SetElevatorSetpoint(0.3));
-    //
     // SmartDashboard.putData("Wrist Horizontal", new SetWristSetpoint(0));
     // SmartDashboard.putData("Raise Wrist", new SetWristSetpoint(-45));
-    //
     // SmartDashboard.putData("Open Claw", new OpenClaw());
     // SmartDashboard.putData("Close Claw", new CloseClaw());
-    //
     // SmartDashboard.putData("Deliver Soda", new Autonomous());
 
-    // Create some buttons
-    JoystickButton intakeStart = new JoystickButton(joyDriver, 1); // A button
-    JoystickButton intakeStop = new JoystickButton(joyDriver, 2); // B button
-    JoystickButton intakeReverse = new JoystickButton(joyDriver, 4); // Y button
-    // JoystickButton lowerHood = new JoystickButton(joyDriver, 3);
-    JoystickButton turretLeft = new JoystickButton(joyShooter, 1); // A button
-    JoystickButton turretRight = new JoystickButton(joyShooter, 4); // Y button
-    JoystickButton turretStop = new JoystickButton(joyShooter, 2); // B button
-    JoystickButton armUp = new JoystickButton(joyDriver, 5);
-    JoystickButton armDown = new JoystickButton(joyDriver, 6);
-    JoystickButton shooterStart = new JoystickButton(joyShooter, 7);
-    JoystickButton shooterStop = new JoystickButton(joyShooter, 8);
+    // ===== Driver Joystick Buttons =====
+    // A Button
+    JoystickButton intakeStart = addButton(joyDriver, 1, "Intake Start");
+    // B button
+    JoystickButton intakeStop = addButton(joyDriver, 2, "Intake Stop");
+    // Y button
+    JoystickButton intakeReverse = addButton(joyDriver, 4, "Intake Reverse");
+    // JoystickButton armUp = addButton(joyDriver, 5, "Arm Up");
+    // JoystickButton armDown = addButton(joyDriver, 6, "Arm Down");
+    // JoystickButton lowerHood = addButton(joyDriver, 3, "Lower Hood");
+
+    // ===== Shooter Joystick Buttons =====
+    // A button
+    JoystickButton turretLeft = addButton(joyShooter, 1, "Turret Left");
+    // B button
+    JoystickButton turretRight = addButton(joyShooter, 4, "Turret Right");
+    // Y button
+    JoystickButton turretStop = addButton(joyShooter, 2, "Turret Stop");
+    JoystickButton shooterStart = addButton(joyShooter, 7, "Shooter Start");
+    JoystickButton shooterStop = addButton(joyShooter, 8, "Shooter Stop");
 
     // Connect the buttons to commands
     intakeStart.whenPressed(new IntakeBoulder());
@@ -57,18 +64,16 @@ public class OI {
     // armDown.whenPressed(new SetArmPosition(0));
     shooterStart.whenPressed(new StartShooter());
     shooterStop.whenPressed(new StopShooter(true));
-    // d_up.whenPressed(new SetElevatorSetpoint(0.2));
-    // d_down.whenPressed(new SetElevatorSetpoint(-0.2));
-    // d_right.whenPressed(new CloseClaw());
-    // d_left.whenPressed(new OpenClaw());
     turretLeft.whenPressed(new MoveTurret(Turret.Direction.LEFT));
     turretRight.whenPressed(new MoveTurret(Turret.Direction.RIGHT));
     turretStop.whenPressed(new StopTurret(true));
+  }
 
-    // r1.whenPressed(new PrepareToPickup());
-    // r2.whenPressed(new Pickup());
-    // l1.whenPressed(new Place());
-    // l2.whenPressed(new Autonomous());
+  private JoystickButton addButton(GenericHID joystick, int buttonNumber, String dashboardKey) {
+    JoystickButton button = new JoystickButton(joystick, buttonNumber);
+    // TODO validate that the joystick button data on the dashboard is useful
+    SmartDashboard.putData(dashboardKey, button);
+    return button;
   }
 
   public Joystick getJoystick() {

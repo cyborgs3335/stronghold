@@ -36,20 +36,17 @@ public class MoveTurret extends Command {
 
   @Override
   protected boolean isFinished() {
-    // TODO Auto-generated method stub
-    return false;
+    return !Robot.turret.inLimits();
   }
 
   @Override
   protected void end() {
-    // TODO Auto-generated method stub
-
+    Robot.turret.stop();
   }
 
   @Override
   protected void interrupted() {
-    // TODO Auto-generated method stub
-
+    end();
   }
 
 }

@@ -1,5 +1,7 @@
 package org.usfirst.frc.team3335.robot.subsystems;
 
+import org.usfirst.frc.team3335.robot.commands.StopTurret;
+
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -10,6 +12,7 @@ public class Turret extends Subsystem {
 
   private CANTalon turretMotor;
   private Encoder turretEncoder;
+  private final float MAX_POSITION = 100, MIN_POSITION = -100;
 
   public Turret() {
     turretMotor = new CANTalon(7);
@@ -22,6 +25,7 @@ public class Turret extends Subsystem {
 
   @Override
   protected void initDefaultCommand() {
+    setDefaultCommand(new StopTurret(false));
   }
 
   public void start(boolean forward) {
@@ -47,5 +51,10 @@ public class Turret extends Subsystem {
   public float getPosition() {
     turretEncoder.getDistance();
     return (float) (360f * turretEncoder.getDistance() / 4096);
+  }
+
+  public boolean inLimits() {
+    float pos = getPosition();
+    return pos < MAX_POSITION && pos > MIN_POSITION;
   }
 }

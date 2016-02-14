@@ -23,9 +23,9 @@ public class StopTurret extends Command {
 
   @Override
   protected boolean isFinished() {
-    if (!finished) {
-      finished = Robot.fly.isSwitchSet();
-    }
+    /*
+     * if (!finished) { finished = Robot.turret.isSwitchSet(); }
+     */
     return this.finished;
   }
 

@@ -7,6 +7,7 @@ import org.usfirst.frc.team3335.robot.commands.StartShooter;
 import org.usfirst.frc.team3335.robot.commands.StopIntake;
 import org.usfirst.frc.team3335.robot.commands.StopShooter;
 import org.usfirst.frc.team3335.robot.commands.StopTurret;
+import org.usfirst.frc.team3335.robot.subsystems.Turret;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -58,8 +59,8 @@ public class OI {
     // d_down.whenPressed(new SetElevatorSetpoint(-0.2));
     // d_right.whenPressed(new CloseClaw());
     // d_left.whenPressed(new OpenClaw());
-    turretLeft.whenPressed(new MoveTurret(MoveTurret.Direction.LEFT));
-    turretRight.whenPressed(new MoveTurret(MoveTurret.Direction.RIGHT));
+    turretLeft.whenPressed(new MoveTurret(Turret.Direction.LEFT));
+    turretRight.whenPressed(new MoveTurret(Turret.Direction.RIGHT));
     turretStop.whenPressed(new StopTurret(true));
 
     // r1.whenPressed(new PrepareToPickup());

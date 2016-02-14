@@ -10,6 +10,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Turret extends Subsystem {
 
+  public static enum Direction {
+    LEFT, RIGHT
+  }
+
   private CANTalon turretMotor;
   private Encoder turretEncoder;
   private final float MAX_POSITION = 100, MIN_POSITION = -100;
@@ -19,6 +23,7 @@ public class Turret extends Subsystem {
     turretEncoder = new Encoder(2, 3, false, Encoder.EncodingType.k4X);
 
     turretMotor.set(0);
+    // turretEncoder.reset();
     // Let's show everything on the LiveWindow
     LiveWindow.addActuator("Turret", "Turret_Encoder", turretEncoder);
   }
@@ -57,4 +62,17 @@ public class Turret extends Subsystem {
     float pos = getPosition();
     return pos < MAX_POSITION && pos > MIN_POSITION;
   }
+
+  public boolean canMove(Direction direction) {
+    float pos = getPosition();
+    switch (direction) {
+      case LEFT:
+        return pos < MAX_POSITION; // forward motor
+      case RIGHT:
+        return pos > MIN_POSITION; // reverse motor
+      default:
+        return inLimits();
+    }
+  }
+
 }

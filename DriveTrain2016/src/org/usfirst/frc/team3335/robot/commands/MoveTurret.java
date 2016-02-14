@@ -1,18 +1,15 @@
 package org.usfirst.frc.team3335.robot.commands;
 
 import org.usfirst.frc.team3335.robot.Robot;
+import org.usfirst.frc.team3335.robot.subsystems.Turret;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class MoveTurret extends Command {
 
-  public static enum Direction {
-    LEFT, RIGHT
-  }
+  private final Turret.Direction direction;
 
-  private final Direction direction;
-
-  public MoveTurret(Direction direction) {
+  public MoveTurret(Turret.Direction direction) {
     requires(Robot.turret);
     this.direction = direction;
   }
@@ -36,7 +33,7 @@ public class MoveTurret extends Command {
 
   @Override
   protected boolean isFinished() {
-    return !Robot.turret.inLimits();
+    return !Robot.turret.canMove(direction);
   }
 
   @Override

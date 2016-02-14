@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * the robots chassis. These include four drive motors, a left and right encoder
  * and a gyro.
  */
-public class DriveTrainCAN extends Subsystem {
+public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
   private CANTalon front_left_motor, back_left_motor, front_right_motor, back_right_motor;
   private RobotDrive drive;
   private Encoder left_encoder, right_encoder;
@@ -101,6 +101,7 @@ public class DriveTrainCAN extends Subsystem {
   /**
    * The log method puts interesting information to the SmartDashboard.
    */
+  @Override
   public void log() {
     // SmartDashboard.putNumber("Left Distance", left_encoder.getDistance());
     // SmartDashboard.putNumber("Right Distance", right_encoder.getDistance());
@@ -114,7 +115,7 @@ public class DriveTrainCAN extends Subsystem {
 
   /**
    * Tank style driving for the DriveTrain.
-   * 
+   *
    * @param left
    *          Speed in range [-1,1]
    * @param right

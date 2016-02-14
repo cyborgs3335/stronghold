@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 
-public class ArmPID extends PIDSubsystem {
+public class ArmPID extends PIDSubsystem implements LoggableSubsystem {
 
   private static final double kP = 4;
   private static final double kI = 0.07;
@@ -30,6 +30,7 @@ public class ArmPID extends PIDSubsystem {
     motor.set(0);
   }
 
+  @Override
   public void log() {
     // SmartDashboard.putNumber("Arm Potentiometer", pot.get());
   }

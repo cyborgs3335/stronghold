@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Intake extends Subsystem {
+public class Intake extends Subsystem implements LoggableSubsystem {
   private CANTalon intakeMotor;
   private DigitalInput limitSwitch;
   private Counter counter;
@@ -61,6 +61,7 @@ public class Intake extends Subsystem {
   /**
    * The log method puts interesting information to the SmartDashboard.
    */
+  @Override
   public void log() {
     SmartDashboard.putNumber("Counter Value", counter.get());
     SmartDashboard.putBoolean("Switch State", isSwitchSet());

@@ -12,11 +12,13 @@ import org.usfirst.frc.team3335.robot.subsystems.DriveTrainCAN;
 import org.usfirst.frc.team3335.robot.subsystems.FlyWheel;
 import org.usfirst.frc.team3335.robot.subsystems.HoodPID;
 import org.usfirst.frc.team3335.robot.subsystems.Intake;
+import org.usfirst.frc.team3335.robot.subsystems.LoggableSubsystem;
 import org.usfirst.frc.team3335.robot.subsystems.Turret;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -66,12 +68,12 @@ public class Robot extends IterativeRobot {
     robotPreferences = new RobotPreferences();
 
     // Show what command your subsystem is running on the SmartDashboard
-    SmartDashboard.putData(drivetrain);
-    SmartDashboard.putData(intake);
-    // SmartDashboard.putData(arm);
-    // SmartDashboard.putData(hood);
-    SmartDashboard.putData(turret);
-    SmartDashboard.putData(fly);
+    addSubsystemToDashboard(drivetrain);
+    addSubsystemToDashboard(intake);
+    addSubsystemToDashboard(arm);
+    addSubsystemToDashboard(hood);
+    addSubsystemToDashboard(turret);
+    addSubsystemToDashboard(fly);
   }
 
   @Override
@@ -118,12 +120,25 @@ public class Robot extends IterativeRobot {
    * The log method puts interesting information to the SmartDashboard.
    */
   private void log() {
-    drivetrain.log();
-    intake.log();
-    // arm.log();
-    // hood.log();
-    turret.log();
-    fly.log();
+    logSubsystem(drivetrain);
+    logSubsystem(intake);
+    logSubsystem(arm);
+    logSubsystem(hood);
+    logSubsystem(turret);
+    logSubsystem(fly);
   }
 
+  private void logSubsystem(LoggableSubsystem subsystem) {
+    if (subsystem == null) {
+      return;
+    }
+    subsystem.log();
+  }
+
+  private void addSubsystemToDashboard(Subsystem subsystem) {
+    if (subsystem == null) {
+      return;
+    }
+    SmartDashboard.putData(subsystem);
+  }
 }

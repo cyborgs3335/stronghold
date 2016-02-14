@@ -5,7 +5,7 @@ import org.usfirst.frc.team3335.robot.commands.StopShooter;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class FlyWheel extends Subsystem {
+public class FlyWheel extends Subsystem implements LoggableSubsystem {
   private CANTalon flywheelMotor;
   // private DigitalInput limitSwitch;
   // private Counter counter;
@@ -67,6 +67,7 @@ public class FlyWheel extends Subsystem {
   /**
    * The log method puts interesting information to the SmartDashboard.
    */
+  @Override
   public void log() {
     // SmartDashboard.putNumber("Left Drive Value", leftDriveValue);
     // SmartDashboard.putNumber("Right Drive Value", rightDriveValue);

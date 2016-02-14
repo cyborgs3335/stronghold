@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Turret extends Subsystem {
+public class Turret extends Subsystem implements LoggableSubsystem {
 
   public static enum Direction {
     LEFT, RIGHT
@@ -43,9 +43,10 @@ public class Turret extends Subsystem {
 
   /**
    * The log method puts interesting information to the SmartDashboard.
-   * 
+   *
    * @return the angular position of the turret on the horizontal plane
    */
+  @Override
   public void log() {
     SmartDashboard.putNumber("Turret Position", getAngularPosition());
   }

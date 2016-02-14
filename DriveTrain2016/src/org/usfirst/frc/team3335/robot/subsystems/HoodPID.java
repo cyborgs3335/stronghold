@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class HoodPID extends PIDSubsystem {
+public class HoodPID extends PIDSubsystem implements LoggableSubsystem {
 
   public static enum Direction {
     UP, DOWN
@@ -46,6 +46,7 @@ public class HoodPID extends PIDSubsystem {
     motor.set(0);
   }
 
+  @Override
   public void log() {
     // SmartDashboard.putNumber("Hood Potentiometer", pot.get());
     SmartDashboard.putNumber("Hood Position", getAngularPosition());

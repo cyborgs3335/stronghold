@@ -43,9 +43,11 @@ public class Turret extends Subsystem {
 
   /**
    * The log method puts interesting information to the SmartDashboard.
+   * 
+   * @return the angular position of the turret on the horizontal plane
    */
   public void log() {
-    SmartDashboard.putNumber("Turret Position", getPosition());
+    SmartDashboard.putNumber("Turret Position", getAngularPosition());
   }
 
   /**
@@ -53,18 +55,17 @@ public class Turret extends Subsystem {
    *
    * @return angular position in degrees
    */
-  public float getPosition() {
-    turretEncoder.getDistance();
+  public float getAngularPosition() {
     return (float) (360f * turretEncoder.getDistance() / 4096);
   }
 
   public boolean inLimits() {
-    float pos = getPosition();
+    float pos = getAngularPosition();
     return pos < MAX_POSITION && pos > MIN_POSITION;
   }
 
   public boolean canMove(Direction direction) {
-    float pos = getPosition();
+    float pos = getAngularPosition();
     switch (direction) {
       case LEFT:
         return pos < MAX_POSITION; // forward motor

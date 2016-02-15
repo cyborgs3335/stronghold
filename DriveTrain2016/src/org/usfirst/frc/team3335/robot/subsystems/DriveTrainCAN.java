@@ -32,10 +32,10 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
 
   public DriveTrainCAN() {
     super();
-    front_left_motor = new CANTalon(1);
-    back_left_motor = new CANTalon(4);
-    front_right_motor = new CANTalon(2);
-    back_right_motor = new CANTalon(3);
+    front_left_motor = new CANTalon(6);
+    back_left_motor = new CANTalon(3);
+    front_right_motor = new CANTalon(4);
+    back_right_motor = new CANTalon(1);
     drive = new RobotDrive(front_left_motor, back_left_motor, front_right_motor, back_right_motor);
     // left_encoder = new Encoder(1, 2);
     // right_encoder = new Encoder(3, 4);

@@ -12,7 +12,7 @@ public class FlyWheel extends Subsystem implements LoggableSubsystem {
 
   public FlyWheel() {
     super();
-    flywheelMotor = new CANTalon(8);
+    flywheelMotor = new CANTalon(7);
     // limitSwitch = new DigitalInput(6);
     // counter = new Counter(limitSwitch);
     flywheelMotor.set(0);

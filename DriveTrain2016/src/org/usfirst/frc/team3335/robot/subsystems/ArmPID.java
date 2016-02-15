@@ -21,7 +21,7 @@ public class ArmPID extends PIDSubsystem implements LoggableSubsystem {
   public ArmPID(double p, double i, double d) {
     super(p, i, d);
     this.setAbsoluteTolerance(0.01);
-    this.motor = new CANTalon(5);
+    this.motor = new CANTalon(2);
     reset();
     // pot = new AnalogPotentiometer(2, 90);
   }

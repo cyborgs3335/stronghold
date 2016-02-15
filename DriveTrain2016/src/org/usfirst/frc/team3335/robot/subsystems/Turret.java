@@ -19,7 +19,7 @@ public class Turret extends Subsystem implements LoggableSubsystem {
   private final float MAX_POSITION = 100, MIN_POSITION = -100;
 
   public Turret() {
-    turretMotor = new CANTalon(7);
+    turretMotor = new CANTalon(8);
     turretEncoder = new Encoder(2, 3, false, Encoder.EncodingType.k4X);
 
     turretMotor.set(0);

@@ -61,15 +61,20 @@ public class OI {
 
     // Connect the buttons to commands
     intakeStart.whenPressed(new IntakeBoulder());
+    intakeStart.whenReleased(new StopIntake(true));
     intakeStop.whenPressed(new StopIntake(true));
     intakeReverse.whenPressed(new OuttakeBoulder());
+    intakeReverse.whenReleased(new StopIntake(true));
     // lowerHood.whenPressed(new SetHoodPosition(90));
     // armUp.whenPressed(new SetArmPosition(90));
     // armDown.whenPressed(new SetArmPosition(0));
     shooterStart.whenPressed(new StartShooter());
+    shooterStart.whenReleased(new StopShooter(true));
     shooterStop.whenPressed(new StopShooter(true));
     turretLeft.whenPressed(new MoveTurret(Turret.Direction.LEFT));
+    turretLeft.whenReleased(new StopTurret(true));
     turretRight.whenPressed(new MoveTurret(Turret.Direction.RIGHT));
+    turretRight.whenReleased(new StopTurret(true));
     turretStop.whenPressed(new StopTurret(true));
   }
 

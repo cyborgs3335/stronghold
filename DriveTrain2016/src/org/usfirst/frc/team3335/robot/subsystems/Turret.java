@@ -25,7 +25,8 @@ public class Turret extends Subsystem implements LoggableSubsystem {
     turretMotor.set(0);
     // turretEncoder.reset();
     // Let's show everything on the LiveWindow
-    LiveWindow.addActuator("Turret", "Turret_Encoder", turretEncoder);
+    LiveWindow.addActuator("Turret", "Turret Motor", turretMotor);
+    LiveWindow.addActuator("Turret", "Turret Encoder", turretEncoder);
   }
 
   @Override

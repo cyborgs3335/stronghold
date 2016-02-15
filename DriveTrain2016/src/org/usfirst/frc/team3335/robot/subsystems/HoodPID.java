@@ -39,6 +39,7 @@ public class HoodPID extends PIDSubsystem implements LoggableSubsystem {
     // pot = new AnalogPotentiometer(2, 90);
 
     this.setInputRange(MIN_POSITION, MAX_POSITION);
+    LiveWindow.addActuator("Hood", "Hood Motor", (CANTalon) motor);
     LiveWindow.addActuator("Hood", "Hood Encoder", encoder);
   }
 

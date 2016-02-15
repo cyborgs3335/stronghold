@@ -4,6 +4,7 @@ import org.usfirst.frc.team3335.robot.commands.StopShooter;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public class FlyWheel extends Subsystem implements LoggableSubsystem {
   private CANTalon flywheelMotor;
@@ -17,15 +18,7 @@ public class FlyWheel extends Subsystem implements LoggableSubsystem {
     // counter = new Counter(limitSwitch);
     flywheelMotor.set(0);
 
-    // LiveWindow.addActuator("Drive Train", "Front_Left Motor", (CANTalon)
-    // front_left_motor);
-    // LiveWindow.addActuator("Drive Train", "Back Left Motor", (CANTalon)
-    // back_left_motor);
-    // LiveWindow.addActuator("Drive Train", "Front Right Motor", (CANTalon)
-    // front_right_motor);
-    // LiveWindow.addActuator("Drive Train", "Back Right Motor", (CANTalon)
-    // back_right_motor);
-
+    LiveWindow.addActuator("Fly Wheel", "Fly Wheel Motor", flywheelMotor);
   }
 
   public FlyWheel(String name) {

@@ -1,9 +1,9 @@
 package org.usfirst.frc.team3335.robot.subsystems;
 
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public class ArmPID extends PIDSubsystem implements LoggableSubsystem {
 
@@ -11,7 +11,7 @@ public class ArmPID extends PIDSubsystem implements LoggableSubsystem {
   private static final double kI = 0.07;
   private static final double kD = 0;
 
-  private SpeedController motor;
+  private CANTalon motor;
   private Potentiometer pot;
 
   public ArmPID() {
@@ -23,6 +23,7 @@ public class ArmPID extends PIDSubsystem implements LoggableSubsystem {
     this.setAbsoluteTolerance(0.01);
     this.motor = new CANTalon(2);
     reset();
+    LiveWindow.addActuator("Defensive Arm", "Arm Motor", motor);
     // pot = new AnalogPotentiometer(2, 90);
   }
 

@@ -28,7 +28,8 @@ public class Hood extends Subsystem implements LoggableSubsystem {
     motor.set(0);
     // encoder.reset();
     // Let's show everything on the LiveWindow
-    LiveWindow.addActuator("Hood", "Hood_Encoder", encoder);
+    LiveWindow.addActuator("Hood", "Hood Motor", motor);
+    LiveWindow.addActuator("Hood", "Hood Encoder", encoder);
   }
 
   @Override

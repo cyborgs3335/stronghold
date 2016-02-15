@@ -71,9 +71,9 @@ public class OI {
     shooterStart.whenPressed(new StartShooter());
     shooterStart.whenReleased(new StopShooter(true));
     shooterStop.whenPressed(new StopShooter(true));
-    turretLeft.whenPressed(new MoveTurret(Turret.Direction.LEFT));
+    turretLeft.whenPressed(new MoveTurret(Turret.Direction.LEFT)); // Counter-clockwise
     turretLeft.whenReleased(new StopTurret(true));
-    turretRight.whenPressed(new MoveTurret(Turret.Direction.RIGHT));
+    turretRight.whenPressed(new MoveTurret(Turret.Direction.RIGHT)); // Clockwise
     turretRight.whenReleased(new StopTurret(true));
     turretStop.whenPressed(new StopTurret(true));
   }

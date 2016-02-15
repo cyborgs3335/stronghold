@@ -1,5 +1,7 @@
 package org.usfirst.frc.team3335.robot.subsystems;
 
+import org.usfirst.frc.team3335.robot.commands.HoodDriveWithJoystick;
+
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -31,7 +33,7 @@ public class Hood extends Subsystem implements LoggableSubsystem {
 
   @Override
   protected void initDefaultCommand() {
-    // setDefaultCommand(new StopHood(false));
+    setDefaultCommand(new HoodDriveWithJoystick(this));
   }
 
   public void start(boolean forward) {
@@ -40,6 +42,11 @@ public class Hood extends Subsystem implements LoggableSubsystem {
 
   public void stop() {
     motor.set(0);
+  }
+
+  public void rotate(double value) {
+    double motorValue = Math.abs(value) < 0.1 ? 0 : value;
+    motor.set(motorValue);
   }
 
   /**

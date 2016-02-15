@@ -44,6 +44,8 @@ public class OI {
     // JoystickButton armUp = addButton(joyDriver, 5, "Arm Up");
     // JoystickButton armDown = addButton(joyDriver, 6, "Arm Down");
     // JoystickButton lowerHood = addButton(joyDriver, 3, "Lower Hood");
+    // Reserved axes and buttons
+    // axis 1 and 5 -- TankDriveWithJoystick
 
     // ===== Shooter Joystick Buttons =====
     // A button
@@ -54,6 +56,8 @@ public class OI {
     JoystickButton turretStop = addButton(joyShooter, 2, "Turret Stop");
     JoystickButton shooterStart = addButton(joyShooter, 7, "Shooter Start");
     JoystickButton shooterStop = addButton(joyShooter, 8, "Shooter Stop");
+    // Reserved axes and buttons
+    // axis 1 -- HoodDriveWithJoystick
 
     // Connect the buttons to commands
     intakeStart.whenPressed(new IntakeBoulder());
@@ -78,5 +82,9 @@ public class OI {
 
   public Joystick getJoystick() {
     return joyDriver;
+  }
+
+  public Joystick getJoystickShooter() {
+    return joyShooter;
   }
 }

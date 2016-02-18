@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public class ArmPID extends PIDSubsystem implements LoggableSubsystem {
 
-  private static final double kP = 4;
-  private static final double kI = 0.07;
+  private static final double kP = 1;
+  private static final double kI = 0;// 0.01;
   private static final double kD = 0;
 
   private CANTalon motor;

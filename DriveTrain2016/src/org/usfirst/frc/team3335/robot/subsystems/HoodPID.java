@@ -16,8 +16,8 @@ public class HoodPID extends PIDSubsystem implements LoggableSubsystem {
     UP, DOWN
   }
 
-  private static final double kP = 4;
-  private static final double kI = 0.07;
+  private static final double kP = 1;
+  private static final double kI = 0;// 0.01;
   private static final double kD = 0;
 
   private SpeedController motor;

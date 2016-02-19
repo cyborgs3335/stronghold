@@ -55,6 +55,8 @@ public class Arm extends Subsystem implements LoggableSubsystem {
     double motorValue = Math.abs(value) < 0.1 ? 0 : value;
     if (canMove(motorValue)) {
       motor.set(motorValue);
+    } else {
+      motor.set(0);
     }
   }
 

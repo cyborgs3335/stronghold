@@ -49,6 +49,8 @@ public class Hood extends Subsystem implements LoggableSubsystem {
     double motorValue = Math.abs(value) < 0.1 ? 0 : value;
     if (canMove(motorValue)) {
       motor.set(motorValue);
+    } else {
+      motor.set(0);
     }
   }
 
@@ -90,7 +92,7 @@ public class Hood extends Subsystem implements LoggableSubsystem {
 
   /**
    * Query whether the hood can be moved.
-   * 
+   *
    * @param value
    *          value provided to motor; positive=up, negative=down
    * @return true if the hood can be moved

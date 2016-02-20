@@ -8,6 +8,7 @@ package org.usfirst.frc.team3335.robot;
 
 import org.usfirst.frc.team3335.robot.commands.Autonomous;
 import org.usfirst.frc.team3335.robot.subsystems.ArmPID;
+import org.usfirst.frc.team3335.robot.subsystems.CameraLight;
 import org.usfirst.frc.team3335.robot.subsystems.DriveTrainCAN;
 import org.usfirst.frc.team3335.robot.subsystems.FlyWheel;
 import org.usfirst.frc.team3335.robot.subsystems.HoodPID;
@@ -39,6 +40,7 @@ public class Robot extends IterativeRobot {
   public static Turret turret;
   public static FlyWheel fly;
   // public static ImageProcessorGrip imageProcessor;
+  public static CameraLight cameraLight;
 
   public static OI oi;
   public static RobotPreferences robotPreferences;
@@ -57,6 +59,7 @@ public class Robot extends IterativeRobot {
     turret = new Turret();
     fly = new FlyWheel();
     // imageProcessor = new ImageProcessorGrip();
+    cameraLight = new CameraLight();
 
     // Instantiate after all subsystems - or you will die
     oi = new OI();
@@ -74,6 +77,7 @@ public class Robot extends IterativeRobot {
     addSubsystemToDashboard(hood);
     addSubsystemToDashboard(turret);
     addSubsystemToDashboard(fly);
+    addSubsystemToDashboard(cameraLight);
   }
 
   @Override
@@ -126,6 +130,7 @@ public class Robot extends IterativeRobot {
     logSubsystem(hood);
     logSubsystem(turret);
     logSubsystem(fly);
+    logSubsystem(cameraLight);
   }
 
   private void logSubsystem(LoggableSubsystem subsystem) {

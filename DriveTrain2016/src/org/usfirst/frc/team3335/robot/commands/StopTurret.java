@@ -14,6 +14,8 @@ public class StopTurret extends Command {
 
   @Override
   protected void initialize() {
+    Robot.turret.intializeCWCounter();
+    Robot.turret.intializeCCWCounter();
   }
 
   @Override
@@ -23,10 +25,7 @@ public class StopTurret extends Command {
 
   @Override
   protected boolean isFinished() {
-    /*
-     * if (!finished) { finished = Robot.turret.isSwitchSet(); }
-     */
-    return this.finished;
+    return finished;
   }
 
   @Override

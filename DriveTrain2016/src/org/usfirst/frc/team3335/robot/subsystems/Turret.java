@@ -104,4 +104,13 @@ public class Turret extends Subsystem implements LoggableSubsystem {
     }
   }
 
+  /**
+   * Reset the robots sensors to the zero states.
+   */
+  public void reset() {
+    stop();
+    counterCW.reset();
+    counterCCW.reset();
+  }
+
 }

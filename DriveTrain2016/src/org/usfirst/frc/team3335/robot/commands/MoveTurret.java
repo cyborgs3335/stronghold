@@ -16,7 +16,8 @@ public class MoveTurret extends Command {
 
   @Override
   protected void initialize() {
-    // TODO Auto-generated method stub
+    Robot.turret.intializeCWCounter();
+    Robot.turret.intializeCCWCounter();
   }
 
   @Override
@@ -33,7 +34,7 @@ public class MoveTurret extends Command {
 
   @Override
   protected boolean isFinished() {
-    return !Robot.turret.canMove(direction);
+    return Robot.turret.isSwitchCWSet() || Robot.turret.isSwitchCCWSet() || !Robot.turret.canMove(direction);
   }
 
   @Override

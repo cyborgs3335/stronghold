@@ -16,6 +16,11 @@ public class HoodPID extends PIDSubsystem implements LoggableSubsystem {
     UP, DOWN
   }
 
+  private static final double MIN_POSITION = 0;
+  private static final double MAX_POSITION = 90;
+
+  public static final double FULLY_LOWERED = MIN_POSITION;
+
   private static final double kP = 1;
   private static final double kI = 0;// 0.01;
   private static final double kD = 0;
@@ -23,8 +28,6 @@ public class HoodPID extends PIDSubsystem implements LoggableSubsystem {
   private SpeedController motor;
   private Encoder encoder;
   private Potentiometer pot;
-  private final double MIN_POSITION = 0;
-  private final double MAX_POSITION = 90;
 
   public HoodPID() {
     this(kP, kI, kD);

@@ -26,7 +26,7 @@ public class Turret extends Subsystem implements LoggableSubsystem {
 
   public Turret() {
     turretMotor = new CANTalon(8);
-    turretEncoder = new Encoder(2, 3, false, Encoder.EncodingType.k4X);
+    turretEncoder = new Encoder(5, 3, false, Encoder.EncodingType.k4X);
     limitSwitchClock = new DigitalInput(0);
     limitSwitchCounter = new DigitalInput(1);
     counterCW = new Counter(limitSwitchClock);

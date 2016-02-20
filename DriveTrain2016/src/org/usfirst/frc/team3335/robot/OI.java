@@ -34,6 +34,24 @@ public class OI {
     // SmartDashboard.putData("Close Claw", new CloseClaw());
     // SmartDashboard.putData("Deliver Soda", new Autonomous());
 
+    // ps3
+    // axis 0 lx
+    // axis 1 ly
+    // axis 2 ltrigger
+    // axis 3 rtrigger
+    // axis 4 rx
+    // axis 5 ry
+    // button 1 x
+    // button 2 o
+    // button 3 square
+    // button 4 triangle
+    // button 5 lbutton
+    // button 6 rbutton
+    // button 7 select
+    // button 8 start
+    // button 9 laxis
+    // button 10 raxis
+
     // ===== Driver Joystick Buttons =====
     // A Button
     JoystickButton intakeStart = addButton(joyDriver, 1, "Intake Start");

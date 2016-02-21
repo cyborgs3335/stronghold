@@ -7,10 +7,12 @@
 package org.usfirst.frc.team3335.robot;
 
 import org.usfirst.frc.team3335.robot.commands.Autonomous;
+import org.usfirst.frc.team3335.robot.subsystems.Arm;
 import org.usfirst.frc.team3335.robot.subsystems.ArmPID;
 import org.usfirst.frc.team3335.robot.subsystems.CameraLight;
 import org.usfirst.frc.team3335.robot.subsystems.DriveTrainCAN;
 import org.usfirst.frc.team3335.robot.subsystems.FlyWheel;
+import org.usfirst.frc.team3335.robot.subsystems.Hood;
 import org.usfirst.frc.team3335.robot.subsystems.HoodPID;
 import org.usfirst.frc.team3335.robot.subsystems.Intake;
 import org.usfirst.frc.team3335.robot.subsystems.LoggableSubsystem;
@@ -35,8 +37,10 @@ public class Robot extends IterativeRobot {
 
   public static DriveTrainCAN drivetrain;
   public static Intake intake;
-  public static ArmPID arm;
-  public static HoodPID hood;
+  public static ArmPID armPID;
+  public static Arm arm;
+  public static HoodPID hoodPID;
+  public static Hood hood;
   public static Turret turret;
   public static FlyWheel fly;
   // public static ImageProcessorGrip imageProcessor;
@@ -52,10 +56,12 @@ public class Robot extends IterativeRobot {
   @Override
   public void robotInit() {
     // Initialize all subsystems
-    drivetrain = new DriveTrainCAN();
+    drivetrain = null;// new DriveTrainCAN();
     intake = new Intake();
-    arm = null;// new ArmPID();
-    hood = null;// new HoodPID();
+    armPID = null;// new ArmPID();
+    arm = new Arm();
+    hoodPID = null;// new HoodPID();
+    hood = new Hood();
     turret = new Turret();
     fly = new FlyWheel();
     // imageProcessor = new ImageProcessorGrip();
@@ -73,7 +79,9 @@ public class Robot extends IterativeRobot {
     // Show what command your subsystem is running on the SmartDashboard
     addSubsystemToDashboard(drivetrain);
     addSubsystemToDashboard(intake);
+    addSubsystemToDashboard(armPID);
     addSubsystemToDashboard(arm);
+    addSubsystemToDashboard(hoodPID);
     addSubsystemToDashboard(hood);
     addSubsystemToDashboard(turret);
     addSubsystemToDashboard(fly);
@@ -126,7 +134,9 @@ public class Robot extends IterativeRobot {
   private void log() {
     logSubsystem(drivetrain);
     logSubsystem(intake);
+    logSubsystem(armPID);
     logSubsystem(arm);
+    logSubsystem(hoodPID);
     logSubsystem(hood);
     logSubsystem(turret);
     logSubsystem(fly);

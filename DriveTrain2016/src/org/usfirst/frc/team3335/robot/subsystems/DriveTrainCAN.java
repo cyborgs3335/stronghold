@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -79,10 +78,14 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
     // gyro = new AnalogGyro(1);
 
     // Let's show everything on the LiveWindow
-    LiveWindow.addActuator("Drive Train", "Front_Left Motor", front_left_motor);
-    LiveWindow.addActuator("Drive Train", "Back Left Motor", back_left_motor);
-    LiveWindow.addActuator("Drive Train", "Front Right Motor", front_right_motor);
-    LiveWindow.addActuator("Drive Train", "Back Right Motor", back_right_motor);
+    // LiveWindow.addActuator("Drive Train", "Front_Left Motor",
+    // front_left_motor);
+    // LiveWindow.addActuator("Drive Train", "Back Left Motor",
+    // back_left_motor);
+    // LiveWindow.addActuator("Drive Train", "Front Right Motor",
+    // front_right_motor);
+    // LiveWindow.addActuator("Drive Train", "Back Right Motor",
+    // back_right_motor);
     // LiveWindow.addSensor("Drive Train", "Left Encoder", left_encoder);
     // LiveWindow.addSensor("Drive Train", "Right Encoder", right_encoder);
     // LiveWindow.addSensor("Drive Train", "Rangefinder", rangefinder);

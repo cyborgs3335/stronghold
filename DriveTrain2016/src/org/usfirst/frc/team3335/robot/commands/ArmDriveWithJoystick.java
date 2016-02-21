@@ -31,7 +31,7 @@ public class ArmDriveWithJoystick extends Command {
   @Override
   protected void execute() {
     // System.out.println(this.getClass().getName() + ": execute");
-    arm.rotate(Robot.oi.getJoystickShooter().getRawAxis(3)); // TODO Verify if
+    arm.rotate(Robot.oi.getJoystickShooter().getRawAxis(1)); // TODO Verify if
                                                              // this is correct
   }
 

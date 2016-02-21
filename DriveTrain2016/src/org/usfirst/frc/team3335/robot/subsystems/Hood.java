@@ -79,15 +79,16 @@ public class Hood extends Subsystem implements LoggableSubsystem {
   }
 
   public boolean canMove(Direction direction) {
-    float pos = getAngularPosition();
-    switch (direction) {
-      case UP:
-        return pos < MAX_POSITION; // forward motor
-      case DOWN:
-        return pos > MIN_POSITION; // reverse motor
-      default:
-        return inLimits();
-    }
+    // float pos = getAngularPosition();
+    // switch (direction) {
+    // case UP:
+    // return pos < MAX_POSITION; // forward motor
+    // case DOWN:
+    // return pos > MIN_POSITION; // reverse motor
+    // default:
+    // return inLimits();
+    // }
+    return true;
   }
 
   /**

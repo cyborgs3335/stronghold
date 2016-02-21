@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Intake extends Subsystem implements LoggableSubsystem {
@@ -21,7 +20,7 @@ public class Intake extends Subsystem implements LoggableSubsystem {
     counter = new Counter(limitSwitch);
     intakeMotor.set(0);
 
-    LiveWindow.addActuator("Intake", "Motor", intakeMotor);
+    // LiveWindow.addActuator("Intake", "Motor", intakeMotor);
   }
 
   public Intake(String name) {
@@ -63,8 +62,8 @@ public class Intake extends Subsystem implements LoggableSubsystem {
    */
   @Override
   public void log() {
-    SmartDashboard.putNumber("Counter Value", counter.get());
-    SmartDashboard.putBoolean("Switch State", isSwitchSet());
+    SmartDashboard.putNumber("Intake Counter Value", counter.get());
+    SmartDashboard.putBoolean("Intake Switch State", isSwitchSet());
   }
 
   /**

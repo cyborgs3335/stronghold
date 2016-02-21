@@ -4,19 +4,18 @@ import org.usfirst.frc.team3335.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class SetHoodPosition extends Command {
+public class StopHood extends Command {
+  private boolean finished;
 
-  private double position;
-
-  public SetHoodPosition(double position) {
-    this.position = position;
-    requires(Robot.hoodPID);
+  public StopHood(boolean finished) {
+    requires(Robot.hood);
+    this.finished = finished;
   }
 
   @Override
   protected void initialize() {
-    Robot.hoodPID.enable();
-    Robot.hoodPID.setSetpoint(position);
+    // Robot.hood.intializeUpCounter();
+    // Robot.hood.intializeDownCounter();
   }
 
   @Override
@@ -26,17 +25,17 @@ public class SetHoodPosition extends Command {
 
   @Override
   protected boolean isFinished() {
-    return Robot.hoodPID.onTarget();
+    return finished;
   }
 
   @Override
   protected void end() {
-    // TODO Auto-generated method stub
+    Robot.hood.stop();
   }
 
   @Override
   protected void interrupted() {
-    // TODO Auto-generated method stub
+    end();
   }
 
 }

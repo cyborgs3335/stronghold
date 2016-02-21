@@ -5,7 +5,6 @@ import org.usfirst.frc.team3335.robot.commands.ArmDriveWithJoystick;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arm extends Subsystem implements LoggableSubsystem {
@@ -26,7 +25,7 @@ public class Arm extends Subsystem implements LoggableSubsystem {
   public Arm() {
     super();
     motor = new CANTalon(2); // TODO verify this is correct motor device
-    encoder = new Encoder(2, 3, false, Encoder.EncodingType.k4X); // TODO change
+    encoder = new Encoder(9, 7, false, Encoder.EncodingType.k4X); // TODO change
                                                                   // channels to
                                                                   // match robot
     encoder.setDistancePerPulse(distancePerPulse);
@@ -34,8 +33,8 @@ public class Arm extends Subsystem implements LoggableSubsystem {
     motor.set(0);
     // encoder.reset();
     // Let's show everything on the LiveWindow
-    LiveWindow.addActuator("Hood", "Hood Motor", motor);
-    LiveWindow.addActuator("Hood", "Hood Encoder", encoder);
+    // LiveWindow.addActuator("Arm", "Arm Motor", motor);
+    // LiveWindow.addActuator("Arm", "Arm Encoder", encoder);
   }
 
   @Override
@@ -86,14 +85,15 @@ public class Arm extends Subsystem implements LoggableSubsystem {
 
   public boolean canMove(Direction direction) {
     float pos = getAngularPosition();
-    switch (direction) {
-      case UP:
-        return pos < MAX_POSITION; // forward motor
-      case DOWN:
-        return pos > MIN_POSITION; // reverse motor
-      default:
-        return inLimits();
-    }
+    // switch (direction) {
+    // case UP:
+    // return pos < MAX_POSITION; // forward motor
+    // case DOWN:
+    // return pos > MIN_POSITION; // reverse motor
+    // default:
+    // return inLimits();
+    // }
+    return true;
   }
 
   /**

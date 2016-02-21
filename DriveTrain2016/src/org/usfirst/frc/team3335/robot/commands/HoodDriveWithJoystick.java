@@ -31,7 +31,7 @@ public class HoodDriveWithJoystick extends Command {
   @Override
   protected void execute() {
     // System.out.println(this.getClass().getName() + ": execute");
-    hood.rotate(Robot.oi.getJoystickShooter().getRawAxis(1));
+    hood.rotate(-Robot.oi.getJoystickShooter().getRawAxis(5));
   }
 
   // Make this return true when this Command no longer needs to run execute()

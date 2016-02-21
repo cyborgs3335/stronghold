@@ -9,13 +9,13 @@ public class SetArmPosition extends Command {
 
   public SetArmPosition(double position) {
     this.position = position;
-    requires(Robot.arm);
+    requires(Robot.armPID);
   }
 
   @Override
   protected void initialize() {
-    Robot.arm.enable();
-    Robot.arm.setSetpoint(position);
+    Robot.armPID.enable();
+    Robot.armPID.setSetpoint(position);
 
   }
 
@@ -27,7 +27,7 @@ public class SetArmPosition extends Command {
 
   @Override
   protected boolean isFinished() {
-    return Robot.arm.onTarget();
+    return Robot.armPID.onTarget();
   }
 
   @Override

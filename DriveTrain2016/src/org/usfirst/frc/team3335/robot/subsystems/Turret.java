@@ -32,7 +32,7 @@ public class Turret extends Subsystem implements LoggableSubsystem {
     counterCW = new Counter(limitSwitchClock);
     counterCCW = new Counter(limitSwitchCounter);
 
-    turretMotor.set(0);
+    reset();
     // turretEncoder.reset();
     // Let's show everything on the LiveWindow
     LiveWindow.addActuator("Turret", "Turret Motor", turretMotor);
@@ -59,7 +59,14 @@ public class Turret extends Subsystem implements LoggableSubsystem {
    */
   @Override
   public void log() {
+    SmartDashboard.putNumber("Turret Input Voltage", turretMotor.getBusVoltage());
+    SmartDashboard.putNumber("Turret Output Voltage", turretMotor.getOutputVoltage());
     SmartDashboard.putNumber("Turret Position", getAngularPosition());
+    SmartDashboard.putBoolean("Turret in limits?", this.inLimits());
+    SmartDashboard.putBoolean("Turret SwitchCW State?", this.isSwitchCWSet());
+    SmartDashboard.putNumber("Turret SwitchCW Counter", this.counterCW.get());
+    SmartDashboard.putBoolean("Turret SwitchCCW State?", this.isSwitchCCWSet());
+    SmartDashboard.putNumber("Turret SwitchCCW Counter", this.counterCCW.get());
   }
 
   /**
@@ -93,15 +100,16 @@ public class Turret extends Subsystem implements LoggableSubsystem {
   }
 
   public boolean canMove(Direction direction) {
-    float pos = getAngularPosition();
-    switch (direction) {
-      case LEFT:
-        return pos < MAX_POSITION; // forward motor
-      case RIGHT:
-        return pos > MIN_POSITION; // reverse motor
-      default:
-        return inLimits();
-    }
+    return true;
+    // float pos = getAngularPosition();
+    // switch (direction) {
+    // case LEFT:
+    // return pos < MAX_POSITION; // forward motor
+    // case RIGHT:
+    // return pos > MIN_POSITION; // reverse motor
+    // default:
+    // return inLimits();
+    // }
   }
 
   /**

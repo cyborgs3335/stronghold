@@ -45,7 +45,7 @@ public class Turret extends Subsystem implements LoggableSubsystem {
   }
 
   public void start(boolean forward) {
-    turretMotor.set(forward ? 1 : -1);
+    turretMotor.set(forward ? .5 : -.5);
   }
 
   public void stop() {

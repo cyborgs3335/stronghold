@@ -12,6 +12,10 @@ public class Intake extends Subsystem implements LoggableSubsystem {
   private CANTalon intakeMotor;
   private DigitalInput limitSwitch;
   private Counter counter;
+  private final double maxForwardMotorValue = 1; // TODO need different values
+                                                 // for intake and for feed to
+                                                 // flywheel
+  private final double maxReverseMotorValue = 1;
 
   public Intake() {
     super();
@@ -39,7 +43,7 @@ public class Intake extends Subsystem implements LoggableSubsystem {
    *          - if true - goes forward, if false - goes backward
    */
   public void start(boolean forward) {
-    intakeMotor.set(forward ? 1 : -1);
+    intakeMotor.set(forward ? maxForwardMotorValue : -maxReverseMotorValue);
   }
 
   /**
@@ -50,7 +54,8 @@ public class Intake extends Subsystem implements LoggableSubsystem {
   }
 
   public boolean isSwitchSet() {
-    return counter.get() > 0;
+    // return counter.get() > 0;
+    return limitSwitch.get();
   }
 
   public void intializeCounter() {
@@ -64,6 +69,7 @@ public class Intake extends Subsystem implements LoggableSubsystem {
   public void log() {
     SmartDashboard.putNumber("Intake Counter Value", counter.get());
     SmartDashboard.putBoolean("Intake Switch State", isSwitchSet());
+    SmartDashboard.putBoolean("Intake Limit Switch", limitSwitch.get());
   }
 
   /**

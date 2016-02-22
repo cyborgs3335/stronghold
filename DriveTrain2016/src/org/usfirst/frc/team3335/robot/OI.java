@@ -83,7 +83,7 @@ public class OI {
     // axis 1 -- HoodDriveWithJoystick
 
     // Connect the buttons to commands
-    intakeStart.whenPressed(new IntakeBoulder());
+    intakeStart.whenPressed(new IntakeBoulder(0.3));
     intakeStart.whenReleased(new StopIntake(true));
     intakeStop.whenPressed(new StopIntake(true));
     intakeReverse.whenPressed(new OuttakeBoulder());

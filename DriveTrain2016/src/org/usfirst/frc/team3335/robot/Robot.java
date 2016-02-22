@@ -104,6 +104,15 @@ public class Robot extends IterativeRobot {
 
   @Override
   public void teleopInit() {
+    // TODO remove this after testing
+    // TODO remove this after testing
+    // TODO remove this after testing
+    // System.out.println("REMOVE reset code when done with testing!!!");
+    // System.out.println("REMOVE reset code when done with testing!!!");
+    // System.out.println("REMOVE reset code when done with testing!!!");
+    // intake.reset();
+    // turret.reset();
+
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove

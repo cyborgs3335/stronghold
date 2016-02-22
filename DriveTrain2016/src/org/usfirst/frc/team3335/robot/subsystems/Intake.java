@@ -12,11 +12,10 @@ public class Intake extends Subsystem implements LoggableSubsystem {
   private CANTalon intakeMotor;
   private DigitalInput limitSwitch;
   private Counter counter;
-  private final double maxForwardMotorValue = 1; // TODO need different values
-                                                 // for intake and for feed to
-                                                 // flywheel
-  private final double maxReverseMotorValue = 1;
 
+  /**
+   * Default constructor.
+   */
   public Intake() {
     super();
     intakeMotor = new CANTalon(5);
@@ -27,23 +26,30 @@ public class Intake extends Subsystem implements LoggableSubsystem {
     // LiveWindow.addActuator("Intake", "Motor", intakeMotor);
   }
 
-  public Intake(String name) {
-    super(name);
-  }
-
   @Override
   protected void initDefaultCommand() {
     setDefaultCommand(new StopIntake(false));
   }
 
   /**
-   * start the intake
+   * start the intake at full speed
    *
    * @param forward
    *          - if true - goes forward, if false - goes backward
    */
   public void start(boolean forward) {
-    intakeMotor.set(forward ? maxForwardMotorValue : -maxReverseMotorValue);
+    intakeMotor.set(forward ? 1 : -1);
+  }
+
+  /**
+   * Start motor with specified speed.
+   *
+   * @param speed
+   *          speed to set motor, limited to range of [-1:1]
+   */
+  public void start(double speed) {
+    double motorValue = Math.max(Math.min(speed, 1), -1);
+    intakeMotor.set(motorValue);
   }
 
   /**
@@ -67,9 +73,9 @@ public class Intake extends Subsystem implements LoggableSubsystem {
    */
   @Override
   public void log() {
-    SmartDashboard.putNumber("Intake Counter Value", counter.get());
+    // SmartDashboard.putNumber("Intake Counter Value", counter.get());
     SmartDashboard.putBoolean("Intake Switch State", isSwitchSet());
-    SmartDashboard.putBoolean("Intake Limit Switch", limitSwitch.get());
+    // SmartDashboard.putBoolean("Intake Limit Switch", limitSwitch.get());
   }
 
   /**

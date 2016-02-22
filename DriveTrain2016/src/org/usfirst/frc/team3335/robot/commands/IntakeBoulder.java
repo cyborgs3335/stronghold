@@ -6,8 +6,17 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class IntakeBoulder extends Command {
 
-  public IntakeBoulder() {
+  private final double motorSpeed;
+
+  /**
+   * Constructor specifying motor speed to use, limited to range of [-1:1].
+   *
+   * @param motorSpeed
+   *          speed of motor for intake
+   */
+  public IntakeBoulder(double motorSpeed) {
     requires(Robot.intake);
+    this.motorSpeed = motorSpeed;
   }
 
   @Override
@@ -17,7 +26,7 @@ public class IntakeBoulder extends Command {
 
   @Override
   protected void execute() {
-    Robot.intake.start(true); // forward motor
+    Robot.intake.start(motorSpeed);
   }
 
   @Override

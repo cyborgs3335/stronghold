@@ -17,7 +17,7 @@ public class Turret extends Subsystem implements LoggableSubsystem {
   }
 
   private CANTalon turretMotor;
-  private Encoder turretEncoder;
+  private Encoder encoder;
   private DigitalInput limitSwitchClock;
   private DigitalInput limitSwitchCounter;
   private Counter counterCW;
@@ -26,17 +26,17 @@ public class Turret extends Subsystem implements LoggableSubsystem {
 
   public Turret() {
     turretMotor = new CANTalon(8);
-    turretEncoder = new Encoder(5, 3, false, Encoder.EncodingType.k4X);
+    encoder = new Encoder(5, 3, false, Encoder.EncodingType.k4X);
     limitSwitchClock = new DigitalInput(0);
     limitSwitchCounter = new DigitalInput(1);
     counterCW = new Counter(limitSwitchClock);
     counterCCW = new Counter(limitSwitchCounter);
 
     reset();
-    // turretEncoder.reset();
+    // encoder.reset();
     // Let's show everything on the LiveWindow
     LiveWindow.addActuator("Turret", "Turret Motor", turretMotor);
-    LiveWindow.addActuator("Turret", "Turret Encoder", turretEncoder);
+    LiveWindow.addActuator("Turret", "Turret Encoder", encoder);
   }
 
   @Override
@@ -62,6 +62,10 @@ public class Turret extends Subsystem implements LoggableSubsystem {
     SmartDashboard.putNumber("Turret Input Voltage", turretMotor.getBusVoltage());
     SmartDashboard.putNumber("Turret Output Voltage", turretMotor.getOutputVoltage());
     SmartDashboard.putNumber("Turret Position", getAngularPosition());
+    SmartDashboard.putNumber("Turret encoder raw", encoder.getRaw());
+    SmartDashboard.putNumber("Turret encoder scaled", encoder.get());
+    SmartDashboard.putBoolean("Turret encoder direction", encoder.getDirection());
+    SmartDashboard.putBoolean("Turret encoder stopped", encoder.getStopped());
     SmartDashboard.putBoolean("Turret in limits?", this.inLimits());
     SmartDashboard.putBoolean("Turret SwitchCW State?", this.isSwitchCWSet());
     SmartDashboard.putNumber("Turret SwitchCW Counter", this.counterCW.get());
@@ -75,7 +79,7 @@ public class Turret extends Subsystem implements LoggableSubsystem {
    * @return angular position in degrees
    */
   public float getAngularPosition() {
-    return (float) (360f * turretEncoder.getDistance() / 4096);
+    return (float) (360f * encoder.getDistance() / 4096);
   }
 
   public boolean isSwitchCWSet() {

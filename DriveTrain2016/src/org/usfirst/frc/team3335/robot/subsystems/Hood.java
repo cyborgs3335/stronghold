@@ -62,6 +62,10 @@ public class Hood extends Subsystem implements LoggableSubsystem {
   @Override
   public void log() {
     SmartDashboard.putNumber("Hood Position", getAngularPosition());
+    SmartDashboard.putNumber("Hood encoder raw", encoder.getRaw());
+    SmartDashboard.putNumber("Hood encoder scaled", encoder.get());
+    SmartDashboard.putBoolean("Hood encoder direction", encoder.getDirection());
+    SmartDashboard.putBoolean("Hood encoder stopped", encoder.getStopped());
   }
 
   /**

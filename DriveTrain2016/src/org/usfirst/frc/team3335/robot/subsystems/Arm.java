@@ -67,6 +67,10 @@ public class Arm extends Subsystem implements LoggableSubsystem {
   @Override
   public void log() {
     SmartDashboard.putNumber("Arm Position", getAngularPosition());
+    SmartDashboard.putNumber("Arm encoder raw", encoder.getRaw());
+    SmartDashboard.putNumber("Arm encoder scaled", encoder.get());
+    SmartDashboard.putBoolean("Arm encoder direction", encoder.getDirection());
+    SmartDashboard.putBoolean("Arm encoder stopped", encoder.getStopped());
   }
 
   /**

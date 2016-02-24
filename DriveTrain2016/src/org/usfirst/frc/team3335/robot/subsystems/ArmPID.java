@@ -1,5 +1,7 @@
 package org.usfirst.frc.team3335.robot.subsystems;
 
+import org.usfirst.frc.team3335.robot.RobotMap;
+
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
@@ -21,7 +23,7 @@ public class ArmPID extends PIDSubsystem implements LoggableSubsystem {
   public ArmPID(double p, double i, double d) {
     super(p, i, d);
     this.setAbsoluteTolerance(0.01);
-    this.motor = new CANTalon(2);
+    this.motor = new CANTalon(RobotMap.ARM_MOTOR/* 2 */);
     reset();
     LiveWindow.addActuator("Defensive Arm", "Arm Motor", motor);
     // pot = new AnalogPotentiometer(2, 90);

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3335.robot.subsystems;
 
+import org.usfirst.frc.team3335.robot.RobotMap;
 import org.usfirst.frc.team3335.robot.commands.SetHoodPosition;
 
 import edu.wpi.first.wpilibj.CANTalon;
@@ -36,7 +37,7 @@ public class HoodPID extends PIDSubsystem implements LoggableSubsystem {
   public HoodPID(double p, double i, double d) {
     super(p, i, d);
     this.setAbsoluteTolerance(0.5);
-    this.motor = new CANTalon(9);
+    this.motor = new CANTalon(RobotMap.HOOD_MOTOR/* 9 */);
     reset();
     this.encoder = new Encoder(4, 2, false, Encoder.EncodingType.k4X);
     // pot = new AnalogPotentiometer(2, 90);

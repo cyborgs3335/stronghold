@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3335.robot.subsystems;
 
+import org.usfirst.frc.team3335.robot.RobotMap;
 import org.usfirst.frc.team3335.robot.commands.ArmDriveWithJoystick;
 
 import edu.wpi.first.wpilibj.CANTalon;
@@ -24,7 +25,8 @@ public class Arm extends Subsystem implements LoggableSubsystem {
 
   public Arm() {
     super();
-    motor = new CANTalon(2); // TODO verify this is correct motor device
+    motor = new CANTalon(RobotMap.ARM_MOTOR/* 2 */); // TODO verify this is
+                                                     // correct motor device
     encoder = new Encoder(9, 7, false, Encoder.EncodingType.k4X); // TODO change
                                                                   // channels to
                                                                   // match robot

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3335.robot.subsystems;
 
+import org.usfirst.frc.team3335.robot.RobotMap;
 import org.usfirst.frc.team3335.robot.commands.StopShooter;
 
 import edu.wpi.first.wpilibj.CANTalon;
@@ -13,7 +14,7 @@ public class FlyWheel extends Subsystem implements LoggableSubsystem {
 
   public FlyWheel() {
     super();
-    flywheelMotor = new CANTalon(7);
+    flywheelMotor = new CANTalon(RobotMap.FLYWHEEL_MOTOR/* 7 */);
     // limitSwitch = new DigitalInput(6);
     // counter = new Counter(limitSwitch);
     flywheelMotor.set(0);

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3335.robot.subsystems;
 
+import org.usfirst.frc.team3335.robot.RobotMap;
 import org.usfirst.frc.team3335.robot.commands.HoodDriveWithJoystick;
 
 import edu.wpi.first.wpilibj.CANTalon;
@@ -22,7 +23,7 @@ public class Hood extends Subsystem implements LoggableSubsystem {
   private final float MAX_POSITION = 90;
 
   public Hood() {
-    motor = new CANTalon(9);
+    motor = new CANTalon(RobotMap.HOOD_MOTOR/* 9 */);
     encoder = new Encoder(4, 2, false, Encoder.EncodingType.k4X);
 
     motor.set(0);

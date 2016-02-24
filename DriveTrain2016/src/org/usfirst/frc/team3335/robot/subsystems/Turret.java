@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3335.robot.subsystems;
 
+import org.usfirst.frc.team3335.robot.RobotMap;
 import org.usfirst.frc.team3335.robot.commands.StopTurret;
 
 import edu.wpi.first.wpilibj.CANTalon;
@@ -25,7 +26,7 @@ public class Turret extends Subsystem implements LoggableSubsystem {
   private final float MAX_CCW_POSITION = 0, MAX_CW_POSITION = -180;
 
   public Turret() {
-    turretMotor = new CANTalon(8);
+    turretMotor = new CANTalon(RobotMap.TURRET_MOTOR/* 8 */);
     encoder = new Encoder(5, 3, false, Encoder.EncodingType.k4X);
     limitSwitchClock = new DigitalInput(0);
     limitSwitchCounter = new DigitalInput(1);
@@ -99,7 +100,7 @@ public class Turret extends Subsystem implements LoggableSubsystem {
 
   /**
    * Return whether the clockwise limit switch is set.
-   * 
+   *
    * @return true if the clockwise limit switch is set
    */
   public boolean isSwitchCWSet() {
@@ -115,7 +116,7 @@ public class Turret extends Subsystem implements LoggableSubsystem {
 
   /**
    * Return whether the counter clockwise limit switch is set.
-   * 
+   *
    * @return true if the counter clockwise limit switch is set
    */
   public boolean isSwitchCCWSet() {
@@ -131,7 +132,7 @@ public class Turret extends Subsystem implements LoggableSubsystem {
 
   /**
    * Return whether the turret is within the maximum allowable angle limits.
-   * 
+   *
    * @return true if the turret is within the angle limits
    */
   public boolean inLimits() {
@@ -141,7 +142,7 @@ public class Turret extends Subsystem implements LoggableSubsystem {
 
   /**
    * Return whether the turret is allowed to move in the specified direction.
-   * 
+   *
    * @param direction
    *          desired direction to move
    * @return true if the turret can move in the desired direction

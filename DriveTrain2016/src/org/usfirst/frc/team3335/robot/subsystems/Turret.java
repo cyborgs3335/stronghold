@@ -22,7 +22,7 @@ public class Turret extends Subsystem implements LoggableSubsystem {
   private DigitalInput limitSwitchCounter;
   private Counter counterCW;
   private Counter counterCCW;
-  private final float MAX_POSITION = 100, MIN_POSITION = -100;
+  private final float MAX_CCW_POSITION = 0, MAX_CW_POSITION = -180;
 
   public Turret() {
     turretMotor = new CANTalon(8);
@@ -44,18 +44,32 @@ public class Turret extends Subsystem implements LoggableSubsystem {
     setDefaultCommand(new StopTurret(false));
   }
 
+  /**
+   * Start the turret motor.
+   *
+   * @param forward
+   *          if true, set output to positive; if false, set output to negative
+   */
   public void start(boolean forward) {
     turretMotor.set(forward ? .5 : -.5);
   }
 
+  /**
+   * Stop the turret motor.
+   */
   public void stop() {
     turretMotor.set(0);
   }
 
   /**
+   * Reset current count on encoder to zero.
+   */
+  public void resetEncoder() {
+    encoder.reset();
+  }
+
+  /**
    * The log method puts interesting information to the SmartDashboard.
-   *
-   * @return the angular position of the turret on the horizontal plane
    */
   @Override
   public void log() {
@@ -74,7 +88,8 @@ public class Turret extends Subsystem implements LoggableSubsystem {
   }
 
   /**
-   * Return the angular position in degrees.
+   * Return the angular position of the turret on the horizontal plane, relative
+   * to the CCW limit switch.
    *
    * @return angular position in degrees
    */
@@ -82,35 +97,63 @@ public class Turret extends Subsystem implements LoggableSubsystem {
     return (float) (360f * encoder.getDistance() / 4096);
   }
 
+  /**
+   * Return whether the clockwise limit switch is set.
+   * 
+   * @return true if the clockwise limit switch is set
+   */
   public boolean isSwitchCWSet() {
     return counterCW.get() > 0;
   }
 
+  /**
+   * Reset the clockwise counter / switch.
+   */
   public void intializeCWCounter() {
     counterCW.reset();
   }
 
+  /**
+   * Return whether the counter clockwise limit switch is set.
+   * 
+   * @return true if the counter clockwise limit switch is set
+   */
   public boolean isSwitchCCWSet() {
     return counterCCW.get() > 0;
   }
 
+  /**
+   * Reset the counter clockwise counter / switch.
+   */
   public void intializeCCWCounter() {
     counterCCW.reset();
   }
 
+  /**
+   * Return whether the turret is within the maximum allowable angle limits.
+   * 
+   * @return true if the turret is within the angle limits
+   */
   public boolean inLimits() {
     float pos = getAngularPosition();
-    return pos < MAX_POSITION && pos > MIN_POSITION;
+    return pos < MAX_CCW_POSITION && pos > MAX_CW_POSITION;
   }
 
+  /**
+   * Return whether the turret is allowed to move in the specified direction.
+   * 
+   * @param direction
+   *          desired direction to move
+   * @return true if the turret can move in the desired direction
+   */
   public boolean canMove(Direction direction) {
     return true;
     // float pos = getAngularPosition();
     // switch (direction) {
     // case COUNTER_CLOCKWISE:
-    // return pos < MAX_POSITION; // forward motor
+    // return pos < MAX_CCW_POSITION; // forward motor
     // case CLOCKWISE:
-    // return pos > MIN_POSITION; // reverse motor
+    // return pos > MAX_CW_POSITION; // reverse motor
     // default:
     // return inLimits();
     // }

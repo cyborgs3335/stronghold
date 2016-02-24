@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3335.robot;
 
+import org.usfirst.frc.team3335.robot.commands.InitializeTurretPosition;
 import org.usfirst.frc.team3335.robot.commands.IntakeBoulder;
 import org.usfirst.frc.team3335.robot.commands.MoveHood;
 import org.usfirst.frc.team3335.robot.commands.MoveTurret;
@@ -40,7 +41,7 @@ public class OI {
     // SmartDashboard.putData("Deliver Soda", new Autonomous());
     SmartDashboard.putData("Start Full Shooter", new StartFullShooter());
     SmartDashboard.putData("Stop Full Shooter", new StopFullShooter());
-    // SmartDashboard.putData("Set Turret Position", new SetTurretPosition());
+    SmartDashboard.putData("Initialize Turret Position", new InitializeTurretPosition());
 
     // ps3
     // axis 0 lx

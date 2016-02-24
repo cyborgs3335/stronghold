@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Turret extends Subsystem implements LoggableSubsystem {
 
   public static enum Direction {
-    LEFT, RIGHT
+    COUNTER_CLOCKWISE, CLOCKWISE
   }
 
   private CANTalon turretMotor;
@@ -107,9 +107,9 @@ public class Turret extends Subsystem implements LoggableSubsystem {
     return true;
     // float pos = getAngularPosition();
     // switch (direction) {
-    // case LEFT:
+    // case COUNTER_CLOCKWISE:
     // return pos < MAX_POSITION; // forward motor
-    // case RIGHT:
+    // case CLOCKWISE:
     // return pos > MIN_POSITION; // reverse motor
     // default:
     // return inLimits();

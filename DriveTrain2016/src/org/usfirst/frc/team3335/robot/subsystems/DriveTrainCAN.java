@@ -59,6 +59,7 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
     // percent vbus is default mode
     back_right_motor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
     back_right_motor.set(0);
+    // back_right_motor.setPID(1, 0/*0.001*/, 0);
 
     // Encoders may measure differently in the real world and in
     // simulation. In this example the robot moves 0.042 barleycorns

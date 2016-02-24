@@ -4,7 +4,9 @@ import org.usfirst.frc.team3335.robot.commands.IntakeBoulder;
 import org.usfirst.frc.team3335.robot.commands.MoveHood;
 import org.usfirst.frc.team3335.robot.commands.MoveTurret;
 import org.usfirst.frc.team3335.robot.commands.OuttakeBoulder;
+import org.usfirst.frc.team3335.robot.commands.StartFullShooter;
 import org.usfirst.frc.team3335.robot.commands.StartShooter;
+import org.usfirst.frc.team3335.robot.commands.StopFullShooter;
 import org.usfirst.frc.team3335.robot.commands.StopHood;
 import org.usfirst.frc.team3335.robot.commands.StopIntake;
 import org.usfirst.frc.team3335.robot.commands.StopShooter;
@@ -36,6 +38,9 @@ public class OI {
     // SmartDashboard.putData("Open Claw", new OpenClaw());
     // SmartDashboard.putData("Close Claw", new CloseClaw());
     // SmartDashboard.putData("Deliver Soda", new Autonomous());
+    SmartDashboard.putData("Start Full Shooter", new StartFullShooter());
+    SmartDashboard.putData("Stop Full Shooter", new StopFullShooter());
+    // SmartDashboard.putData("Set Turret Position", new SetTurretPosition());
 
     // ps3
     // axis 0 lx
@@ -70,9 +75,9 @@ public class OI {
 
     // ===== Shooter Joystick Buttons =====
     // A button
-    JoystickButton turretLeft = addButton(joyShooter, 1, "Turret Left");
+    JoystickButton turretCCW = addButton(joyShooter, 1, "Turret CCW");
     // B button
-    JoystickButton turretRight = addButton(joyShooter, 4, "Turret Right");
+    JoystickButton turretCW = addButton(joyShooter, 4, "Turret CW");
     // Y button
     JoystickButton turretStop = addButton(joyShooter, 2, "Turret Stop");
     JoystickButton hoodUp = addButton(joyShooter, 6, "Hood Up");
@@ -98,10 +103,10 @@ public class OI {
     shooterStart.whenPressed(new StartShooter());
     shooterStart.whenReleased(new StopShooter(true));
     shooterStop.whenPressed(new StopShooter(true));
-    turretLeft.whenPressed(new MoveTurret(Turret.Direction.LEFT)); // Counter-clockwise
-    turretLeft.whenReleased(new StopTurret(true));
-    turretRight.whenPressed(new MoveTurret(Turret.Direction.RIGHT)); // Clockwise
-    turretRight.whenReleased(new StopTurret(true));
+    turretCCW.whenPressed(new MoveTurret(Turret.Direction.COUNTER_CLOCKWISE)); // Counter-clockwise
+    turretCCW.whenReleased(new StopTurret(true));
+    turretCW.whenPressed(new MoveTurret(Turret.Direction.CLOCKWISE)); // Clockwise
+    turretCW.whenReleased(new StopTurret(true));
     turretStop.whenPressed(new StopTurret(true));
   }
 

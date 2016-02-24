@@ -23,10 +23,10 @@ public class MoveTurret extends Command {
   @Override
   protected void execute() {
     switch (direction) {
-      case LEFT:
+      case COUNTER_CLOCKWISE:
         Robot.turret.start(true); // forward motor
         break;
-      case RIGHT:
+      case CLOCKWISE:
         Robot.turret.start(false); // reverse motor
         break;
     }

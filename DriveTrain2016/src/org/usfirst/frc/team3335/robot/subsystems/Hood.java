@@ -6,7 +6,6 @@ import org.usfirst.frc.team3335.robot.commands.HoodDriveWithJoystick;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Hood extends Subsystem implements LoggableSubsystem {
@@ -29,8 +28,8 @@ public class Hood extends Subsystem implements LoggableSubsystem {
     motor.set(0);
     // encoder.reset();
     // Let's show everything on the LiveWindow
-    LiveWindow.addActuator("Hood", "Hood Motor", motor);
-    LiveWindow.addActuator("Hood", "Hood Encoder", encoder);
+    // LiveWindow.addActuator("Hood", "Hood Motor", motor);
+    // LiveWindow.addActuator("Hood", "Hood Encoder", encoder);
   }
 
   @Override

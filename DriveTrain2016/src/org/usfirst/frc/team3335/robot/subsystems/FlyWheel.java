@@ -4,27 +4,37 @@ import org.usfirst.frc.team3335.robot.RobotMap;
 import org.usfirst.frc.team3335.robot.commands.StopShooter;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public class FlyWheel extends Subsystem implements LoggableSubsystem {
-  private CANTalon flywheelMotor;
+  private CANTalon motor;
+  private Encoder encoder;
+  private final double targetMotorValue;
+  private final boolean useVoltageMode = true;
   // private DigitalInput limitSwitch;
   // private Counter counter;
 
   public FlyWheel() {
     super();
-    flywheelMotor = new CANTalon(RobotMap.FLYWHEEL_MOTOR/* 7 */);
+    motor = new CANTalon(RobotMap.FLYWHEEL_MOTOR/* 7 */);
+    if (useVoltageMode) {
+      motor.changeControlMode(TalonControlMode.Voltage);
+      targetMotorValue = 10; // 10 volts
+    } else {
+      motor.changeControlMode(TalonControlMode.PercentVbus);
+      targetMotorValue = 1; // 100 %
+    }
+    encoder = new Encoder(10, 11, false, Encoder.EncodingType.k4X);
     // limitSwitch = new DigitalInput(6);
     // counter = new Counter(limitSwitch);
-    flywheelMotor.set(0);
+    motor.set(0);
+    // encoder.reset();
 
-    LiveWindow.addActuator("Fly Wheel", "Fly Wheel Motor", flywheelMotor);
-  }
-
-  public FlyWheel(String name) {
-    super(name);
-    // TODO Auto-generated constructor stub
+    // Let's show everything on the LiveWindow
+    // LiveWindow.addActuator("Fly Wheel", "Fly Wheel Motor", motor);
+    // LiveWindow.addActuator("Fly Wheel", "Fly Wheel Encoder", encoder);
   }
 
   @Override
@@ -34,20 +44,19 @@ public class FlyWheel extends Subsystem implements LoggableSubsystem {
   }
 
   /**
-   * start the intake
-   *
-   * @param forward
-   *          - motor either goes forward or backward
+   * Start the flywheel motor
    */
   public void start() {
-    flywheelMotor.set(1);
+    // motor.set(Math.min(targetMotorValue,
+    // DriverStation.getInstance().getBatteryVoltage()));
+    motor.set(targetMotorValue);
   }
 
   /**
-   * stop the intake
+   * stop the flywheel motor
    */
   public void stop() {
-    flywheelMotor.set(0);
+    motor.set(0);
   }
 
   public boolean isSwitchSet() {
@@ -63,8 +72,10 @@ public class FlyWheel extends Subsystem implements LoggableSubsystem {
    */
   @Override
   public void log() {
-    // SmartDashboard.putNumber("Left Drive Value", leftDriveValue);
-    // SmartDashboard.putNumber("Right Drive Value", rightDriveValue);
+    // SmartDashboard.putNumber("Flywheel encoder raw", encoder.getRaw());
+    // SmartDashboard.putNumber("Flywheel encoder scaled", encoder.get());
+    // SmartDashboard.putNumber("Flywheel encoder stopped",
+    // encoder.getStopped());
   }
 
   /**

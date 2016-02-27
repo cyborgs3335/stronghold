@@ -9,6 +9,7 @@ import java.awt.image.DataBufferByte;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 import org.opencv.core.Mat;
 
@@ -55,6 +56,7 @@ public class ImagePanel extends JPanel {
 
   public static ImagePanel createDisplayWindow() {
     JFrame frame = new JFrame();
+    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     ImagePanel panel = new ImagePanel(frame);
     frame.add(panel);
     frame.pack();

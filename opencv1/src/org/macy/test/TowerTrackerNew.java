@@ -11,10 +11,10 @@ import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
-//import org.opencv.imgcodecs.Imgcodecs;
-import org.opencv.imgproc.Imgproc;
 //import org.opencv.videoio.VideoCapture;
 import org.opencv.highgui.VideoCapture;
+//import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
 
 //import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
@@ -32,8 +32,8 @@ public class TowerTrackerNew {
    */
   static {
     System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-    //NetworkTable.setClientMode();
-    //NetworkTable.setIPAddress("roborio-3335.local");
+    // NetworkTable.setClientMode();
+    // NetworkTable.setIPAddress("roborio-3335.local");
   }
 
   // constants for the color rbg values
@@ -63,7 +63,7 @@ public class TowerTrackerNew {
   public static boolean shouldRun = true;
 
   /**
-   * 
+   *
    * @param args
    *          command line arguments just the main loop for the program and the
    *          entry points
@@ -74,7 +74,7 @@ public class TowerTrackerNew {
     matThresh = new Mat();
     clusters = new Mat();
     matHeirarchy = new Mat();
-    //NetworkTable table = NetworkTable.getTable("SmartDashboard");
+    // NetworkTable table = NetworkTable.getTable("SmartDashboard");
     // main loop of the program
     while (shouldRun) {
       try {
@@ -98,15 +98,16 @@ public class TowerTrackerNew {
     }
     // make sure the java process quits when the loop finishes
     videoCapture.release();
-    System.exit(0);
+    // System.exit(0);
   }
 
   /**
-   * 
+   *
    * reads an image from a live image capture and outputs information to the
    * SmartDashboard or a file
    */
   public static void processImage() {
+    ImagePanel panel = ImagePanel.createDisplayWindow();
     ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
     double x, y, targetX, targetY, distance, azimuth;
     // frame counter
@@ -156,15 +157,20 @@ public class TowerTrackerNew {
         Point center = new Point(rec.br().x - rec.width / 2 - 15, rec.br().y - rec.height / 2);
         Point centerw = new Point(rec.br().x - rec.width / 2 - 15, rec.br().y - rec.height / 2 - 20);
         // TODO FIXME
-        //Imgproc.putText(matOriginal, "" + (int) distance, center, Core.FONT_HERSHEY_PLAIN, 1, BLACK);
-        //Imgproc.putText(matOriginal, "" + (int) azimuth, centerw, Core.FONT_HERSHEY_PLAIN, 1, BLACK);
+        // Imgproc.putText(matOriginal, "" + (int) distance, center,
+        // Core.FONT_HERSHEY_PLAIN, 1, BLACK);
+        // Imgproc.putText(matOriginal, "" + (int) azimuth, centerw,
+        // Core.FONT_HERSHEY_PLAIN, 1, BLACK);
         logRect(rec, distance, azimuth, logPrefix(before, System.currentTimeMillis(), FrameCount));
+        Core.rectangle(matOriginal, new Point(rec.x, rec.y), new Point(rec.x + rec.width, rec.y + rec.height),
+            new Scalar(0, 255, 0));
       } else {
         System.out.println(logPrefix(before, System.currentTimeMillis(), FrameCount) + " found nothing");
       }
       // output an image for debugging
       // TODO FIXME
-      //Imgcodecs.imwrite("output.png", matOriginal);
+      // Imgcodecs.imwrite("output.png", matOriginal);
+      panel.drawNewImage(matOriginal);
       FrameCount++;
     }
     shouldRun = false;

@@ -40,6 +40,8 @@ public class InitializeTurretPosition extends Command {
   @Override
   protected boolean isFinished() {
     if (Robot.turret.isSwitchCCWSet()) {
+      // Assumes encoder position 0 is at CCW limit switch
+      Robot.turret.resetEncoder();
       // TODO set position at CCW
       return true;
     } else if (Robot.turret.isSwitchCWSet()) {

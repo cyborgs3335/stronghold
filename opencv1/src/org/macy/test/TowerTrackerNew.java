@@ -26,6 +26,8 @@ import org.opencv.imgproc.Imgproc;
  *
  */
 public class TowerTrackerNew {
+  // private final int CAMERA_DEVICE_ID = 0;
+  private final int CAMERA_DEVICE_ID = 1;
 
   /**
    * static method to load opencv and networkTables
@@ -69,6 +71,10 @@ public class TowerTrackerNew {
    *          entry points
    */
   public static void main(String[] args) {
+    new TowerTrackerNew().run();
+  }
+
+  public void run() {
     matOriginal = new Mat();
     matHSV = new Mat();
     matThresh = new Mat();
@@ -83,7 +89,7 @@ public class TowerTrackerNew {
         // replaces the ##.## with your team number
         // videoCapture.open("http://10.33.35.11/mjpg/video.mjpg");
         // opens default camera on device
-        videoCapture.open(0);
+        videoCapture.open(CAMERA_DEVICE_ID);
         // Example
         // cap.open("http://10.30.19.11/mjpg/video.mjpg");
         // wait until it is opened
@@ -114,7 +120,7 @@ public class TowerTrackerNew {
     int FrameCount = 0;
     long before = System.currentTimeMillis();
     // only run for the specified time
-    while (FrameCount < 100) {
+    while (FrameCount < 1000000) {
       contours.clear();
       // capture from the axis camera
       videoCapture.read(matOriginal);
@@ -163,7 +169,7 @@ public class TowerTrackerNew {
         // Core.FONT_HERSHEY_PLAIN, 1, BLACK);
         logRect(rec, distance, azimuth, logPrefix(before, System.currentTimeMillis(), FrameCount));
         Core.rectangle(matOriginal, new Point(rec.x, rec.y), new Point(rec.x + rec.width, rec.y + rec.height),
-            new Scalar(0, 255, 0));
+            new Scalar(0, 255, 0), 5);
       } else {
         System.out.println(logPrefix(before, System.currentTimeMillis(), FrameCount) + " found nothing");
       }

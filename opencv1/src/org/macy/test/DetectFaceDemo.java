@@ -15,6 +15,8 @@ import org.opencv.objdetect.CascadeClassifier;
 // to "faceDetection.png".
 //
 public class DetectFaceDemo {
+  // private final int CAMERA_DEVICE_ID = 0;
+  private final int CAMERA_DEVICE_ID = 1;
 
   static {
     System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -81,7 +83,7 @@ public class DetectFaceDemo {
     // replaces the ##.## with your team number
     // videoCapture.open("http://10.33.35.11/mjpg/video.mjpg");
     // opens default camera on device
-    videoCapture.open(0);
+    videoCapture.open(CAMERA_DEVICE_ID);
     // Example
     // cap.open("http://10.30.19.11/mjpg/video.mjpg");
     // wait until it is opened
@@ -102,7 +104,7 @@ public class DetectFaceDemo {
     Mat image = new Mat();
     int frameCount = 0;
     long timeBefore = System.currentTimeMillis();
-    while (frameCount < 100) {
+    while (frameCount < 1000000) {
       videoCapture.read(image);
       processImage(faceDetector, image);
       log(timeBefore, System.currentTimeMillis(), frameCount, "finished processing frame");
@@ -128,7 +130,7 @@ public class DetectFaceDemo {
     // Draw a bounding box around each face.
     for (Rect rect : faceDetections.toArray()) {
       Core.rectangle(image, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height),
-          new Scalar(0, 255, 0));
+          new Scalar(0, 255, 0), 5);
     }
 
     // Save the visualized detection.

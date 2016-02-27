@@ -1,5 +1,15 @@
 package org.macy.test;
 
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
@@ -16,129 +26,203 @@ import org.opencv.objdetect.CascadeClassifier;
 //
 public class DetectFaceDemo {
 
-	static {
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-	}
+  static {
+    System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+  }
 
-	private final String imagePath;
+  private final String imagePath;
 
-	public DetectFaceDemo(String imagePath) {
-		this.imagePath = imagePath;
-	}
+  public DetectFaceDemo(String imagePath) {
+    this.imagePath = imagePath;
+  }
 
-	public void run() {
-		System.out.println("\nRunning DetectFaceDemo");
+  public void run() {
+    System.out.println("\nRunning DetectFaceDemo");
 
-		// Create a face detector from the cascade file in the resources
-		// directory.
-		System.out.println("xml: " +  getClass().getResource("/lbpcascade_frontalface.xml").getPath());
-		CascadeClassifier faceDetector = new CascadeClassifier(getClass().getResource("/lbpcascade_frontalface.xml").getPath());
-		//System.out.println("png: " +  getClass().getResource("/lena.png").getPath());
-		//Mat image = Highgui.imread(getClass().getResource("/lena.png").getPath());
-		System.out.println("image: " + imagePath);
-		Mat image = Highgui.imread(imagePath);
+    // Create a face detector from the cascade file in the resources
+    // directory.
+    System.out.println("xml: " + getClass().getResource("/lbpcascade_frontalface.xml").getPath());
+    CascadeClassifier faceDetector = new CascadeClassifier(
+        getClass().getResource("/lbpcascade_frontalface.xml").getPath());
+    // System.out.println("png: " +
+    // getClass().getResource("/lena.png").getPath());
+    // Mat image =
+    // Highgui.imread(getClass().getResource("/lena.png").getPath());
+    System.out.println("image: " + imagePath);
+    Mat image = Highgui.imread(imagePath);
 
-		// Detect faces in the image.
-		// MatOfRect is a special container class for Rect.
-		MatOfRect faceDetections = new MatOfRect();
-		faceDetector.detectMultiScale(image, faceDetections);
+    // Detect faces in the image.
+    // MatOfRect is a special container class for Rect.
+    MatOfRect faceDetections = new MatOfRect();
+    faceDetector.detectMultiScale(image, faceDetections);
 
-		System.out.println(String.format("Detected %s faces", faceDetections.toArray().length));
+    System.out.println(String.format("Detected %s faces", faceDetections.toArray().length));
 
-		// Draw a bounding box around each face.
-		for (Rect rect : faceDetections.toArray()) {
-			Core.rectangle(image, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(0, 255, 0));
-		}
+    // Draw a bounding box around each face.
+    for (Rect rect : faceDetections.toArray()) {
+      Core.rectangle(image, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height),
+          new Scalar(0, 255, 0));
+    }
 
-		// Save the visualized detection.
-		String filename = "faceDetection.png";
-		System.out.println(String.format("Writing %s", filename));
-		Highgui.imwrite(filename, image);
-	}
+    // Save the visualized detection.
+    String filename = "faceDetection.png";
+    System.out.println(String.format("Writing %s", filename));
+    Highgui.imwrite(filename, image);
+  }
 
-	public void runVideo() {
-		System.out.println("\nRunning DetectFaceDemo");
+  public void runVideo() {
+    System.out.println("\nRunning DetectFaceDemo");
 
-		// Create a face detector from the cascade file in the resources
-		// directory.
-		System.out.println("xml: " +  getClass().getResource("/lbpcascade_frontalface.xml").getPath());
-		CascadeClassifier faceDetector = new CascadeClassifier(getClass().getResource("/lbpcascade_frontalface.xml").getPath());
-		//System.out.println("png: " +  getClass().getResource("/lena.png").getPath());
-		//Mat image = Highgui.imread(getClass().getResource("/lena.png").getPath());
-		//System.out.println("image: " + imagePath);
-		//Mat image = Highgui.imread(imagePath);
-		VideoCapture videoCapture;
+    // Create a face detector from the cascade file in the resources
+    // directory.
+    System.out.println("xml: " + getClass().getResource("/lbpcascade_frontalface.xml").getPath());
+    CascadeClassifier faceDetector = new CascadeClassifier(
+        getClass().getResource("/lbpcascade_frontalface.xml").getPath());
+    // System.out.println("png: " +
+    // getClass().getResource("/lena.png").getPath());
+    // Mat image =
+    // Highgui.imread(getClass().getResource("/lena.png").getPath());
+    // System.out.println("image: " + imagePath);
+    // Mat image = Highgui.imread(imagePath);
+    VideoCapture videoCapture;
 
-		// opens up the camera stream and tries to load it
-		videoCapture = new VideoCapture();
-		System.out.println("one");
-		// replaces the ##.## with your team number
-		// videoCapture.open("http://10.33.35.11/mjpg/video.mjpg");
-		// opens default camera on device
-		videoCapture.open(0);
-		System.out.println("two");
-		// Example
-		// cap.open("http://10.30.19.11/mjpg/video.mjpg");
-		// wait until it is opened
-		while (!videoCapture.isOpened()) {
-		}
-		System.out.println("three");
-		//Mat image = new Mat();
-		System.out.println("four");
-		//videoCapture.read(image);
-		System.out.println("five");
-		// time to actually process the acquired images
-		processImages(videoCapture, faceDetector);
-		//processImage(faceDetector, image);
-		System.out.println("six");
-		videoCapture.release();
-		System.out.println("seven");
-	}
+    // opens up the camera stream and tries to load it
+    videoCapture = new VideoCapture();
+    // replaces the ##.## with your team number
+    // videoCapture.open("http://10.33.35.11/mjpg/video.mjpg");
+    // opens default camera on device
+    videoCapture.open(0);
+    // Example
+    // cap.open("http://10.30.19.11/mjpg/video.mjpg");
+    // wait until it is opened
+    while (!videoCapture.isOpened()) {
+    }
+    // Mat image = new Mat();
+    // videoCapture.read(image);
+    // time to actually process the acquired images
+    processImages(videoCapture, faceDetector);
+    // processImage(faceDetector, image);
+    videoCapture.release();
+  }
 
-	public void processImages(VideoCapture videoCapture, CascadeClassifier faceDetector) {
-		Mat image = new Mat();
-		int frameCount = 0;
-		long timeBefore = System.currentTimeMillis();
-		while (frameCount < 100) {
-			videoCapture.read(image);
-			processImage(faceDetector, image);
-			log(timeBefore, System.currentTimeMillis(), frameCount, "finished processing frame");
-			frameCount++;
-		}
-	}
+  public void processImages(VideoCapture videoCapture, CascadeClassifier faceDetector) {
+    // Create named window
+    ImagePanel panel = createDisplayWindow();
 
-	public void log(long timeBefore, long timeAfter, int frameCount, String message) {
-	    double elapsedTimeSec = (timeAfter - timeBefore) / 1000.0;
-	    double fps = (frameCount + 1) / elapsedTimeSec;
-	    System.out.println("[iter=" + frameCount + " time=" + elapsedTimeSec + " fps=" + fps + "] " + message);
-	}
+    Mat image = new Mat();
+    int frameCount = 0;
+    long timeBefore = System.currentTimeMillis();
+    while (frameCount < 100) {
+      videoCapture.read(image);
+      processImage(faceDetector, image);
+      log(timeBefore, System.currentTimeMillis(), frameCount, "finished processing frame");
+      // namedWindow( "Display window", WINDOW_AUTOSIZE );// Create a window for
+      // display.
+      // imshow( "Display window", image ); // Show our image inside it.
+      imshow(panel, toBufferedImage(image));
+      frameCount++;
+    }
+    // imshow(panel, toBufferedImage(image));
+  }
 
-	public void processImage(CascadeClassifier faceDetector, Mat image) {
-		// Detect faces in the image.
-		// MatOfRect is a special container class for Rect.
-		MatOfRect faceDetections = new MatOfRect();
-		faceDetector.detectMultiScale(image, faceDetections);
+  public ImagePanel createDisplayWindow() {
+    JFrame frame = new JFrame();
+    ImagePanel panel = new ImagePanel(frame);
+    frame.add(panel);
+    frame.pack();
+    frame.setVisible(true);
+    return panel;
+  }
 
-		System.out.println(String.format("Detected %s faces", faceDetections.toArray().length));
+  public void imshow(ImagePanel panel, Image image) {
+    panel.drawNewImage(image);
+  }
 
-		// Draw a bounding box around each face.
-		for (Rect rect : faceDetections.toArray()) {
-			Core.rectangle(image, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(0, 255, 0));
-		}
+  public static class ImagePanel extends JPanel {
+    private Image bi;
+    private Dimension panelDimension;
+    private final JFrame parent;
 
-		// Save the visualized detection.
-		//String filename = "faceDetection.png";
-		//System.out.println(String.format("Writing %s", filename));
-		//Highgui.imwrite(filename, image);
-	}
+    public ImagePanel(JFrame parent) {
+      bi = null;
+      panelDimension = new Dimension(100, 100);
+      this.parent = parent;
+    }
 
-	public static void main(String[] args) {
-		System.out.println("Welcome to OpenCV " + Core.VERSION);
-		String imagePath = "resources/lena.png";
-		if (args.length == 1) {
-			imagePath = args[0];
-		}
-		new DetectFaceDemo(imagePath).runVideo();
-	}
+    public void drawNewImage(Image image) {
+      bi = image;
+      if (bi.getWidth(null) != panelDimension.width || bi.getHeight(null) != panelDimension.height) {
+        panelDimension.setSize(bi.getWidth(null), bi.getHeight(null));
+        System.out.println("Setting size to " + panelDimension);
+        this.setSize(panelDimension);
+        this.validate();
+        parent.pack();
+      }
+      repaint();
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+      return panelDimension;
+    }
+
+    @Override
+    public void paint(Graphics g) {
+      Graphics2D g2d = (Graphics2D) g;
+      if (bi == null) {
+        return;
+      }
+      g2d.drawImage(bi, 0, 0, null);
+    }
+  }
+
+  public Image toBufferedImage(Mat m) {
+    int type = BufferedImage.TYPE_BYTE_GRAY;
+    if (m.channels() > 1) {
+      type = BufferedImage.TYPE_3BYTE_BGR;
+    }
+    int bufferSize = m.channels() * m.cols() * m.rows();
+    byte[] b = new byte[bufferSize];
+    m.get(0, 0, b);
+    BufferedImage image = new BufferedImage(m.cols(), m.rows(), type);
+    final byte[] targetPixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
+    System.arraycopy(b, 0, targetPixels, 0, b.length);
+    return image;
+  }
+
+  public void log(long timeBefore, long timeAfter, int frameCount, String message) {
+    double elapsedTimeSec = (timeAfter - timeBefore) / 1000.0;
+    double fps = (frameCount + 1) / elapsedTimeSec;
+    System.out.println("[iter=" + frameCount + " time=" + elapsedTimeSec + " fps=" + fps + "] " + message);
+  }
+
+  public void processImage(CascadeClassifier faceDetector, Mat image) {
+    // Detect faces in the image.
+    // MatOfRect is a special container class for Rect.
+    MatOfRect faceDetections = new MatOfRect();
+    faceDetector.detectMultiScale(image, faceDetections);
+
+    System.out.println(String.format("Detected %s faces", faceDetections.toArray().length));
+
+    // Draw a bounding box around each face.
+    for (Rect rect : faceDetections.toArray()) {
+      Core.rectangle(image, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height),
+          new Scalar(0, 255, 0));
+    }
+
+    // Save the visualized detection.
+    // String filename = "faceDetection.png";
+    // System.out.println(String.format("Writing %s", filename));
+    // Highgui.imwrite(filename, image);
+  }
+
+  public static void main(String[] args) {
+    System.out.println("Welcome to OpenCV " + Core.VERSION);
+    String imagePath = "resources/lena.png";
+    if (args.length == 1) {
+      imagePath = args[0];
+    }
+    new DetectFaceDemo(imagePath).runVideo();
+  }
 
 }

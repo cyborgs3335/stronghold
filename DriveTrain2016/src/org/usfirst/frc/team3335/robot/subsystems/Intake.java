@@ -19,7 +19,7 @@ public class Intake extends Subsystem implements LoggableSubsystem {
    */
   public Intake() {
     super();
-    intakeMotor = new CANTalon(RobotMap.INTAKE_MOTOR/* 5 */);
+    intakeMotor = new CANTalon(RobotMap.INTAKE_MOTOR);
     limitSwitch = new DigitalInput(RobotMap.INTAKE_SWITCH);
     counter = new Counter(limitSwitch);
     intakeMotor.set(0);

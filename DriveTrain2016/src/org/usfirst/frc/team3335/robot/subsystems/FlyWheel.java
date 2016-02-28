@@ -19,7 +19,7 @@ public class FlyWheel extends Subsystem implements LoggableSubsystem {
 
   public FlyWheel() {
     super();
-    motor = new CANTalon(RobotMap.FLYWHEEL_MOTOR/* 7 */);
+    motor = new CANTalon(RobotMap.FLYWHEEL_MOTOR);
     if (useVoltageMode) {
       motor.changeControlMode(TalonControlMode.Voltage);
       targetMotorValue = 10; // 10 volts
@@ -27,7 +27,7 @@ public class FlyWheel extends Subsystem implements LoggableSubsystem {
       motor.changeControlMode(TalonControlMode.PercentVbus);
       targetMotorValue = 1; // 100 %
     }
-    encoder = new Encoder(10, 11, false, Encoder.EncodingType.k4X);
+    encoder = new Encoder(RobotMap.FLYWHEEL_ENCODER_A, RobotMap.FLYWHEEL_ENCODER_B, false, Encoder.EncodingType.k4X);
     // limitSwitch = new DigitalInput(6);
     // counter = new Counter(limitSwitch);
     motor.set(0);

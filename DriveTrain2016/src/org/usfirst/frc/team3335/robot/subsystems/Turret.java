@@ -26,7 +26,7 @@ public class Turret extends Subsystem implements LoggableSubsystem {
   private final float MAX_CCW_POSITION = 0, MAX_CW_POSITION = -180;
 
   public Turret() {
-    turretMotor = new CANTalon(RobotMap.TURRET_MOTOR/* 8 */);
+    turretMotor = new CANTalon(RobotMap.TURRET_MOTOR);
     encoder = new Encoder(RobotMap.TURRET_ENCODER_A, RobotMap.TURRET_ENCODER_B, false, Encoder.EncodingType.k4X);
     limitSwitchClock = new DigitalInput(RobotMap.TURRET_CW_SWITCH);
     limitSwitchCounter = new DigitalInput(RobotMap.TURRET_CCW_SWITCH);

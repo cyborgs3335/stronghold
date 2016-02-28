@@ -22,7 +22,7 @@ public class Hood extends Subsystem implements LoggableSubsystem {
   private final float MAX_POSITION = 90;
 
   public Hood() {
-    motor = new CANTalon(RobotMap.HOOD_MOTOR/* 9 */);
+    motor = new CANTalon(RobotMap.HOOD_MOTOR);
     encoder = new Encoder(RobotMap.HOOD_ENCODER_A, RobotMap.HOOD_ENCODER_B, false, Encoder.EncodingType.k4X);
 
     motor.set(0);

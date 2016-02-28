@@ -67,14 +67,14 @@ public class Robot extends IterativeRobot {
     // imageProcessor = new ImageProcessorGrip();
     cameraLight = new CameraLight();
 
-    // Instantiate after all subsystems - or you will die
+    // Get preferences from robot
+    robotPreferences = new RobotPreferences();
+
+    // Instantiate after all subsystems and preferences - or you will die
     oi = new OI();
 
     // instantiate the command used for the autonomous period
     autonomousCommand = new Autonomous();
-
-    // Get preferences from robot
-    robotPreferences = new RobotPreferences();
 
     // Show what command your subsystem is running on the SmartDashboard
     addSubsystemToDashboard(drivetrain);

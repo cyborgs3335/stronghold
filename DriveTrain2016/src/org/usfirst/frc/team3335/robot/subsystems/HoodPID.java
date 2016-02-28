@@ -39,7 +39,7 @@ public class HoodPID extends PIDSubsystem implements LoggableSubsystem {
     this.setAbsoluteTolerance(0.5);
     this.motor = new CANTalon(RobotMap.HOOD_MOTOR/* 9 */);
     reset();
-    this.encoder = new Encoder(4, 2, false, Encoder.EncodingType.k4X);
+    this.encoder = new Encoder(RobotMap.HOOD_ENCODER_A, RobotMap.HOOD_ENCODER_B, false, Encoder.EncodingType.k4X);
     // pot = new AnalogPotentiometer(2, 90);
 
     this.setInputRange(MIN_POSITION, MAX_POSITION);

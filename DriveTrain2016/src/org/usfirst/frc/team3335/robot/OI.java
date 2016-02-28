@@ -23,8 +23,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-  private Joystick joyDriver = new Joystick(0);
-  private Joystick joyShooter = new Joystick(2);
+  // private Joystick joyDriver = new Joystick(0);
+  // private Joystick joyShooter = new Joystick(2);
+  private Joystick joyDriver = new Joystick(Robot.robotPreferences.getJoystickDriverPort());
+  private Joystick joyShooter = new Joystick(Robot.robotPreferences.getJoystickShooterPort());
 
   public OI() {
     // Put Some buttons on the SmartDashboard

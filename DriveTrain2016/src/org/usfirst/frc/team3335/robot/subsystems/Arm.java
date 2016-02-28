@@ -27,9 +27,7 @@ public class Arm extends Subsystem implements LoggableSubsystem {
     super();
     motor = new CANTalon(RobotMap.ARM_MOTOR/* 2 */); // TODO verify this is
                                                      // correct motor device
-    encoder = new Encoder(9, 7, false, Encoder.EncodingType.k4X); // TODO change
-                                                                  // channels to
-                                                                  // match robot
+    encoder = new Encoder(RobotMap.ARM_ENCODER_A, RobotMap.ARM_ENCODER_B, false, Encoder.EncodingType.k4X);
     encoder.setDistancePerPulse(distancePerPulse);
 
     motor.set(0);

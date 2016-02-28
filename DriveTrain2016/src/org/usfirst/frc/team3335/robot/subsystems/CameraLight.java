@@ -1,5 +1,7 @@
 package org.usfirst.frc.team3335.robot.subsystems;
 
+import org.usfirst.frc.team3335.robot.RobotMap;
+
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Relay.Direction;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -9,7 +11,7 @@ public class CameraLight extends Subsystem implements LoggableSubsystem {
 
   public CameraLight() {
     super();
-    relay = new Relay(0, Direction.kForward);
+    relay = new Relay(RobotMap.CAMERA_LIGHT_SWITCH, Direction.kForward);
     relay.set(Relay.Value.kOff);
   }
 

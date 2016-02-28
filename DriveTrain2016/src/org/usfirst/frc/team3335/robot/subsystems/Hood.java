@@ -23,7 +23,7 @@ public class Hood extends Subsystem implements LoggableSubsystem {
 
   public Hood() {
     motor = new CANTalon(RobotMap.HOOD_MOTOR/* 9 */);
-    encoder = new Encoder(4, 2, false, Encoder.EncodingType.k4X);
+    encoder = new Encoder(RobotMap.HOOD_ENCODER_A, RobotMap.HOOD_ENCODER_B, false, Encoder.EncodingType.k4X);
 
     motor.set(0);
     // encoder.reset();

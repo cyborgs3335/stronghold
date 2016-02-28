@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3335.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Relay.Direction;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class CameraLight extends Subsystem implements LoggableSubsystem {
@@ -8,11 +9,12 @@ public class CameraLight extends Subsystem implements LoggableSubsystem {
 
   public CameraLight() {
     super();
-    relay = new Relay(1);
+    relay = new Relay(0, Direction.kForward);
     relay.set(Relay.Value.kOff);
   }
 
   public void turnOn() {
+    // relay.set(Relay.Value.kOn);
     relay.set(Relay.Value.kOn);
   }
 

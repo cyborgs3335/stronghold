@@ -65,7 +65,7 @@ public class Robot extends IterativeRobot {
     turret = new Turret();
     fly = new FlyWheel();
     // imageProcessor = new ImageProcessorGrip();
-    cameraLight = null; // new CameraLight();
+    cameraLight = new CameraLight();
 
     // Instantiate after all subsystems - or you will die
     oi = new OI();

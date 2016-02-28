@@ -10,6 +10,7 @@ import org.usfirst.frc.team3335.robot.commands.StopFullShooter;
 import org.usfirst.frc.team3335.robot.commands.StopIntake;
 import org.usfirst.frc.team3335.robot.commands.StopShooter;
 import org.usfirst.frc.team3335.robot.commands.StopTurret;
+import org.usfirst.frc.team3335.robot.commands.SwitchCameraLight;
 import org.usfirst.frc.team3335.robot.subsystems.Turret;
 
 import edu.wpi.first.wpilibj.GenericHID;
@@ -39,6 +40,7 @@ public class OI {
     SmartDashboard.putData("Start Full Shooter", new StartFullShooter());
     SmartDashboard.putData("Stop Full Shooter", new StopFullShooter());
     SmartDashboard.putData("Initialize Turret Position", new InitializeTurretPosition());
+    SmartDashboard.putData("Turn Light On", new SwitchCameraLight(true));
 
     // ps3
     // axis 0 lx
@@ -86,7 +88,7 @@ public class OI {
     // axis 1 -- HoodDriveWithJoystick
 
     // Connect the buttons to commands
-    intakeStart.whenPressed(new IntakeBoulder(0.3));
+    intakeStart.whenPressed(new IntakeBoulder(1));
     intakeStart.whenReleased(new StopIntake(true));
     intakeStop.whenPressed(new StopIntake(true));
     intakeReverse.whenPressed(new OuttakeBoulder());

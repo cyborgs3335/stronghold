@@ -44,4 +44,13 @@ public class RobotMap {
   public static final int INTAKE_MOTOR = 5;
   public static final int TURRET_MOTOR = 8;
 
+  // Digital inputs for practice robot
+  public static final int TURRET_CW_SWITCH = 0;
+  public static final int TURRET_CCW_SWITCH = 1;
+  public static final int HOOD_ENCODER_A = 4;
+  public static final int HOOD_ENCODER_B = 2;
+  public static final int TURRET_ENCODER_A = 5;
+  public static final int TURRET_ENCODER_B = 3;
+  public static final int INTAKE_SWITCH = 6;
+
 }

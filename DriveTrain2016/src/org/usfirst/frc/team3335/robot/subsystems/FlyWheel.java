@@ -12,7 +12,8 @@ public class FlyWheel extends Subsystem implements LoggableSubsystem {
   private CANTalon motor;
   private Encoder encoder;
   private final double targetMotorValue;
-  private final boolean useVoltageMode = true;
+  // private final boolean useVoltageMode = true;
+  private final boolean useVoltageMode = false;
   // private DigitalInput limitSwitch;
   // private Counter counter;
 

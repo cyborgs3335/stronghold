@@ -25,24 +25,30 @@ public class SwitchCameraLight extends Command {
   @Override
   protected void execute() {
     // TODO Auto-generated method stub
-
+    if (lightOn) {
+      Robot.cameraLight.turnOn();
+    } else {
+      Robot.cameraLight.turnOff();
+    }
   }
 
   @Override
   protected boolean isFinished() {
-    return true;
+    return false;
   }
 
   @Override
   protected void end() {
-    // TODO Auto-generated method stub
-
+    if (lightOn) {
+      Robot.cameraLight.turnOff();
+    } else {
+      Robot.cameraLight.turnOn();
+    }
   }
 
   @Override
   protected void interrupted() {
-    // TODO Auto-generated method stub
-
+    end();
   }
 
 }

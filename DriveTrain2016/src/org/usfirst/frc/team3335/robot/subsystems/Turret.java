@@ -27,9 +27,9 @@ public class Turret extends Subsystem implements LoggableSubsystem {
 
   public Turret() {
     turretMotor = new CANTalon(RobotMap.TURRET_MOTOR/* 8 */);
-    encoder = new Encoder(5, 3, false, Encoder.EncodingType.k4X);
-    limitSwitchClock = new DigitalInput(0);
-    limitSwitchCounter = new DigitalInput(1);
+    encoder = new Encoder(RobotMap.TURRET_ENCODER_A, RobotMap.TURRET_ENCODER_B, false, Encoder.EncodingType.k4X);
+    limitSwitchClock = new DigitalInput(RobotMap.TURRET_CW_SWITCH);
+    limitSwitchCounter = new DigitalInput(RobotMap.TURRET_CCW_SWITCH);
     counterCW = new Counter(limitSwitchClock);
     counterCCW = new Counter(limitSwitchCounter);
 
@@ -49,10 +49,10 @@ public class Turret extends Subsystem implements LoggableSubsystem {
    * Start the turret motor.
    *
    * @param forward
-   *          if true, set output to positive; if false, set output to negative
+   *          if true, set output to negative; if false, set output to positive
    */
   public void start(boolean forward) {
-    turretMotor.set(forward ? .5 : -.5);
+    turretMotor.set(forward ? -.5 : .5);
   }
 
   /**

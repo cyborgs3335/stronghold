@@ -56,7 +56,7 @@ public class Robot extends IterativeRobot {
   @Override
   public void robotInit() {
     // Initialize all subsystems
-    drivetrain = null;// new DriveTrainCAN();
+    drivetrain = new DriveTrainCAN();
     intake = new Intake();
     armPID = null;// new ArmPID();
     arm = new Arm();

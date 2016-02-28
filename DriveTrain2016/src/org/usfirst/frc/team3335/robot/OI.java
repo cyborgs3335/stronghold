@@ -2,17 +2,14 @@ package org.usfirst.frc.team3335.robot;
 
 import org.usfirst.frc.team3335.robot.commands.InitializeTurretPosition;
 import org.usfirst.frc.team3335.robot.commands.IntakeBoulder;
-import org.usfirst.frc.team3335.robot.commands.MoveHood;
 import org.usfirst.frc.team3335.robot.commands.MoveTurret;
 import org.usfirst.frc.team3335.robot.commands.OuttakeBoulder;
 import org.usfirst.frc.team3335.robot.commands.StartFullShooter;
 import org.usfirst.frc.team3335.robot.commands.StartShooter;
 import org.usfirst.frc.team3335.robot.commands.StopFullShooter;
-import org.usfirst.frc.team3335.robot.commands.StopHood;
 import org.usfirst.frc.team3335.robot.commands.StopIntake;
 import org.usfirst.frc.team3335.robot.commands.StopShooter;
 import org.usfirst.frc.team3335.robot.commands.StopTurret;
-import org.usfirst.frc.team3335.robot.subsystems.Hood;
 import org.usfirst.frc.team3335.robot.subsystems.Turret;
 
 import edu.wpi.first.wpilibj.GenericHID;
@@ -25,8 +22,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-  private Joystick joyDriver = new Joystick(2);
-  private Joystick joyShooter = new Joystick(3);
+  private Joystick joyDriver = new Joystick(0);
+  private Joystick joyShooter = new Joystick(2);
 
   public OI() {
     // Put Some buttons on the SmartDashboard
@@ -81,8 +78,8 @@ public class OI {
     JoystickButton turretCW = addButton(joyShooter, 4, "Turret CW");
     // Y button
     JoystickButton turretStop = addButton(joyShooter, 2, "Turret Stop");
-    JoystickButton hoodUp = addButton(joyShooter, 6, "Hood Up");
-    JoystickButton hoodDown = addButton(joyShooter, 5, "Hood Down");
+    // JoystickButton hoodUp = addButton(joyShooter, 6, "Hood Up");
+    // JoystickButton hoodDown = addButton(joyShooter, 5, "Hood Down");
     JoystickButton shooterStart = addButton(joyShooter, 7, "Shooter Start");
     JoystickButton shooterStop = addButton(joyShooter, 8, "Shooter Stop");
     // Reserved axes and buttons
@@ -97,10 +94,10 @@ public class OI {
     // lowerHood.whenPressed(new SetHoodPosition(90));
     // armUp.whenPressed(new SetArmPosition(90));
     // armDown.whenPressed(new SetArmPosition(0));
-    hoodUp.whenPressed(new MoveHood(Hood.Direction.UP));
-    hoodUp.whenReleased(new StopHood(true));
-    hoodDown.whenPressed(new MoveHood(Hood.Direction.DOWN));
-    hoodDown.whenReleased(new StopHood(true));
+    // hoodUp.whenPressed(new MoveHood(Hood.Direction.UP));
+    // hoodUp.whenReleased(new StopHood(true));
+    // hoodDown.whenPressed(new MoveHood(Hood.Direction.DOWN));
+    // hoodDown.whenReleased(new StopHood(true));
     shooterStart.whenPressed(new StartShooter());
     shooterStart.whenReleased(new StopShooter(true));
     shooterStop.whenPressed(new StopShooter(true));

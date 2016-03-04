@@ -26,8 +26,6 @@ import org.opencv.imgproc.Imgproc;
  *
  */
 public class TowerTrackerNew {
-  // private final int CAMERA_DEVICE_ID = 0;
-  private final int CAMERA_DEVICE_ID = 1;
 
   /**
    * static method to load opencv and networkTables
@@ -38,18 +36,33 @@ public class TowerTrackerNew {
     // NetworkTable.setIPAddress("roborio-3335.local");
   }
 
-  // constants for the color rbg values
-  public static final Scalar RED = new Scalar(0, 0, 255), BLUE = new Scalar(255, 0, 0), GREEN = new Scalar(0, 255, 0),
-      BLACK = new Scalar(0, 0, 0), YELLOW = new Scalar(0, 255, 255),
-      // these are the threshold values in order
-      LOWER_BOUNDS = new Scalar(58, 0, 109), UPPER_BOUNDS = new Scalar(93, 255, 240);
+  // constants for the color bgr values
+  public static final Scalar RED = new Scalar(0, 0, 255);
+  public static final Scalar BLUE = new Scalar(255, 0, 0);
+  public static final Scalar GREEN = new Scalar(0, 255, 0);
+  public static final Scalar BLACK = new Scalar(0, 0, 0);
+  public static final Scalar YELLOW = new Scalar(0, 255, 255);
+  // these are the threshold values in order
+  // public static final Scalar LOWER_BOUNDS = new Scalar(58, 0, 109);
+  // public static final Scalar UPPER_BOUNDS = new Scalar(93, 255, 240);
+  // public static final Scalar LOWER_BOUNDS = new Scalar(63, 168, 55);
+  // public static final Scalar UPPER_BOUNDS = new Scalar(96, 255, 161);
+  // White light
+  // public static final Scalar LOWER_BOUNDS = new Scalar(0, 0, 124);
+  // public static final Scalar UPPER_BOUNDS = new Scalar(180, 255, 255);
+  // "Green" light
+  public static final Scalar LOWER_BOUNDS = new Scalar(20, 0, 124);
+  public static final Scalar UPPER_BOUNDS = new Scalar(100, 255, 255);
 
-  // the size for resing the image
+  // the size for resizing the image
   public static final Size resize = new Size(320, 240);
 
+  private final int CAMERA_DEVICE_ID = 0;
+  // private final int CAMERA_DEVICE_ID = 1;
+
   // ignore these
-  public static VideoCapture videoCapture;
-  public static Mat matOriginal, matHSV, matThresh, clusters, matHeirarchy;
+  private VideoCapture videoCapture;
+  private Mat matOriginal, matHSV, matThresh, clusters, matHierarchy;
 
   // Constants for known variables
   // the height to the top of the target in first stronghold is 97 inches
@@ -62,7 +75,7 @@ public class TowerTrackerNew {
   public static final double HORIZONTAL_FOV = 67;
   public static final double CAMERA_ANGLE = 10;
 
-  public static boolean shouldRun = true;
+  private boolean shouldRun = true;
 
   /**
    *
@@ -79,7 +92,7 @@ public class TowerTrackerNew {
     matHSV = new Mat();
     matThresh = new Mat();
     clusters = new Mat();
-    matHeirarchy = new Mat();
+    matHierarchy = new Mat();
     // NetworkTable table = NetworkTable.getTable("SmartDashboard");
     // main loop of the program
     while (shouldRun) {
@@ -112,7 +125,7 @@ public class TowerTrackerNew {
    * reads an image from a live image capture and outputs information to the
    * SmartDashboard or a file
    */
-  public static void processImage() {
+  public void processImage() {
     ImagePanel panel = ImagePanel.createDisplayWindow();
     ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
     double x, y, targetX, targetY, distance, azimuth;
@@ -128,9 +141,9 @@ public class TowerTrackerNew {
       // matOriginal = Imgcodecs.imread("someFile.png");
       Imgproc.cvtColor(matOriginal, matHSV, Imgproc.COLOR_BGR2HSV);
       Core.inRange(matHSV, LOWER_BOUNDS, UPPER_BOUNDS, matThresh);
-      Imgproc.findContours(matThresh, contours, matHeirarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
+      Imgproc.findContours(matThresh, contours, matHierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
       // make sure the contours that are detected are at least 20x20
-      // pixels with an area of 400 and an aspect ration greater then 1
+      // pixels with an area of 400 and an aspect ratio greater then 1
       for (Iterator<MatOfPoint> iterator = contours.iterator(); iterator.hasNext();) {
         MatOfPoint matOfPoint = iterator.next();
         Rect rec = Imgproc.boundingRect(matOfPoint);
@@ -139,39 +152,41 @@ public class TowerTrackerNew {
           continue;
         }
         float aspect = (float) rec.width / (float) rec.height;
-        if (aspect < 1.0) {
+        if (aspect < 0.9/* 1.0 */) {
           iterator.remove();
         }
       }
-      for (MatOfPoint mop : contours) {
-        Rect rec = Imgproc.boundingRect(mop);
-        // TODO FIXME Imgproc.rectangle(matOriginal, rec.br(), rec.tl(), BLACK);
-      }
       // if there is only 1 target, then we have found the target we want
-      if (contours.size() == 1) {
-        Rect rec = Imgproc.boundingRect(contours.get(0));
-        // "fun" math brought to you by miss daisy (team 341)!
-        y = rec.br().y + rec.height / 2;
-        y = -(2 * (y / matOriginal.height()) - 1);
-        distance = (TOP_TARGET_HEIGHT - TOP_CAMERA_HEIGHT)
-            / Math.tan((y * VERTICAL_FOV / 2.0 + CAMERA_ANGLE) * Math.PI / 180);
-        // angle to target...would not rely on this
-        targetX = rec.tl().x + rec.width / 2;
-        targetX = 2 * (targetX / matOriginal.width()) - 1;
-        azimuth = normalize360(targetX * HORIZONTAL_FOV / 2.0 + 0);
-        // drawing info on target
-        Point center = new Point(rec.br().x - rec.width / 2 - 15, rec.br().y - rec.height / 2);
-        Point centerw = new Point(rec.br().x - rec.width / 2 - 15, rec.br().y - rec.height / 2 - 20);
-        // TODO FIXME
-        // Imgproc.putText(matOriginal, "" + (int) distance, center,
-        // Core.FONT_HERSHEY_PLAIN, 1, BLACK);
-        // Imgproc.putText(matOriginal, "" + (int) azimuth, centerw,
-        // Core.FONT_HERSHEY_PLAIN, 1, BLACK);
-        logRect(rec, distance, azimuth, logPrefix(before, System.currentTimeMillis(), FrameCount));
-        Core.rectangle(matOriginal, new Point(rec.x, rec.y), new Point(rec.x + rec.width, rec.y + rec.height),
-            new Scalar(0, 255, 0), 5);
+      if (contours.size() >= 1) {
+        // Rect rec = Imgproc.boundingRect(contours.get(0));
+        for (MatOfPoint mop : contours) {
+          Rect rec = Imgproc.boundingRect(mop);
+          // TODO FIXME Imgproc.rectangle(matOriginal, rec.br(), rec.tl(),
+          // BLACK);
+          // "fun" math brought to you by miss daisy (team 341)!
+          y = rec.br().y + rec.height / 2;
+          y = -(2 * (y / matOriginal.height()) - 1);
+          distance = (TOP_TARGET_HEIGHT - TOP_CAMERA_HEIGHT)
+              / Math.tan((y * VERTICAL_FOV / 2.0 + CAMERA_ANGLE) * Math.PI / 180);
+          // angle to target...would not rely on this
+          targetX = rec.tl().x + rec.width / 2;
+          targetX = 2 * (targetX / matOriginal.width()) - 1;
+          azimuth = normalize360(targetX * HORIZONTAL_FOV / 2.0 + 0);
+          // drawing info on target
+          Point center = new Point(rec.br().x - rec.width / 2 - 15, rec.br().y - rec.height / 2);
+          Point centerw = new Point(rec.br().x - rec.width / 2 - 15, rec.br().y - rec.height / 2 - 20);
+          // TODO FIXME
+          // Imgproc.putText(matOriginal, "" + (int) distance, center,
+          // Core.FONT_HERSHEY_PLAIN, 1, BLACK);
+          // Imgproc.putText(matOriginal, "" + (int) azimuth, centerw,
+          // Core.FONT_HERSHEY_PLAIN, 1, BLACK);
+          logRect(rec, distance, azimuth, logPrefix(before, System.currentTimeMillis(), FrameCount));
+          Core.rectangle(matOriginal, new Point(rec.x, rec.y), new Point(rec.x + rec.width, rec.y + rec.height),
+              new Scalar(0, 255, 0), 5);
+        }
       } else {
-        System.out.println(logPrefix(before, System.currentTimeMillis(), FrameCount) + " found nothing");
+        System.out.println(
+            logPrefix(before, System.currentTimeMillis(), FrameCount) + " found " + contours.size() + " contours");
       }
       // output an image for debugging
       // TODO FIXME
@@ -182,13 +197,13 @@ public class TowerTrackerNew {
     shouldRun = false;
   }
 
-  public static String logPrefix(long timeBefore, long timeAfter, int frameCount) {
+  public String logPrefix(long timeBefore, long timeAfter, int frameCount) {
     double elapsedTimeSec = (timeAfter - timeBefore) / 1000.0;
     double fps = (frameCount + 1) / elapsedTimeSec;
     return "[iter=" + frameCount + " time=" + elapsedTimeSec + " fps=" + fps + "]";
   }
 
-  public static void logRect(Rect rec, double distance, double azimuth, String prefix) {
+  public void logRect(Rect rec, double distance, double azimuth, String prefix) {
     System.out.println(prefix + String.format("Distance %.2f azimuth %.2f ", distance, azimuth) + " center x "
         + 0.5 * (rec.tl().x + rec.br().x) + " center y " + 0.5 * (rec.tl().y + rec.br().y) + " area "
         + rec.height * rec.width + " aspect ratio " + rec.width / rec.height);
@@ -198,7 +213,7 @@ public class TowerTrackerNew {
    * @param angle
    *          a nonnormalized angle
    */
-  public static double normalize360(double angle) {
+  public double normalize360(double angle) {
     while (angle >= 360.0) {
       angle -= 360.0;
     }

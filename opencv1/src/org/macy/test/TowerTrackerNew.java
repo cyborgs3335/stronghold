@@ -36,6 +36,12 @@ public class TowerTrackerNew {
     // NetworkTable.setIPAddress("roborio-3335.local");
   }
 
+  // From /usr/include/opencv2/highgui/highgui_c.h:
+  public static final int CV_CAP_PROP_BRIGHTNESS = 10;
+  public static final int CV_CAP_PROP_CONTRAST = 11;
+  public static final int CV_CAP_PROP_SATURATION = 12;
+  public static final int CV_CAP_PROP_HUE = 13;
+
   // constants for the color bgr values
   public static final Scalar RED = new Scalar(0, 0, 255);
   public static final Scalar BLUE = new Scalar(255, 0, 0);
@@ -50,15 +56,23 @@ public class TowerTrackerNew {
   // White light
   // public static final Scalar LOWER_BOUNDS = new Scalar(0, 0, 124);
   // public static final Scalar UPPER_BOUNDS = new Scalar(180, 255, 255);
+  public static final Scalar LOWER_BOUNDS = new Scalar(0, 0, 124);
+  public static final Scalar UPPER_BOUNDS = new Scalar(180, 255, 255);
   // "Green" light
-  public static final Scalar LOWER_BOUNDS = new Scalar(20, 0, 124);
-  public static final Scalar UPPER_BOUNDS = new Scalar(100, 255, 255);
+  // public static final Scalar LOWER_BOUNDS = new Scalar(20, 0, 124);
+  // public static final Scalar UPPER_BOUNDS = new Scalar(100, 255, 255);
 
   // the size for resizing the image
   public static final Size resize = new Size(320, 240);
 
   private final int CAMERA_DEVICE_ID = 0;
   // private final int CAMERA_DEVICE_ID = 1;
+
+  // Video properties
+  private double videoBrightness = 0.1;
+  private double videoContrast = 0.0;
+  private double videoSaturation = 1.0;
+  private double videoHue = 0.5;
 
   // ignore these
   private VideoCapture videoCapture;
@@ -103,10 +117,18 @@ public class TowerTrackerNew {
         // videoCapture.open("http://10.33.35.11/mjpg/video.mjpg");
         // opens default camera on device
         videoCapture.open(CAMERA_DEVICE_ID);
+        setVideoProperties();
         // Example
         // cap.open("http://10.30.19.11/mjpg/video.mjpg");
         // wait until it is opened
-        while (!videoCapture.isOpened()) {
+        int openTry = 0;
+        while (!videoCapture.isOpened() && openTry < 10) {
+          Thread.sleep(250);
+          videoCapture.open(CAMERA_DEVICE_ID);
+          openTry++;
+        }
+        if (!videoCapture.isOpened()) {
+          throw new IllegalStateException("Unable to open video capture device id " + CAMERA_DEVICE_ID);
         }
         // time to actually process the acquired images
         processImage();
@@ -195,6 +217,19 @@ public class TowerTrackerNew {
       FrameCount++;
     }
     shouldRun = false;
+  }
+
+  private void setVideoProperties() {
+    System.out.println("camera properties: \n" + "  brightness = " + videoCapture.get(CV_CAP_PROP_BRIGHTNESS)
+        + "  contrast   = " + videoCapture.get(CV_CAP_PROP_CONTRAST) + "  saturation = "
+        + videoCapture.get(CV_CAP_PROP_SATURATION) + "  hue        = " + videoCapture.get(CV_CAP_PROP_HUE));
+    videoCapture.set(CV_CAP_PROP_BRIGHTNESS, videoBrightness);
+    videoCapture.set(CV_CAP_PROP_CONTRAST, videoContrast);
+    videoCapture.set(CV_CAP_PROP_SATURATION, videoSaturation);
+    videoCapture.set(CV_CAP_PROP_HUE, videoHue);
+    System.out.println("camera properties: \n" + "  brightness = " + videoCapture.get(CV_CAP_PROP_BRIGHTNESS)
+        + "  contrast   = " + videoCapture.get(CV_CAP_PROP_CONTRAST) + "  saturation = "
+        + videoCapture.get(CV_CAP_PROP_SATURATION) + "  hue        = " + videoCapture.get(CV_CAP_PROP_HUE));
   }
 
   public String logPrefix(long timeBefore, long timeAfter, int frameCount) {

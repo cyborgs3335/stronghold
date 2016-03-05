@@ -65,8 +65,8 @@ public class TowerTrackerNew {
   // the size for resizing the image
   public static final Size resize = new Size(320, 240);
 
-  private final int CAMERA_DEVICE_ID = 0;
-  // private final int CAMERA_DEVICE_ID = 1;
+  // private final int CAMERA_DEVICE_ID = 0;
+  private final int CAMERA_DEVICE_ID = 1;
 
   // Video properties
   private double videoBrightness = 0.1;
@@ -117,7 +117,6 @@ public class TowerTrackerNew {
         // videoCapture.open("http://10.33.35.11/mjpg/video.mjpg");
         // opens default camera on device
         videoCapture.open(CAMERA_DEVICE_ID);
-        setVideoProperties();
         // Example
         // cap.open("http://10.30.19.11/mjpg/video.mjpg");
         // wait until it is opened
@@ -130,6 +129,7 @@ public class TowerTrackerNew {
         if (!videoCapture.isOpened()) {
           throw new IllegalStateException("Unable to open video capture device id " + CAMERA_DEVICE_ID);
         }
+        setVideoProperties();
         // time to actually process the acquired images
         processImage();
       } catch (Exception e) {
@@ -150,7 +150,6 @@ public class TowerTrackerNew {
   public void processImage() {
     ImagePanel panel = ImagePanel.createDisplayWindow();
     ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
-    double x, y, targetX, targetY, distance, azimuth;
     // frame counter
     int FrameCount = 0;
     long before = System.currentTimeMillis();
@@ -185,15 +184,9 @@ public class TowerTrackerNew {
           Rect rec = Imgproc.boundingRect(mop);
           // TODO FIXME Imgproc.rectangle(matOriginal, rec.br(), rec.tl(),
           // BLACK);
-          // "fun" math brought to you by miss daisy (team 341)!
-          y = rec.br().y + rec.height / 2;
-          y = -(2 * (y / matOriginal.height()) - 1);
-          distance = (TOP_TARGET_HEIGHT - TOP_CAMERA_HEIGHT)
-              / Math.tan((y * VERTICAL_FOV / 2.0 + CAMERA_ANGLE) * Math.PI / 180);
-          // angle to target...would not rely on this
-          targetX = rec.tl().x + rec.width / 2;
-          targetX = 2 * (targetX / matOriginal.width()) - 1;
-          azimuth = normalize360(targetX * HORIZONTAL_FOV / 2.0 + 0);
+          // double[] distAzim = computeDistanceAzimuthOriginal(rec);
+          // double distance = distAzim[0];
+          // double azimuth = distAzim[1];
           // drawing info on target
           Point center = new Point(rec.br().x - rec.width / 2 - 15, rec.br().y - rec.height / 2);
           Point centerw = new Point(rec.br().x - rec.width / 2 - 15, rec.br().y - rec.height / 2 - 20);
@@ -202,7 +195,9 @@ public class TowerTrackerNew {
           // Core.FONT_HERSHEY_PLAIN, 1, BLACK);
           // Imgproc.putText(matOriginal, "" + (int) azimuth, centerw,
           // Core.FONT_HERSHEY_PLAIN, 1, BLACK);
-          logRect(rec, distance, azimuth, logPrefix(before, System.currentTimeMillis(), FrameCount));
+          // logRect(rec, distance, azimuth, logPrefix(before,
+          // System.currentTimeMillis(), FrameCount));
+          logRect(rec, logPrefix(before, System.currentTimeMillis(), FrameCount));
           Core.rectangle(matOriginal, new Point(rec.x, rec.y), new Point(rec.x + rec.width, rec.y + rec.height),
               new Scalar(0, 255, 0), 5);
         }
@@ -223,6 +218,12 @@ public class TowerTrackerNew {
     System.out.println("camera properties: \n" + "  brightness = " + videoCapture.get(CV_CAP_PROP_BRIGHTNESS)
         + "  contrast   = " + videoCapture.get(CV_CAP_PROP_CONTRAST) + "  saturation = "
         + videoCapture.get(CV_CAP_PROP_SATURATION) + "  hue        = " + videoCapture.get(CV_CAP_PROP_HUE));
+    // try {
+    // Thread.sleep(1000);
+    // } catch (InterruptedException e) {
+    // // TODO Auto-generated catch block
+    // e.printStackTrace();
+    // }
     videoCapture.set(CV_CAP_PROP_BRIGHTNESS, videoBrightness);
     videoCapture.set(CV_CAP_PROP_CONTRAST, videoContrast);
     videoCapture.set(CV_CAP_PROP_SATURATION, videoSaturation);
@@ -230,6 +231,38 @@ public class TowerTrackerNew {
     System.out.println("camera properties: \n" + "  brightness = " + videoCapture.get(CV_CAP_PROP_BRIGHTNESS)
         + "  contrast   = " + videoCapture.get(CV_CAP_PROP_CONTRAST) + "  saturation = "
         + videoCapture.get(CV_CAP_PROP_SATURATION) + "  hue        = " + videoCapture.get(CV_CAP_PROP_HUE));
+    // try {
+    // Thread.sleep(1000);
+    // } catch (InterruptedException e) {
+    // // TODO Auto-generated catch block
+    // e.printStackTrace();
+    // }
+  }
+
+  public double[] computeDistanceAzimuthOriginal(Rect rec) {
+    // "fun" math brought to you by miss daisy (team 341)!
+    double y = rec.br().y + rec.height / 2;
+    y = -(2 * (y / matOriginal.height()) - 1);
+    double distance = (TOP_TARGET_HEIGHT - TOP_CAMERA_HEIGHT)
+        / Math.tan((y * VERTICAL_FOV / 2.0 + CAMERA_ANGLE) * Math.PI / 180);
+    // angle to target...would not rely on this
+    double targetX = rec.tl().x + rec.width / 2;
+    targetX = 2 * (targetX / matOriginal.width()) - 1;
+    double azimuth = normalize360(targetX * HORIZONTAL_FOV / 2.0 + 0);
+    return new double[] { distance, azimuth };
+  }
+
+  public double[] computeDistanceAzimuthNew(Rect rec) {
+    double pixelFOV = matOriginal.width();
+    double targetFeet = 20.0 / 12.0;
+    double diagonalFOVDegrees = 68.5; // 68.5 deg for Microsoft LifeCam HD-3000
+    diagonalFOVDegrees /= 1.5; // Empirically determined; approximate
+    // d = Tft*FOVpixel/(2*Tpixel*tanΘ);
+    double distance = targetFeet * pixelFOV / (2 * rec.width * Math.tan(Math.toRadians(diagonalFOVDegrees / 2)));
+    double targetCx = rec.x + rec.width / 2;
+    double width = (targetCx - pixelFOV / 2) * targetFeet / rec.width;
+    double azimuth = Math.toDegrees(Math.atan2(width, distance));
+    return new double[] { distance, azimuth };
   }
 
   public String logPrefix(long timeBefore, long timeAfter, int frameCount) {
@@ -242,6 +275,15 @@ public class TowerTrackerNew {
     System.out.println(prefix + String.format("Distance %.2f azimuth %.2f ", distance, azimuth) + " center x "
         + 0.5 * (rec.tl().x + rec.br().x) + " center y " + 0.5 * (rec.tl().y + rec.br().y) + " area "
         + rec.height * rec.width + " aspect ratio " + rec.width / rec.height);
+  }
+
+  public void logRect(Rect rec, String prefix) {
+    double[] distAzimOrig = computeDistanceAzimuthOriginal(rec);
+    double[] distAzimNew = computeDistanceAzimuthNew(rec);
+    System.out.println(prefix + String.format("odist %.2f azim %.2f ", distAzimOrig[0], distAzimOrig[1])
+        + String.format("ndist %.2f azim %.2f ", distAzimNew[0], distAzimNew[1]) + " cx "
+        + 0.5 * (rec.tl().x + rec.br().x) + " cy " + 0.5 * (rec.tl().y + rec.br().y) + " area " + rec.height * rec.width
+        + " aspect ratio " + rec.width / rec.height);
   }
 
   /**

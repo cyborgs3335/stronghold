@@ -62,7 +62,7 @@ public class Intake extends Subsystem implements LoggableSubsystem {
 
   public boolean isSwitchSet() {
     // return counter.get() > 0;
-    return limitSwitch.get();
+    return false;// return limitSwitch.get();
   }
 
   public void intializeCounter() {

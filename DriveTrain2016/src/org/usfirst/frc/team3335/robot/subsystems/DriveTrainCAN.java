@@ -127,6 +127,7 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
    *          Speed in range [-1,1]
    */
   public void drive(double left, double right) {
+    right *= 0.97;
     drive.tankDrive(left, right);
     leftDriveValue = left;
     rightDriveValue = right;
@@ -163,6 +164,13 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
         leftOut = leftDriveValue + maxChange;
       } else {
         leftOut = leftDriveValue - maxChange;
+      }
+    }
+    if (Math.abs(rightOut - rightDriveValue) > maxChange) {
+      if (rightOut > rightDriveValue) {
+        rightOut = rightDriveValue + maxChange;
+      } else {
+        rightOut = rightDriveValue - maxChange;
       }
     }
     drive(leftOut, rightOut);

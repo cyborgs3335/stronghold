@@ -173,7 +173,7 @@ public class TowerTrackerNew {
           continue;
         }
         float aspect = (float) rec.width / (float) rec.height;
-        if (aspect < 0.9/* 1.0 */) {
+        if (aspect < 1.0) {
           iterator.remove();
         }
       }
@@ -181,23 +181,26 @@ public class TowerTrackerNew {
       if (contours.size() >= 1) {
         // Rect rec = Imgproc.boundingRect(contours.get(0));
         for (MatOfPoint mop : contours) {
+          // Moments m = Imgproc.moments(mop);
           Rect rec = Imgproc.boundingRect(mop);
           // TODO FIXME Imgproc.rectangle(matOriginal, rec.br(), rec.tl(),
           // BLACK);
-          // double[] distAzim = computeDistanceAzimuthOriginal(rec);
-          // double distance = distAzim[0];
-          // double azimuth = distAzim[1];
           // drawing info on target
-          Point center = new Point(rec.br().x - rec.width / 2 - 15, rec.br().y - rec.height / 2);
-          Point centerw = new Point(rec.br().x - rec.width / 2 - 15, rec.br().y - rec.height / 2 - 20);
+          // Point center = new Point(rec.br().x - rec.width / 2 - 15,
+          // rec.br().y - rec.height / 2);
+          // Point centerw = new Point(rec.br().x - rec.width / 2 - 15,
+          // rec.br().y - rec.height / 2 - 20);
           // TODO FIXME
           // Imgproc.putText(matOriginal, "" + (int) distance, center,
           // Core.FONT_HERSHEY_PLAIN, 1, BLACK);
           // Imgproc.putText(matOriginal, "" + (int) azimuth, centerw,
           // Core.FONT_HERSHEY_PLAIN, 1, BLACK);
-          // logRect(rec, distance, azimuth, logPrefix(before,
-          // System.currentTimeMillis(), FrameCount));
-          logRect(rec, logPrefix(before, System.currentTimeMillis(), FrameCount));
+          double[] distAzim = computeDistanceAzimuthOriginal(rec);
+          double distance = distAzim[0];
+          double azimuth = distAzim[1];
+          logRect(rec, distance, azimuth, logPrefix(before, System.currentTimeMillis(), FrameCount));
+          // logRect(rec, logPrefix(before, System.currentTimeMillis(),
+          // FrameCount));
           Core.rectangle(matOriginal, new Point(rec.x, rec.y), new Point(rec.x + rec.width, rec.y + rec.height),
               new Scalar(0, 255, 0), 5);
         }

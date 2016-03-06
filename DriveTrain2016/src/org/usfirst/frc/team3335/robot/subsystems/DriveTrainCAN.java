@@ -133,23 +133,39 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
     rightDriveValue = right;
   }
 
-  /**
-   * @param joy
-   *          The ps3 style joystick to use to drive tank style.
-   */
-  public void drive(Joystick joy) {
+  public void driveScaled(double leftIn, double rightIn) {
     double scalar = Robot.robotPreferences.getJoystickScalar();
     double powScalar = Robot.robotPreferences.getJoystickPowerScalar();
-    double leftIn = joy.getRawAxis(1);
-    double rightIn = joy.getRawAxis(5);
     double leftOut = scalar * Math.signum(leftIn) * Math.pow(leftIn, powScalar);
     double rightOut = scalar * Math.signum(rightIn) * Math.pow(rightIn, powScalar);
-    drive(leftOut, rightOut);
+    // drive(leftOut, rightOut);
     if (limitAcceleration) {
       driveLimitAcceleration(leftOut, rightOut);
     } else {
       drive(leftOut, rightOut);
     }
+  }
+
+  /**
+   * @param joy
+   *          The ps3 style joystick to use to drive tank style.
+   */
+  public void drive(Joystick joy) {
+    // double scalar = Robot.robotPreferences.getJoystickScalar();
+    // double powScalar = Robot.robotPreferences.getJoystickPowerScalar();
+    double leftIn = joy.getRawAxis(1);
+    double rightIn = joy.getRawAxis(5);
+    driveScaled(leftIn, rightIn);
+    // double leftOut = scalar * Math.signum(leftIn) * Math.pow(leftIn,
+    // powScalar);
+    // double rightOut = scalar * Math.signum(rightIn) * Math.pow(rightIn,
+    // powScalar);
+    // drive(leftOut, rightOut);
+    // if (limitAcceleration) {
+    // driveLimitAcceleration(leftOut, rightOut);
+    // } else {
+    // drive(leftOut, rightOut);
+    // }
 
     // drive(scalar*joy.getRawAxis(1),scalar*joy.getRawAxis(5));
     // drive(-joy.getY(), -joy.getAxis(AxisType.kThrottle));

@@ -47,10 +47,10 @@ public class RobotMap {
   // Digital inputs ports for practice robot
   public static final int ARM_ENCODER_A = 9;
   public static final int ARM_ENCODER_B = 7;
-  public static final int FLYWHEEL_ENCODER_A = 10;
-  public static final int FLYWHEEL_ENCODER_B = 11;
-  public static final int HOOD_ENCODER_A = 4;
-  public static final int HOOD_ENCODER_B = 2;
+  public static final int FLYWHEEL_ENCODER_A = 4;
+  public static final int FLYWHEEL_ENCODER_B = 2;
+  public static final int HOOD_ENCODER_A = 14; // 4
+  public static final int HOOD_ENCODER_B = 12; // 2
   public static final int INTAKE_SWITCH = 6;
   public static final int TURRET_CW_SWITCH = 0;
   public static final int TURRET_CCW_SWITCH = 1;

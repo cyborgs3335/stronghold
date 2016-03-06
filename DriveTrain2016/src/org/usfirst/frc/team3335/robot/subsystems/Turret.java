@@ -24,6 +24,7 @@ public class Turret extends Subsystem implements LoggableSubsystem {
   private Counter counterCW;
   private Counter counterCCW;
   private final float MAX_CCW_POSITION = 0, MAX_CW_POSITION = -180;
+  private double motorScalar = 0.5;
 
   public Turret() {
     turretMotor = new CANTalon(RobotMap.TURRET_MOTOR);
@@ -52,7 +53,7 @@ public class Turret extends Subsystem implements LoggableSubsystem {
    *          if true, set output to negative; if false, set output to positive
    */
   public void start(boolean forward) {
-    turretMotor.set(forward ? -.5 : .5);
+    turretMotor.set(forward ? -motorScalar : motorScalar);
   }
 
   /**

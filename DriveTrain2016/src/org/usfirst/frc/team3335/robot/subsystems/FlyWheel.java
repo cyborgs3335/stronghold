@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class FlyWheel extends Subsystem implements LoggableSubsystem {
   private CANTalon motor;
@@ -73,10 +74,11 @@ public class FlyWheel extends Subsystem implements LoggableSubsystem {
    */
   @Override
   public void log() {
-    // SmartDashboard.putNumber("Flywheel encoder raw", encoder.getRaw());
-    // SmartDashboard.putNumber("Flywheel encoder scaled", encoder.get());
-    // SmartDashboard.putNumber("Flywheel encoder stopped",
-    // encoder.getStopped());
+    SmartDashboard.putNumber("Flywheel encoder distance", encoder.getDistance());
+    SmartDashboard.putNumber("Flywheel encoder raw", encoder.getRaw());
+    SmartDashboard.putNumber("Flywheel encoder scaled", encoder.get());
+    SmartDashboard.putBoolean("Flywheel encoder direction", encoder.getDirection());
+    SmartDashboard.putBoolean("Flywheel encoder stopped", encoder.getStopped());
   }
 
   /**
@@ -84,6 +86,7 @@ public class FlyWheel extends Subsystem implements LoggableSubsystem {
    */
   public void reset() {
     stop();
+    encoder.reset();
     // counter.reset();
     // gyro.reset();
     // left_encoder.reset();

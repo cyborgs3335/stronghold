@@ -14,6 +14,7 @@ import org.usfirst.frc.team3335.robot.subsystems.DriveTrainCAN;
 import org.usfirst.frc.team3335.robot.subsystems.FlyWheel;
 import org.usfirst.frc.team3335.robot.subsystems.Hood;
 import org.usfirst.frc.team3335.robot.subsystems.HoodPID;
+import org.usfirst.frc.team3335.robot.subsystems.ImageNIVision;
 import org.usfirst.frc.team3335.robot.subsystems.Intake;
 import org.usfirst.frc.team3335.robot.subsystems.LoggableSubsystem;
 import org.usfirst.frc.team3335.robot.subsystems.Turret;
@@ -45,6 +46,8 @@ public class Robot extends IterativeRobot {
   public static FlyWheel fly;
   // public static ImageProcessorGrip imageProcessor;
   public static CameraLight cameraLight;
+  public static ImageNIVision imageNIVision;
+  public static ImageNIVision imageNIVision2;
 
   public static OI oi;
   public static RobotPreferences robotPreferences;
@@ -66,6 +69,8 @@ public class Robot extends IterativeRobot {
     fly = new FlyWheel();
     // imageProcessor = new ImageProcessorGrip();
     cameraLight = new CameraLight();
+    imageNIVision = new ImageNIVision("cam0");
+    imageNIVision2 = null; // new ImageNIVision("cam1");
 
     // Get preferences from robot
     robotPreferences = new RobotPreferences();
@@ -86,6 +91,8 @@ public class Robot extends IterativeRobot {
     addSubsystemToDashboard(turret);
     addSubsystemToDashboard(fly);
     addSubsystemToDashboard(cameraLight);
+    addSubsystemToDashboard(imageNIVision);
+    addSubsystemToDashboard(imageNIVision2);
   }
 
   @Override
@@ -150,6 +157,8 @@ public class Robot extends IterativeRobot {
     logSubsystem(turret);
     logSubsystem(fly);
     logSubsystem(cameraLight);
+    logSubsystem(imageNIVision);
+    logSubsystem(imageNIVision2);
   }
 
   private void logSubsystem(LoggableSubsystem subsystem) {

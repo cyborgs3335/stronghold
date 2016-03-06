@@ -43,6 +43,8 @@ public class OI {
     SmartDashboard.putData("Stop Full Shooter", new StopFullShooter());
     SmartDashboard.putData("Initialize Turret Position", new InitializeTurretPosition());
     SmartDashboard.putData("Turn Light On", new SwitchCameraLight(true));
+    // SmartDashboard.putData("Process Image No Grip", new
+    // ProcessImageNoGrip());
 
     // ps3
     // axis 0 lx

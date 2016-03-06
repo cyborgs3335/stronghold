@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class Autonomous extends CommandGroup {
   public Autonomous() {
+    addSequential(new DriveStraightSimple());
     // addSequential(new SetDistanceToBox(0.10));
     // // addSequential(new DriveStraight(4)); // Use Encoders if ultrasonic is
     // broken

@@ -13,6 +13,8 @@ public class Intake extends Subsystem implements LoggableSubsystem {
   private CANTalon intakeMotor;
   private DigitalInput limitSwitch;
   private Counter counter;
+  private long switchTime; // in millisec
+  private long delayTime = 100; // 500 ms
 
   /**
    * Default constructor.
@@ -62,7 +64,15 @@ public class Intake extends Subsystem implements LoggableSubsystem {
 
   public boolean isSwitchSet() {
     // return counter.get() > 0;
-    return false;// return limitSwitch.get();
+    if (limitSwitch.get()) {
+      switchTime = System.currentTimeMillis();
+      return true;
+    }
+    if (System.currentTimeMillis() - switchTime < delayTime) {
+      return true;
+    }
+    return false;
+    // return limitSwitch.get();
   }
 
   public void intializeCounter() {
@@ -76,7 +86,7 @@ public class Intake extends Subsystem implements LoggableSubsystem {
   public void log() {
     // SmartDashboard.putNumber("Intake Counter Value", counter.get());
     SmartDashboard.putBoolean("Intake Switch State", isSwitchSet());
-    // SmartDashboard.putBoolean("Intake Limit Switch", limitSwitch.get());
+    SmartDashboard.putBoolean("Intake Limit Switch", limitSwitch.get());
   }
 
   /**

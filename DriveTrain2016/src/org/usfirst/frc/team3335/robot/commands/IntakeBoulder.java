@@ -8,6 +8,8 @@ public class IntakeBoulder extends Command {
 
   private final double motorSpeed;
 
+  private final boolean overrideSwitch;
+
   /**
    * Constructor specifying motor speed to use, limited to range of [-1:1].
    *
@@ -15,8 +17,13 @@ public class IntakeBoulder extends Command {
    *          speed of motor for intake
    */
   public IntakeBoulder(double motorSpeed) {
+    this(motorSpeed, false);
+  }
+
+  public IntakeBoulder(double motorSpeed, boolean overrideSwitch) {
     requires(Robot.intake);
     this.motorSpeed = motorSpeed;
+    this.overrideSwitch = overrideSwitch;
   }
 
   @Override
@@ -31,6 +38,9 @@ public class IntakeBoulder extends Command {
 
   @Override
   protected boolean isFinished() {
+    if (overrideSwitch) {
+      return false;
+    }
     return Robot.intake.isSwitchSet();
   }
 

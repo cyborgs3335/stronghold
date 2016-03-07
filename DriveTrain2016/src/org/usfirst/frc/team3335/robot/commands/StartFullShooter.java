@@ -6,6 +6,6 @@ public class StartFullShooter extends CommandGroup {
 
   public StartFullShooter() {
     addParallel(new StartShooter());
-    addParallel(new IntakeBoulder(1));
+    addParallel(new IntakeBoulder(1, true));
   }
 }

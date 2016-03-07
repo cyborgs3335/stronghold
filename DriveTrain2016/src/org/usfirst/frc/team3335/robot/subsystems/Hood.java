@@ -4,6 +4,7 @@ import org.usfirst.frc.team3335.robot.RobotMap;
 import org.usfirst.frc.team3335.robot.commands.HoodDriveWithJoystick;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,14 +16,18 @@ public class Hood extends Subsystem implements LoggableSubsystem {
   }
 
   private CANTalon motor;
+  private DigitalInput limitSwitch;
   private Encoder encoder;
   /** Minimum position, where hood is fully down. */
   private final float MIN_POSITION = 0;
   /** Maximum position, where hood is fully up. */
   private final float MAX_POSITION = 90;
+  /** Actual minimum position, where hood is fully down */
+  private float downPositionLimit = -Float.MAX_VALUE;
 
   public Hood() {
     motor = new CANTalon(RobotMap.HOOD_MOTOR);
+    limitSwitch = new DigitalInput(RobotMap.HOOD_SWITCH);
     encoder = new Encoder(RobotMap.HOOD_ENCODER_A, RobotMap.HOOD_ENCODER_B, false, Encoder.EncodingType.k4X);
 
     motor.set(0);
@@ -45,6 +50,13 @@ public class Hood extends Subsystem implements LoggableSubsystem {
     motor.set(0);
   }
 
+  public boolean isSwitchSet() {
+    if (limitSwitch.get()) {
+      downPositionLimit = getAngularPosition();
+    }
+    return limitSwitch.get();
+  }
+
   public void rotate(double value) {
     double motorValue = Math.abs(value) < 0.1 ? 0 : value;
     if (canMove(motorValue)) {
@@ -62,6 +74,7 @@ public class Hood extends Subsystem implements LoggableSubsystem {
   @Override
   public void log() {
     SmartDashboard.putNumber("Hood Position", getAngularPosition());
+    SmartDashboard.putBoolean("Hood switch state", isSwitchSet());
     SmartDashboard.putNumber("Hood encoder raw", encoder.getRaw());
     SmartDashboard.putNumber("Hood encoder scaled", encoder.get());
     SmartDashboard.putBoolean("Hood encoder direction", encoder.getDirection());
@@ -83,6 +96,15 @@ public class Hood extends Subsystem implements LoggableSubsystem {
   }
 
   public boolean canMove(Direction direction) {
+    switch (direction) {
+      case DOWN:
+        if (isSwitchSet()) {
+          return false;
+        }
+        return true;
+      case UP:
+        return true;
+    }
     // float pos = getAngularPosition();
     // switch (direction) {
     // case UP:

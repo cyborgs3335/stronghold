@@ -87,6 +87,7 @@ public class Turret extends Subsystem implements LoggableSubsystem {
     SmartDashboard.putNumber("Turret SwitchCW Counter", this.counterCW.get());
     SmartDashboard.putBoolean("Turret SwitchCCW State?", this.isSwitchCCWSet());
     SmartDashboard.putNumber("Turret SwitchCCW Counter", this.counterCCW.get());
+    SmartDashboard.putBoolean("Turret SwitchCW switch", this.limitSwitchClock.get());
   }
 
   /**

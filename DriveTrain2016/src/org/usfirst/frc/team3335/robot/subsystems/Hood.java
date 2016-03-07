@@ -23,7 +23,7 @@ public class Hood extends Subsystem implements LoggableSubsystem {
   /** Maximum position, where hood is fully up. */
   private final float MAX_POSITION = 90;
   /** Actual minimum position, where hood is fully down */
-  private float downPositionLimit = -Float.MAX_VALUE;
+  private double downPositionDistance = 0;
 
   public Hood() {
     motor = new CANTalon(RobotMap.HOOD_MOTOR);
@@ -52,7 +52,7 @@ public class Hood extends Subsystem implements LoggableSubsystem {
 
   public boolean isSwitchSet() {
     if (limitSwitch.get()) {
-      downPositionLimit = getAngularPosition();
+      downPositionDistance = encoder.getDistance();
     }
     return limitSwitch.get();
   }
@@ -87,7 +87,7 @@ public class Hood extends Subsystem implements LoggableSubsystem {
    * @return angular position in degrees
    */
   public float getAngularPosition() {
-    return (float) (360f * encoder.getDistance() / 4096);
+    return (float) (360f * (encoder.getDistance() - downPositionDistance) / 4096);
   }
 
   public boolean inLimits() {

@@ -37,6 +37,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
   Command autonomousCommand;
   private SendableChooser autoChooser;
+  private SendableChooser cameraChooser;
 
   public static DriveTrainCAN drivetrain;
   public static Intake intake;
@@ -87,6 +88,12 @@ public class Robot extends IterativeRobot {
     autoChooser.addDefault("Default Autonomous", new Autonomous());
     autoChooser.addObject("No Autonomous", new Autonomous(false));
     SmartDashboard.putData("Autonomous mode chooser", autoChooser);
+
+    // camera chooser
+    // cameraChooser = new SendableChooser();
+    // cameraChooser.addDefault("Camera 0", new ShowCamera(imageNIVision));
+    // cameraChooser.addObject("Camera 1", new ShowCamera(imageNIVision2));
+    // SmartDashboard.putData("Camera chooser", cameraChooser);
 
     // Show what command your subsystem is running on the SmartDashboard
     addSubsystemToDashboard(drivetrain);

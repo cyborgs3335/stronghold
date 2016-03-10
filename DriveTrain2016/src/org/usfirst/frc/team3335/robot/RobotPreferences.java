@@ -17,6 +17,8 @@ public class RobotPreferences {
 
   public final static String JOYSTICK_SHOOTER_PORT = "JoystickShooterPort";
 
+  public final static String DRIVE_TIMER = "DriveTimer";
+
   private double joystickScalar;
 
   private double joystickPowerScalar;
@@ -26,6 +28,8 @@ public class RobotPreferences {
   private int joystickDriverPort;
 
   private int joystickShooterPort;
+
+  private double drivetimer;
 
   public RobotPreferences() {
     prefs = Preferences.getInstance();
@@ -55,6 +59,11 @@ public class RobotPreferences {
       prefs.putInt(JOYSTICK_SHOOTER_PORT, joystickShooterPort);
     }
 
+    drivetimer = prefs.getDouble(DRIVE_TIMER, 5);
+    if (prefs.containsKey(DRIVE_TIMER)) {
+      prefs.putDouble(DRIVE_TIMER, drivetimer);
+    }
+
     // Put preferences on Smart Dashboard
     SmartDashboard.putNumber("Joystick Scalar", joystickScalar);
     SmartDashboard.putNumber("Joystick Power Scalar", joystickPowerScalar);
@@ -79,5 +88,9 @@ public class RobotPreferences {
 
   public int getJoystickShooterPort() {
     return joystickShooterPort;
+  }
+
+  public double getDriveTimer() {
+    return drivetimer;
   }
 }

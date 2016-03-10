@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -35,6 +36,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
   Command autonomousCommand;
+  private SendableChooser autoChooser;
 
   public static DriveTrainCAN drivetrain;
   public static Intake intake;
@@ -79,7 +81,12 @@ public class Robot extends IterativeRobot {
     oi = new OI();
 
     // instantiate the command used for the autonomous period
-    autonomousCommand = new Autonomous();
+    // autonomousCommand = new Autonomous();
+    // Autonomous chooser
+    autoChooser = new SendableChooser();
+    autoChooser.addDefault("Default Autonomous", new Autonomous());
+    autoChooser.addObject("No Autonomous", new Autonomous(false));
+    SmartDashboard.putData("Autonomous mode chooser", autoChooser);
 
     // Show what command your subsystem is running on the SmartDashboard
     addSubsystemToDashboard(drivetrain);
@@ -97,6 +104,7 @@ public class Robot extends IterativeRobot {
 
   @Override
   public void autonomousInit() {
+    autonomousCommand = (Command) autoChooser.getSelected();
     autonomousCommand.start(); // schedule the autonomous command (example)
   }
 

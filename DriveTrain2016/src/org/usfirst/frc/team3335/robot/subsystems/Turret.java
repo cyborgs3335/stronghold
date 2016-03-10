@@ -21,16 +21,19 @@ public class Turret extends Subsystem implements LoggableSubsystem {
   private Encoder encoder;
   private DigitalInput limitSwitchClock;
   private DigitalInput limitSwitchCounter;
+  private DigitalInput limitSwitchCenter;
   private Counter counterCW;
   private Counter counterCCW;
   private final float MAX_CCW_POSITION = 0, MAX_CW_POSITION = -180;
   private double motorScalar = 0.5;
+  private double centerPositionDistance = 0;
 
   public Turret() {
     turretMotor = new CANTalon(RobotMap.TURRET_MOTOR);
     encoder = new Encoder(RobotMap.TURRET_ENCODER_A, RobotMap.TURRET_ENCODER_B, false, Encoder.EncodingType.k4X);
     limitSwitchClock = new DigitalInput(RobotMap.TURRET_CW_SWITCH);
     limitSwitchCounter = new DigitalInput(RobotMap.TURRET_CCW_SWITCH);
+    limitSwitchCenter = new DigitalInput(RobotMap.TURRET_CENTER_SWITCH);
     counterCW = new Counter(limitSwitchClock);
     counterCCW = new Counter(limitSwitchCounter);
 
@@ -88,6 +91,7 @@ public class Turret extends Subsystem implements LoggableSubsystem {
     SmartDashboard.putBoolean("Turret SwitchCCW State?", this.isSwitchCCWSet());
     SmartDashboard.putNumber("Turret SwitchCCW Counter", this.counterCCW.get());
     SmartDashboard.putBoolean("Turret SwitchCW switch", this.limitSwitchClock.get());
+    SmartDashboard.putBoolean("Turret Center switch", this.limitSwitchCenter.get());
   }
 
   /**
@@ -97,7 +101,8 @@ public class Turret extends Subsystem implements LoggableSubsystem {
    * @return angular position in degrees
    */
   public float getAngularPosition() {
-    return (float) (360f * encoder.getDistance() / 4096);
+    return (float) (360f * (encoder.getDistance() - centerPositionDistance) / 4096);
+
   }
 
   /**
@@ -132,6 +137,14 @@ public class Turret extends Subsystem implements LoggableSubsystem {
     counterCCW.reset();
   }
 
+  public boolean isCenterSwitchSet() {
+    if (limitSwitchCenter.get()) {
+      centerPositionDistance = encoder.getDistance();
+    }
+    return limitSwitchCenter.get();
+
+  }
+
   /**
    * Return whether the turret is within the maximum allowable angle limits.
    *
@@ -150,16 +163,17 @@ public class Turret extends Subsystem implements LoggableSubsystem {
    * @return true if the turret can move in the desired direction
    */
   public boolean canMove(Direction direction) {
-    return true;
-    // float pos = getAngularPosition();
-    // switch (direction) {
-    // case COUNTER_CLOCKWISE:
-    // return pos < MAX_CCW_POSITION; // forward motor
-    // case CLOCKWISE:
-    // return pos > MAX_CW_POSITION; // reverse motor
-    // default:
-    // return inLimits();
-    // }
+    isCenterSwitchSet();
+    // return true;
+    float pos = getAngularPosition();
+    switch (direction) {
+      case COUNTER_CLOCKWISE:
+        return pos < MAX_CCW_POSITION; // forward motor
+      case CLOCKWISE:
+        return pos > MAX_CW_POSITION; // reverse motor
+      default:
+        return inLimits();
+    }
   }
 
   /**

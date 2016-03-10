@@ -55,6 +55,7 @@ public class RobotMap {
   public static final int INTAKE_SWITCH = 6;
   public static final int TURRET_CW_SWITCH = 0;
   public static final int TURRET_CCW_SWITCH = 1;
+  public static final int TURRET_CENTER_SWITCH = 16;
   public static final int TURRET_ENCODER_A = 5;
   public static final int TURRET_ENCODER_B = 3;
 

@@ -111,7 +111,8 @@ public class Turret extends Subsystem implements LoggableSubsystem {
    * @return true if the clockwise limit switch is set
    */
   public boolean isSwitchCWSet() {
-    return counterCW.get() > 0;
+    return limitSwitchClock.get();
+    // return counterCW.get() > 0;
   }
 
   /**
@@ -127,7 +128,8 @@ public class Turret extends Subsystem implements LoggableSubsystem {
    * @return true if the counter clockwise limit switch is set
    */
   public boolean isSwitchCCWSet() {
-    return counterCCW.get() > 0;
+    return limitSwitchCounter.get();
+    // return counterCCW.get() > 0;
   }
 
   /**

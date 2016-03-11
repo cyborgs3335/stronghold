@@ -43,7 +43,8 @@ public class Hood extends Subsystem implements LoggableSubsystem {
   }
 
   public void start(boolean forward) {
-    motor.set(forward ? 1 : -1);
+    double value = 0.1;
+    motor.set(forward ? value : -value);
   }
 
   public void stop() {

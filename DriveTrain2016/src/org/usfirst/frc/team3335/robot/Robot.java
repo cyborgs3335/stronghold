@@ -72,7 +72,7 @@ public class Robot extends IterativeRobot {
     fly = new FlyWheel();
     // imageProcessor = new ImageProcessorGrip();
     cameraLight = new CameraLight();
-    imageNIVision = new ImageNIVision("cam0");
+    imageNIVision = new ImageNIVision("cam1");
     imageNIVision2 = null; // new ImageNIVision("cam1");
 
     // Get preferences from robot
@@ -82,12 +82,12 @@ public class Robot extends IterativeRobot {
     oi = new OI();
 
     // instantiate the command used for the autonomous period
-    // autonomousCommand = new Autonomous();
+    autonomousCommand = new Autonomous();
     // Autonomous chooser
-    autoChooser = new SendableChooser();
-    autoChooser.addDefault("Default Autonomous", new Autonomous());
-    autoChooser.addObject("No Autonomous", new Autonomous(false));
-    SmartDashboard.putData("Autonomous mode chooser", autoChooser);
+    // autoChooser = new SendableChooser();
+    // autoChooser.addDefault("Default Autonomous", new Autonomous());
+    // autoChooser.addObject("No Autonomous", new Autonomous(false));
+    // SmartDashboard.putData("Autonomous mode chooser", autoChooser);
 
     // camera chooser
     // cameraChooser = new SendableChooser();
@@ -111,7 +111,7 @@ public class Robot extends IterativeRobot {
 
   @Override
   public void autonomousInit() {
-    autonomousCommand = (Command) autoChooser.getSelected();
+    // autonomousCommand = (Command) autoChooser.getSelected();
     autonomousCommand.start(); // schedule the autonomous command (example)
   }
 

@@ -45,6 +45,10 @@ public class OI {
     SmartDashboard.putData("Turn Light On", new SwitchCameraLight(true));
     // SmartDashboard.putData("Process Image No Grip", new
     // ProcessImageNoGrip());
+    // SmartDashboard.putData("Show Camera cam0", new
+    // ShowCamera(Robot.imageNIVision));
+    // SmartDashboard.putData("Show Camera cam1", new
+    // ShowCamera(Robot.imageNIVision2));
 
     // ps3
     // axis 0 lx

@@ -21,7 +21,7 @@ public class Hood extends Subsystem implements LoggableSubsystem {
   /** Minimum position, where hood is fully down. */
   private final float MIN_POSITION = 0;
   /** Maximum position, where hood is fully up. */
-  private final float MAX_POSITION = 90;
+  private final float MAX_POSITION = 60;// 90;
   /** Actual minimum position, where hood is fully down */
   private double downPositionDistance = 0;
 
@@ -88,7 +88,7 @@ public class Hood extends Subsystem implements LoggableSubsystem {
    * @return angular position in degrees
    */
   public float getAngularPosition() {
-    return (float) (360f * (encoder.getDistance() - downPositionDistance) / 4096);
+    return (float) (360f * (encoder.getDistance() - downPositionDistance) / 4096 / 2);
   }
 
   public boolean inLimits() {
@@ -104,7 +104,8 @@ public class Hood extends Subsystem implements LoggableSubsystem {
         }
         return true;
       case UP:
-        return true;
+        return getAngularPosition() < MAX_POSITION; // forward motor
+      // return true;
     }
     // float pos = getAngularPosition();
     // switch (direction) {

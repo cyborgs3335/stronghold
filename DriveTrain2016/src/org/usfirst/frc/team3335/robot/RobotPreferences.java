@@ -19,6 +19,8 @@ public class RobotPreferences {
 
   public final static String DRIVE_TIMER = "DriveTimer";
 
+  public final static String HOOD_DRIVE_SCALAR = "HoodDriveScalar";
+
   private double joystickScalar;
 
   private double joystickPowerScalar;
@@ -31,10 +33,12 @@ public class RobotPreferences {
 
   private double drivetimer;
 
+  private double hoodDriveScalar;
+
   public RobotPreferences() {
     prefs = Preferences.getInstance();
 
-    joystickScalar = prefs.getDouble(JOYSTICK_SCALAR, -0.9);
+    joystickScalar = prefs.getDouble(JOYSTICK_SCALAR, -1.0); // -0.9 old value
     if (prefs.containsKey(JOYSTICK_SCALAR)) {
       prefs.putDouble(JOYSTICK_SCALAR, joystickScalar);
     }
@@ -64,10 +68,16 @@ public class RobotPreferences {
       prefs.putDouble(DRIVE_TIMER, drivetimer);
     }
 
+    hoodDriveScalar = prefs.getDouble(HOOD_DRIVE_SCALAR, 0.3);
+    if (prefs.containsKey(HOOD_DRIVE_SCALAR)) {
+      prefs.putDouble(HOOD_DRIVE_SCALAR, hoodDriveScalar);
+    }
+
     // Put preferences on Smart Dashboard
     SmartDashboard.putNumber("Joystick Scalar", joystickScalar);
     SmartDashboard.putNumber("Joystick Power Scalar", joystickPowerScalar);
     SmartDashboard.putNumber("Acceleration Limit", accelLimit);
+    SmartDashboard.putNumber("Hood Drive Scalar", hoodDriveScalar);
   }
 
   public double getJoystickScalar() {
@@ -92,5 +102,9 @@ public class RobotPreferences {
 
   public double getDriveTimer() {
     return drivetimer;
+  }
+
+  public double getHoodDriveScalar() {
+    return hoodDriveScalar;
   }
 }

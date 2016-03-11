@@ -30,8 +30,9 @@ public class HoodDriveWithJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    double scalar = Robot.robotPreferences.getHoodDriveScalar();
     // System.out.println(this.getClass().getName() + ": execute");
-    hood.rotate(-Robot.oi.getJoystickShooter().getRawAxis(5));
+    hood.rotate(-scalar * Robot.oi.getJoystickShooter().getRawAxis(5));
   }
 
   // Make this return true when this Command no longer needs to run execute()

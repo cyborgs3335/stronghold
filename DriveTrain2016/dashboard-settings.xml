@@ -1,9 +1,13 @@
 <xml version="1.0">
 <dashboard>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.RobotPreferences">
+		<location x="648" y="222"/>
+	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.WebcamViewerExtension">
 		<location x="680" y="14"/>
 		<width>237</width>
 		<height>207</height>
+		<property name="FPS" value="10"/>
 		<property name="Size" value="320x240"/>
 	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.VideoStreamViewerExtension">

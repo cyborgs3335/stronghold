@@ -46,7 +46,7 @@ public class RobotPreferences {
   public RobotPreferences() {
     prefs = Preferences.getInstance();
 
-    joystickScalar = prefs.getDouble(JOYSTICK_SCALAR, -0.95); // -0.9 old value
+    joystickScalar = prefs.getDouble(JOYSTICK_SCALAR, -1); // -0.9 old value
     if (prefs.containsKey(JOYSTICK_SCALAR)) {
       prefs.putDouble(JOYSTICK_SCALAR, joystickScalar);
     }

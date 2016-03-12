@@ -32,7 +32,8 @@ public class DriveStraightSimple extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double value = -0.95;
+    // double value = -0.95; // old setting
+    double value = -1;
     Robot.drivetrain.driveScaled(value, value);
   }
 

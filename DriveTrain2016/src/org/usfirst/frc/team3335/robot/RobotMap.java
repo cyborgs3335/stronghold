@@ -32,7 +32,7 @@ public class RobotMap {
   public static final int ARM_ENCODER_A = 19;
   public static final int ARM_ENCODER_B = 7;
   public static final int FLYWHEEL_ENCODER_A = 15; // was 4???
-  public static final int FLYWHEEL_ENCODER_B = 6;
+  public static final int FLYWHEEL_ENCODER_B = 11;
   public static final int HOOD_ENCODER_A = 0; // 4
   public static final int HOOD_ENCODER_B = 1; // 2
   public static final int HOOD_SWITCH = 4; // temporarily???
@@ -41,7 +41,7 @@ public class RobotMap {
   public static final int TURRET_CCW_SWITCH = 3;
   public static final int TURRET_CENTER_SWITCH = 2;
   public static final int TURRET_ENCODER_A = 5;
-  public static final int TURRET_ENCODER_B = 11;
+  public static final int TURRET_ENCODER_B = 6;
 
   // Relay channels for competition robot
   public static final int CAMERA_LIGHT_SWITCH = 0;

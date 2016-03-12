@@ -31,6 +31,8 @@ public class Turret extends Subsystem implements LoggableSubsystem {
   public Turret() {
     turretMotor = new CANTalon(RobotMap.TURRET_MOTOR);
     encoder = new Encoder(RobotMap.TURRET_ENCODER_A, RobotMap.TURRET_ENCODER_B, false, Encoder.EncodingType.k4X);
+    // encoder = new Encoder(RobotMap.TURRET_ENCODER_A,
+    // RobotMap.TURRET_ENCODER_B, false, Encoder.EncodingType.k1X);
     limitSwitchClock = new DigitalInput(RobotMap.TURRET_CW_SWITCH);
     limitSwitchCounter = new DigitalInput(RobotMap.TURRET_CCW_SWITCH);
     limitSwitchCenter = new DigitalInput(RobotMap.TURRET_CENTER_SWITCH);
@@ -168,14 +170,15 @@ public class Turret extends Subsystem implements LoggableSubsystem {
     isCenterSwitchSet();
     // return true;
     float pos = getAngularPosition();
-    switch (direction) {
-      case COUNTER_CLOCKWISE:
-        return pos < MAX_CCW_POSITION; // forward motor
-      case CLOCKWISE:
-        return pos > MAX_CW_POSITION; // reverse motor
-      default:
-        return inLimits();
-    }
+    return true;
+    // switch (direction) {
+    // case COUNTER_CLOCKWISE:
+    // return pos < MAX_CCW_POSITION; // forward motor
+    // case CLOCKWISE:
+    // return pos > MAX_CW_POSITION; // reverse motor
+    // default:
+    // return inLimits();
+    // }
   }
 
   /**

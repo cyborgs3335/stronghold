@@ -148,7 +148,17 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
     }
   }
 
-  public double[] lowerTurn(double left, double right) {
+  /**
+   * Scale down values if turning; that is, left and right joystick controllers
+   * are pushed in opposite directions.
+   *
+   * @param left
+   *          speed for left side of drivetrain
+   * @param right
+   *          speed for right side of drivetrain
+   * @return array of output speeds [left, right]
+   */
+  public double[] reduceTurnSpeed(double left, double right) {
     double scalar = 0.88;
     if (Math.signum(left) != Math.signum(right)) {
       left *= scalar;
@@ -166,7 +176,7 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
     // double powScalar = Robot.robotPreferences.getJoystickPowerScalar();
     double leftIn = joy.getRawAxis(1);
     double rightIn = joy.getRawAxis(5);
-    double[] newvals = lowerTurn(leftIn, rightIn);
+    double[] newvals = reduceTurnSpeed(leftIn, rightIn);
     leftIn = newvals[0];
     rightIn = newvals[1];
     driveScaled(leftIn, rightIn);

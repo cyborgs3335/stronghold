@@ -21,6 +21,8 @@ public class RobotPreferences {
 
   public final static String HOOD_DRIVE_SCALAR = "HoodDriveScalar";
 
+  public final static String HOOD_DRIVE_TARGET_POSITION = "HoodDriveTargetPosition";
+
   public final static String FULL_SHOOTER_INTAKE_DELAY = "FullShooterIntakeDelay";
 
   private double joystickScalar;
@@ -36,6 +38,8 @@ public class RobotPreferences {
   private double drivetimer;
 
   private double hoodDriveScalar;
+
+  private double hoodDriveTargetPosition;
 
   private long fullShooterIntakeDelay;
 
@@ -78,6 +82,12 @@ public class RobotPreferences {
       prefs.putDouble(HOOD_DRIVE_SCALAR, hoodDriveScalar);
     }
 
+    // hood takes about 0.5 degrees to fully stop
+    hoodDriveTargetPosition = prefs.getDouble(HOOD_DRIVE_TARGET_POSITION, 19.5); // degrees
+    if (prefs.containsKey(HOOD_DRIVE_TARGET_POSITION)) {
+      prefs.putDouble(HOOD_DRIVE_TARGET_POSITION, hoodDriveTargetPosition);
+    }
+
     fullShooterIntakeDelay = prefs.getLong(FULL_SHOOTER_INTAKE_DELAY, 1000); // milliseconds
     if (prefs.containsKey(FULL_SHOOTER_INTAKE_DELAY)) {
       prefs.putLong(FULL_SHOOTER_INTAKE_DELAY, fullShooterIntakeDelay);
@@ -88,6 +98,7 @@ public class RobotPreferences {
     SmartDashboard.putNumber("Joystick Power Scalar", joystickPowerScalar);
     SmartDashboard.putNumber("Acceleration Limit", accelLimit);
     SmartDashboard.putNumber("Hood Drive Scalar", hoodDriveScalar);
+    SmartDashboard.putNumber("Hood Target Position", hoodDriveTargetPosition);
     SmartDashboard.putNumber("Full Shooter Intake Delay (millisec)", fullShooterIntakeDelay);
   }
 
@@ -117,6 +128,10 @@ public class RobotPreferences {
 
   public double getHoodDriveScalar() {
     return hoodDriveScalar;
+  }
+
+  public double getHoodTargetPosition() {
+    return hoodDriveTargetPosition;
   }
 
   public long getFullShooterIntakeDelay() {

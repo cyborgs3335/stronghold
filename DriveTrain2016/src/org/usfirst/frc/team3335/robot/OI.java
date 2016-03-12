@@ -5,7 +5,6 @@ import org.usfirst.frc.team3335.robot.commands.IntakeBoulder;
 import org.usfirst.frc.team3335.robot.commands.MoveTurret;
 import org.usfirst.frc.team3335.robot.commands.OuttakeBoulder;
 import org.usfirst.frc.team3335.robot.commands.StartFullShooter;
-import org.usfirst.frc.team3335.robot.commands.StartShooter;
 import org.usfirst.frc.team3335.robot.commands.StopFullShooter;
 import org.usfirst.frc.team3335.robot.commands.StopIntake;
 import org.usfirst.frc.team3335.robot.commands.StopShooter;
@@ -108,8 +107,10 @@ public class OI {
     // hoodUp.whenReleased(new StopHood(true));
     // hoodDown.whenPressed(new MoveHood(Hood.Direction.DOWN));
     // hoodDown.whenReleased(new StopHood(true));
-    shooterStart.whenPressed(new StartShooter());
-    shooterStart.whenReleased(new StopShooter(true));
+    // shooterStart.whenPressed(new StartShooter());
+    // shooterStart.whenReleased(new StopShooter(true));
+    shooterStart.whenPressed(new StartFullShooter());
+    shooterStart.whenReleased(new StopFullShooter());
     shooterStop.whenPressed(new StopShooter(true));
     turretCCW.whenPressed(new MoveTurret(Turret.Direction.COUNTER_CLOCKWISE)); // Counter-clockwise
     turretCCW.whenReleased(new StopTurret(true));

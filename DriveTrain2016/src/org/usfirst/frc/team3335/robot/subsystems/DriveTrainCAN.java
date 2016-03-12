@@ -146,6 +146,15 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
     }
   }
 
+  public double[] lowerTurn(double left, double right) {
+    double scalar = 0.88;
+    if (Math.signum(left) != Math.signum(right)) {
+      left *= scalar;
+      right *= scalar;
+    }
+    return new double[] { left, right };
+  }
+
   /**
    * @param joy
    *          The ps3 style joystick to use to drive tank style.
@@ -155,6 +164,9 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
     // double powScalar = Robot.robotPreferences.getJoystickPowerScalar();
     double leftIn = joy.getRawAxis(1);
     double rightIn = joy.getRawAxis(5);
+    double[] newvals = lowerTurn(leftIn, rightIn);
+    leftIn = newvals[0];
+    rightIn = newvals[1];
     driveScaled(leftIn, rightIn);
     // double leftOut = scalar * Math.signum(leftIn) * Math.pow(leftIn,
     // powScalar);

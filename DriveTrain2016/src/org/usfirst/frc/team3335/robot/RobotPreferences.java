@@ -21,6 +21,8 @@ public class RobotPreferences {
 
   public final static String HOOD_DRIVE_SCALAR = "HoodDriveScalar";
 
+  public final static String FULL_SHOOTER_INTAKE_DELAY = "FullShooterIntakeDelay";
+
   private double joystickScalar;
 
   private double joystickPowerScalar;
@@ -35,10 +37,12 @@ public class RobotPreferences {
 
   private double hoodDriveScalar;
 
+  private long fullShooterIntakeDelay;
+
   public RobotPreferences() {
     prefs = Preferences.getInstance();
 
-    joystickScalar = prefs.getDouble(JOYSTICK_SCALAR, -1.0); // -0.9 old value
+    joystickScalar = prefs.getDouble(JOYSTICK_SCALAR, -0.95); // -0.9 old value
     if (prefs.containsKey(JOYSTICK_SCALAR)) {
       prefs.putDouble(JOYSTICK_SCALAR, joystickScalar);
     }
@@ -73,11 +77,17 @@ public class RobotPreferences {
       prefs.putDouble(HOOD_DRIVE_SCALAR, hoodDriveScalar);
     }
 
+    fullShooterIntakeDelay = prefs.getLong(FULL_SHOOTER_INTAKE_DELAY, 1000); // milliseconds
+    if (prefs.containsKey(FULL_SHOOTER_INTAKE_DELAY)) {
+      prefs.putLong(FULL_SHOOTER_INTAKE_DELAY, fullShooterIntakeDelay);
+    }
+
     // Put preferences on Smart Dashboard
     SmartDashboard.putNumber("Joystick Scalar", joystickScalar);
     SmartDashboard.putNumber("Joystick Power Scalar", joystickPowerScalar);
     SmartDashboard.putNumber("Acceleration Limit", accelLimit);
     SmartDashboard.putNumber("Hood Drive Scalar", hoodDriveScalar);
+    SmartDashboard.putNumber("Full Shooter Intake Delay (millisec)", fullShooterIntakeDelay);
   }
 
   public double getJoystickScalar() {
@@ -106,5 +116,9 @@ public class RobotPreferences {
 
   public double getHoodDriveScalar() {
     return hoodDriveScalar;
+  }
+
+  public long getFullShooterIntakeDelay() {
+    return fullShooterIntakeDelay;
   }
 }

@@ -10,6 +10,10 @@ public class IntakeBoulder extends Command {
 
   private final boolean overrideSwitch;
 
+  private final long delayTime;
+
+  private long startTime;
+
   /**
    * Constructor specifying motor speed to use, limited to range of [-1:1].
    *
@@ -24,15 +28,27 @@ public class IntakeBoulder extends Command {
     requires(Robot.intake);
     this.motorSpeed = motorSpeed;
     this.overrideSwitch = overrideSwitch;
+    this.delayTime = 0;
+  }
+
+  public IntakeBoulder(double motorSpeed, boolean overrideSwitch, long delayTime) {
+    requires(Robot.intake);
+    this.motorSpeed = motorSpeed;
+    this.overrideSwitch = overrideSwitch;
+    this.delayTime = delayTime;
   }
 
   @Override
   protected void initialize() {
+    this.startTime = System.currentTimeMillis();
     Robot.intake.intializeCounter();
   }
 
   @Override
   protected void execute() {
+    if (System.currentTimeMillis() - this.startTime < this.delayTime) {
+      return;
+    }
     Robot.intake.start(motorSpeed);
   }
 

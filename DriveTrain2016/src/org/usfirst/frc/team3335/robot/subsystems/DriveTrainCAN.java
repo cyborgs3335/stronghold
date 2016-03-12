@@ -77,7 +77,7 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
     // }
 
     // rangefinder = new AnalogInput(6);
-    // gyro = new AnalogGyro(1);
+    gyro = new AnalogGyro(RobotMap.GYRO_CHANNEL);
 
     // Let's show everything on the LiveWindow
     // LiveWindow.addActuator("Drive Train", "Front_Left Motor",
@@ -112,7 +112,9 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
     // SmartDashboard.putNumber("Right Distance", right_encoder.getDistance());
     // SmartDashboard.putNumber("Left Speed", left_encoder.getRate());
     // SmartDashboard.putNumber("Right Speed", right_encoder.getRate());
-    // SmartDashboard.putNumber("Gyro", gyro.getAngle());
+    if (gyro != null) {
+      SmartDashboard.putNumber("Gyro", gyro.getAngle());
+    }
     // SmartDashboard.putNumber("Joystick Axis 1", );
     SmartDashboard.putNumber("Left Drive Value", leftDriveValue);
     SmartDashboard.putNumber("Right Drive Value", rightDriveValue);
@@ -208,7 +210,9 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
    * @return The robots heading in degrees.
    */
   public double getHeading() {
-    // return gyro.getAngle();
+    if (gyro != null) {
+      return gyro.getAngle();
+    }
     return 0;
   }
 
@@ -216,7 +220,9 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
    * Reset the robots sensors to the zero states.
    */
   public void reset() {
-    // gyro.reset();
+    if (gyro != null) {
+      gyro.reset();
+    }
     // left_encoder.reset();
     // right_encoder.reset();
   }

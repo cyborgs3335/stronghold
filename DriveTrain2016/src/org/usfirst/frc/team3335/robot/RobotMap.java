@@ -46,6 +46,9 @@ public class RobotMap {
   // Relay channels for competition robot
   public static final int CAMERA_LIGHT_SWITCH = 0;
 
+  // Analog channels for competition robot
+  public static final int GYRO_CHANNEL = 0;
+
   // //
   // // ===== Practice Robot =====
   // //
@@ -79,4 +82,7 @@ public class RobotMap {
   //
   // // Relay channels for practice robot
   // public static final int CAMERA_LIGHT_SWITCH = 0;
+  //
+  // // Analog channels for competition robot
+  // public static final int GYRO_CHANNEL = 0;
 }

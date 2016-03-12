@@ -72,6 +72,7 @@ public class RobotPreferences {
       prefs.putDouble(DRIVE_TIMER, drivetimer);
     }
 
+    // is this the correct default????
     hoodDriveScalar = prefs.getDouble(HOOD_DRIVE_SCALAR, 0.3);
     if (prefs.containsKey(HOOD_DRIVE_SCALAR)) {
       prefs.putDouble(HOOD_DRIVE_SCALAR, hoodDriveScalar);

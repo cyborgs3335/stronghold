@@ -17,9 +17,10 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveStraightSimple extends Command {
   // private PIDController pid;
 
+  private final double kp = 0.1;
+
   public DriveStraightSimple() {
     requires(Robot.drivetrain);
-
   }
 
   // Called just before this Command runs the first time
@@ -34,7 +35,16 @@ public class DriveStraightSimple extends Command {
   protected void execute() {
     // double value = -0.95; // old setting
     double value = -1;
-    Robot.drivetrain.driveScaled(value, value);
+    double heading = Robot.drivetrain.getHeading();
+    double leftValue = value;
+    double rightValue = value;
+    double scalar = kp * Math.cos(Math.toRadians(heading));
+    if (heading < 0) {
+      leftValue *= scalar;
+    } else {
+      rightValue *= scalar;
+    }
+    Robot.drivetrain.driveScaled(leftValue, rightValue);
   }
 
   // Make this return true when this Command no longer needs to run execute()

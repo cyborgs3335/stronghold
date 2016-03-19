@@ -7,9 +7,9 @@ import org.usfirst.frc.team3335.robot.subsystems.Turret.Direction;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Initialize the turret position by rotating the turret until the counter
- * clockwise limit switch is tripped. The turret encoder position is set to zero
- * at the counter clockwise limit switch position.
+ * Reset the turret position by rotating the turret until the center limit
+ * switch is tripped. The turret encoder position is set to zero at the center
+ * limit switch position.
  */
 public class ResetTurretPosition extends Command {
 
@@ -41,12 +41,9 @@ public class ResetTurretPosition extends Command {
   @Override
   protected boolean isFinished() {
     if (Robot.turret.isCenterSwitchSet()) {
-      // Assumes encoder position 0 is at CCW limit switch
       return true;
     }
     return false;
-    // return Robot.turret.isSwitchCWSet() || Robot.turret.isSwitchCCWSet() ||
-    // !Robot.turret.canMove(direction);
   }
 
   @Override

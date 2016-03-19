@@ -2,6 +2,7 @@ package org.usfirst.frc.team3335.robot.commands;
 
 import org.usfirst.frc.team3335.robot.Robot;
 import org.usfirst.frc.team3335.robot.subsystems.Turret;
+import org.usfirst.frc.team3335.robot.subsystems.Turret.Direction;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -10,19 +11,19 @@ import edu.wpi.first.wpilibj.command.Command;
  * clockwise limit switch is tripped. The turret encoder position is set to zero
  * at the counter clockwise limit switch position.
  */
-public class InitializeTurretPosition extends Command {
+public class ResetTurretPosition extends Command {
 
   private Turret.Direction direction;
 
-  public InitializeTurretPosition() {
-    direction = Turret.Direction.COUNTER_CLOCKWISE;
+  public ResetTurretPosition() {
     requires(Robot.turret);
+    direction = Robot.turret.getAngularPosition() > 0 ? Direction.COUNTER_CLOCKWISE : Direction.CLOCKWISE;
   }
 
   @Override
   protected void initialize() {
-    Robot.turret.intializeCWCounter();
-    Robot.turret.intializeCCWCounter();
+    // Robot.turret.intializeCWCounter();
+    // Robot.turret.intializeCCWCounter();
   }
 
   @Override
@@ -39,13 +40,8 @@ public class InitializeTurretPosition extends Command {
 
   @Override
   protected boolean isFinished() {
-    if (Robot.turret.isSwitchCCWSet()) {
+    if (Robot.turret.isCenterSwitchSet()) {
       // Assumes encoder position 0 is at CCW limit switch
-      Robot.turret.resetEncoder();
-      // TODO set position at CCW
-      return true;
-    } else if (Robot.turret.isSwitchCWSet()) {
-      // TODO set position at CW
       return true;
     }
     return false;

@@ -5,9 +5,11 @@ import org.usfirst.frc.team3335.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class StartShooter extends Command {
+  boolean direction;
 
-  public StartShooter() {
+  public StartShooter(boolean direction) {
     requires(Robot.fly);
+    this.direction = direction;
   }
 
   @Override
@@ -17,7 +19,7 @@ public class StartShooter extends Command {
 
   @Override
   protected void execute() {
-    Robot.fly.start();
+    Robot.fly.start(direction);
   }
 
   @Override

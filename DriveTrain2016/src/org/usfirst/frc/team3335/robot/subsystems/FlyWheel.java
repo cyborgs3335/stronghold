@@ -48,10 +48,10 @@ public class FlyWheel extends Subsystem implements LoggableSubsystem {
   /**
    * Start the flywheel motor
    */
-  public void start() {
+  public void start(boolean direction) {
     // motor.set(Math.min(targetMotorValue,
     // DriverStation.getInstance().getBatteryVoltage()));
-    motor.set(targetMotorValue);
+    motor.set(direction ? targetMotorValue : -targetMotorValue);
   }
 
   /**

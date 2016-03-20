@@ -38,7 +38,7 @@ public class DriveStraightSimple extends Command {
     double heading = Robot.drivetrain.getHeading();
     double leftValue = value;
     double rightValue = value;
-    double scalar = kp * Math.cos(Math.toRadians(heading));
+    double scalar = Math.cos(kp * Math.toRadians(heading));
     if (heading < 0) {
       leftValue *= scalar;
     } else {

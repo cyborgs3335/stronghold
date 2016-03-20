@@ -72,7 +72,7 @@ public class Robot extends IterativeRobot {
     fly = new FlyWheel();
     // imageProcessor = new ImageProcessorGrip();
     cameraLight = new CameraLight();
-    imageNIVision = new ImageNIVision("cam1");
+    imageNIVision = new ImageNIVision("cam0");
     imageNIVision2 = null; // new ImageNIVision("cam1");
 
     // Get preferences from robot

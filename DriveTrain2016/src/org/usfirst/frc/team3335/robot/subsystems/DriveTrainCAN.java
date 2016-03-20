@@ -78,6 +78,7 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
 
     // rangefinder = new AnalogInput(6);
     gyro = new AnalogGyro(RobotMap.GYRO_CHANNEL);
+    gyro.calibrate();
 
     // Let's show everything on the LiveWindow
     // LiveWindow.addActuator("Drive Train", "Front_Left Motor",

@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class StartFullShooter extends CommandGroup {
 
   public StartFullShooter() {
-    addParallel(new StartShooter());
+    addParallel(new StartShooter(true));
     addParallel(new IntakeBoulder(1, true, Robot.robotPreferences.getFullShooterIntakeDelay()));
   }
 }

@@ -1,11 +1,12 @@
 package org.usfirst.frc.team3335.robot;
 
-import org.usfirst.frc.team3335.robot.commands.ResetTurretPosition;
 import org.usfirst.frc.team3335.robot.commands.IntakeBoulder;
 import org.usfirst.frc.team3335.robot.commands.MoveHood;
 import org.usfirst.frc.team3335.robot.commands.MoveTurret;
-import org.usfirst.frc.team3335.robot.commands.OuttakeBoulder;
+import org.usfirst.frc.team3335.robot.commands.ResetTurretPosition;
+import org.usfirst.frc.team3335.robot.commands.StartFullOuttake;
 import org.usfirst.frc.team3335.robot.commands.StartFullShooter;
+import org.usfirst.frc.team3335.robot.commands.StopFullOuttake;
 import org.usfirst.frc.team3335.robot.commands.StopFullShooter;
 import org.usfirst.frc.team3335.robot.commands.StopIntake;
 import org.usfirst.frc.team3335.robot.commands.StopShooter;
@@ -100,8 +101,8 @@ public class OI {
     intakeStart.whenPressed(new IntakeBoulder(0.7));
     intakeStart.whenReleased(new StopIntake(true));
     intakeStop.whenPressed(new StopIntake(true));
-    intakeReverse.whenPressed(new OuttakeBoulder());
-    intakeReverse.whenReleased(new StopIntake(true));
+    intakeReverse.whenPressed(new StartFullOuttake());
+    intakeReverse.whenReleased(new StopFullOuttake());
     // lowerHood.whenPressed(new SetHoodPosition(90));
     // armUp.whenPressed(new SetArmPosition(90));
     // armDown.whenPressed(new SetArmPosition(0));

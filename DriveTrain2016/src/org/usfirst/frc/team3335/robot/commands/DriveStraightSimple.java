@@ -38,13 +38,40 @@ public class DriveStraightSimple extends Command {
     double heading = Robot.drivetrain.getHeading();
     double leftValue = value;
     double rightValue = value;
-    double scalar = Math.cos(kp * Math.toRadians(heading));
     if (heading < 0) {
-      leftValue *= scalar;
+      leftValue = computeScalar2(leftValue, heading);
     } else {
-      rightValue *= scalar;
+      rightValue = computeScalar2(rightValue, heading);
     }
     Robot.drivetrain.driveScaled(leftValue, rightValue);
+  }
+
+  /**
+   * Provided input speed and heading, compute adjusted speed.
+   *
+   * @param speed
+   *          speed before adjustment due to gyro heading
+   * @param heading
+   *          heading from gyro, in degrees
+   * @return adjusted speed
+   */
+  private double computeScalar1(double speed, double heading) {
+    double scalar = Math.cos(kp * Math.toRadians(heading));
+    return speed * scalar;
+  }
+
+  /**
+   * Provided input speed and heading, compute adjusted speed.
+   *
+   * @param speed
+   *          speed before adjustment due to gyro heading
+   * @param heading
+   *          heading from gyro, in degrees
+   * @return adjusted speed
+   */
+  private double computeScalar2(double speed, double heading) {
+    double scalar = speed * kp * Math.abs(Math.sin(Math.toRadians(heading)));
+    return speed - scalar;
   }
 
   // Make this return true when this Command no longer needs to run execute()

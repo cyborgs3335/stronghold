@@ -14,6 +14,10 @@ import javax.swing.WindowConstants;
 import org.opencv.core.Mat;
 
 public class ImagePanel extends JPanel {
+  /**
+   *
+   */
+  private static final long serialVersionUID = 1L;
   private Image bi;
   private Dimension panelDimension;
   private final JFrame parent;

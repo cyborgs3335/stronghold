@@ -90,7 +90,17 @@ public class TowerTrackerNew {
   public static final double HORIZONTAL_FOV = 67;
   public static final double CAMERA_ANGLE = 10;
 
+  private final ImagePanel imagePanel;
+
   private boolean shouldRun = true;
+
+  public TowerTrackerNew() {
+    this(null);
+  }
+
+  public TowerTrackerNew(ImagePanel panel) {
+    imagePanel = panel;
+  }
 
   /**
    *
@@ -99,7 +109,8 @@ public class TowerTrackerNew {
    *          entry points
    */
   public static void main(String[] args) {
-    new TowerTrackerNew().run();
+    ImagePanel panel = ImagePanel.createDisplayWindow();
+    new TowerTrackerNew(panel).run();
   }
 
   public void run() {
@@ -149,7 +160,7 @@ public class TowerTrackerNew {
    * SmartDashboard or a file
    */
   public void processImage() {
-    ImagePanel panel = ImagePanel.createDisplayWindow();
+    // ImagePanel panel = ImagePanel.createDisplayWindow();
     ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
     // frame counter
     int FrameCount = 0;
@@ -167,46 +178,75 @@ public class TowerTrackerNew {
       // make sure the contours that are detected are at least 20x20
       // pixels with an area of 400 and an aspect ratio greater than 1 and less
       // than 2.5
+      ArrayList<Double> contourScore = new ArrayList<Double>(contours.size());
+      MatOfPoint maxMop = null;
+      double maxScore = 0;
       for (Iterator<MatOfPoint> iterator = contours.iterator(); iterator.hasNext();) {
         MatOfPoint matOfPoint = iterator.next();
+        double score = 0;
         // Remove contours with width or height less than 25 pixels
         Rect rec = Imgproc.boundingRect(matOfPoint);
         if (rec.height < 25 || rec.width < 25) {
-          iterator.remove();
+          // iterator.remove();
+          contourScore.add(0.0);
           continue;
+        } else {
+          score += 100;
         }
         // Remove contours with aspect ratio less than one or greater than 2.5
         float aspect = (float) rec.width / (float) rec.height;
         if (aspect < 1.0 || aspect > 2.5) {
-          iterator.remove();
+          // iterator.remove();
+          contourScore.add(0.0);
           continue;
+        } else {
+          if (aspect < 1.6) {
+            double a = (1.6 - aspect) / (1.6 - 1);
+            score += 100 * (1 - a);
+          } else {
+            double a = (aspect - 1.6) / (2.5 - 1.6);
+            score += 100 * (1 - a);
+          }
         }
         // Remove contours that have area greater than 50% of bounding rectangle
         // area
         double contourArea = Imgproc.contourArea(matOfPoint);
         if (contourArea > 0.5 * rec.height * rec.width) {
-          iterator.remove();
+          // iterator.remove();
+          contourScore.add(0.0);
           continue;
+        } else {
+          score += 100;
         }
         // Remove contours with moment of inertia less than 0.5 (0.82 seems to
         // be about right)
         Moments m = Imgproc.moments(matOfPoint);
         double momentOfInertia = m.get_nu02() + m.get_nu20();
         if (momentOfInertia < /* 0.5 */ 0.75) {
-          iterator.remove();
+          // iterator.remove();
+          contourScore.add(0.0);
           continue;
+        } else {
+          score += 100;
         }
+        contourScore.add(score);
         // TODO score each contour based on how close it is to ideal, then
         // choose the best one
+        if (score > maxScore) {
+          maxMop = matOfPoint;
+        }
       }
       // if there is only 1 target, then we have found the target we want
-      if (contours.size() >= 1) {
+      if (contours.size() >= 1 && maxMop != null) {
         // Rect rec = Imgproc.boundingRect(contours.get(0));
         int contourIdx = 0;
-        if (contours.size() > 1) {
-          System.out.println("Warning: more than one contour!");
-        }
+        // if (contours.size() > 1) {
+        // System.out.println("Warning: more than one contour!");
+        // }
         for (MatOfPoint mop : contours) {
+          if (!mop.equals(maxMop)) {
+            continue;
+          }
           // Moments m = Imgproc.moments(mop);
           Rect rec = Imgproc.boundingRect(mop);
           // TODO FIXME Imgproc.rectangle(matOriginal, rec.br(), rec.tl(),
@@ -239,7 +279,9 @@ public class TowerTrackerNew {
       // output an image for debugging
       // TODO FIXME
       // Imgcodecs.imwrite("output.png", matOriginal);
-      panel.drawNewImage(matOriginal);
+      if (imagePanel != null) {
+        imagePanel.drawNewImage(matOriginal);
+      }
       FrameCount++;
     }
     shouldRun = false;

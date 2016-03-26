@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -29,6 +30,10 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
   private boolean limitAcceleration = true;
   // TODO calibrate the distance per pulse
   private double distancePerPulse = 5;
+  // For the 6 Degrees of Freedom sensor (AM-2314) with both gyro and
+  // accelerometer
+  // private ADXL345_I2C_SparkFun m_accel;
+  private GyroITG3200 m_gyro;
 
   public DriveTrainCAN() {
     super();
@@ -80,6 +85,12 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
     gyro = new AnalogGyro(RobotMap.GYRO_CHANNEL);
     gyro.calibrate();
 
+    // AM-2314
+    // m_accel = new ADXL345_I2C_SparkFun(I2C.Port.kOnboard,
+    // Accelerometer.Range.k16G);
+    m_gyro = new GyroITG3200(Port.kOnboard);
+    m_gyro.initialize();
+
     // Let's show everything on the LiveWindow
     // LiveWindow.addActuator("Drive Train", "Front_Left Motor",
     // front_left_motor);
@@ -115,6 +126,11 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
     // SmartDashboard.putNumber("Right Speed", right_encoder.getRate());
     if (gyro != null) {
       SmartDashboard.putNumber("Gyro", gyro.getAngle());
+    }
+    if (m_gyro != null) {
+      SmartDashboard.putNumber("ITG3200 Gyro X degrees", getAngleX());
+      SmartDashboard.putNumber("ITG3200 Gyro Y degrees", getAngleY());
+      SmartDashboard.putNumber("ITG3200 Gyro Z degrees", getAngleZ());
     }
     // SmartDashboard.putNumber("Joystick Axis 1", );
     SmartDashboard.putNumber("Left Drive Value", leftDriveValue);
@@ -234,8 +250,23 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
     if (gyro != null) {
       gyro.reset();
     }
+    if (m_gyro != null) {
+      m_gyro.reset();
+    }
     // left_encoder.reset();
     // right_encoder.reset();
+  }
+
+  public double getAngleX() {
+    return m_gyro.getRotationX();
+  }
+
+  public double getAngleY() {
+    return m_gyro.getRotationY();
+  }
+
+  public double getAngleZ() {
+    return m_gyro.getRotationZ();
   }
 
   /**

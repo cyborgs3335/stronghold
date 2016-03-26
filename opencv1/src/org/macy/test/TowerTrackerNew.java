@@ -26,7 +26,7 @@ import org.opencv.imgproc.Moments;
  * @description Uses opencv and network table 3.0 to detect the vision targets
  *
  */
-public class TowerTrackerNew {
+public class TowerTrackerNew implements Runnable {
 
   /**
    * static method to load opencv and networkTables
@@ -66,8 +66,9 @@ public class TowerTrackerNew {
   // the size for resizing the image
   public static final Size resize = new Size(320, 240);
 
-  // private final int CAMERA_DEVICE_ID = 0;
-  private final int CAMERA_DEVICE_ID = 1;
+  // private static final int CAMERA_DEVICE_ID_DEFAULT = 0;
+  private static final int CAMERA_DEVICE_ID_DEFAULT = 1;
+  private final int cameraDeviceId;
 
   // Video properties
   private double videoBrightness = 0.01;// 0.1;
@@ -93,13 +94,17 @@ public class TowerTrackerNew {
   private final ImagePanel imagePanel;
 
   private boolean shouldRun = true;
+  private boolean verboseLogging = true;
+  private TargetInfo targetInfo;
 
   public TowerTrackerNew() {
-    this(null);
+    this(CAMERA_DEVICE_ID_DEFAULT, null);
   }
 
-  public TowerTrackerNew(ImagePanel panel) {
+  public TowerTrackerNew(int cameraDeviceID, ImagePanel panel) {
+    this.cameraDeviceId = cameraDeviceID;
     imagePanel = panel;
+    targetInfo = new TargetInfo(0, 0, 0, 0, 0, 0, 0, 0, 0);
   }
 
   /**
@@ -109,10 +114,19 @@ public class TowerTrackerNew {
    *          entry points
    */
   public static void main(String[] args) {
-    ImagePanel panel = ImagePanel.createDisplayWindow();
-    new TowerTrackerNew(panel).run();
+    // ImagePanel panel = ImagePanel.createDisplayWindow();
+    // new TowerTrackerNew(1, panel).run();
+    TowerTrackerNew tracker = new TowerTrackerNew(0, null);
+    tracker.setVerbose(false);
+    new Thread(tracker).start();
+    int count = 0;
+    while (true) {
+      TargetInfo info = tracker.getTargetInfo();
+      System.out.println("info: " + count++ + " distance " + info.getDistance() + " azimuth " + info.getAzimuth());
+    }
   }
 
+  @Override
   public void run() {
     matOriginal = new Mat();
     matHSV = new Mat();
@@ -128,18 +142,18 @@ public class TowerTrackerNew {
         // replaces the ##.## with your team number
         // videoCapture.open("http://10.33.35.11/mjpg/video.mjpg");
         // opens default camera on device
-        videoCapture.open(CAMERA_DEVICE_ID);
+        videoCapture.open(cameraDeviceId);
         // Example
         // cap.open("http://10.30.19.11/mjpg/video.mjpg");
         // wait until it is opened
         int openTry = 0;
         while (!videoCapture.isOpened() && openTry < 10) {
           Thread.sleep(250);
-          videoCapture.open(CAMERA_DEVICE_ID);
+          videoCapture.open(cameraDeviceId);
           openTry++;
         }
         if (!videoCapture.isOpened()) {
-          throw new IllegalStateException("Unable to open video capture device id " + CAMERA_DEVICE_ID);
+          throw new IllegalStateException("Unable to open video capture device id " + cameraDeviceId);
         }
         setVideoProperties();
         // time to actually process the acquired images
@@ -233,6 +247,7 @@ public class TowerTrackerNew {
         // TODO score each contour based on how close it is to ideal, then
         // choose the best one
         if (score > maxScore) {
+          maxScore = score;
           maxMop = matOfPoint;
         }
       }
@@ -264,17 +279,22 @@ public class TowerTrackerNew {
           double[] distAzim = computeDistanceAzimuthNew(rec);
           double distance = distAzim[0];
           double azimuth = distAzim[1];
-          logRect(rec, distance, azimuth, mop, logPrefix(before, System.currentTimeMillis(), FrameCount));
-          // logRect(rec, logPrefix(before, System.currentTimeMillis(),
-          // FrameCount));
+          setTargetInfo(rec, distance, azimuth, mop);
+          if (verboseLogging) {
+            logRect(rec, distance, azimuth, mop, logPrefix(before, System.currentTimeMillis(), FrameCount));
+            // logRect(rec, logPrefix(before, System.currentTimeMillis(),
+            // FrameCount));
+          }
           Imgproc.drawContours(matOriginal, contours, contourIdx, BLUE);
           Core.rectangle(matOriginal, new Point(rec.x, rec.y), new Point(rec.x + rec.width, rec.y + rec.height),
               new Scalar(0, 255, 0), 5);
           contourIdx++;
         }
       } else {
-        System.out.println(
-            logPrefix(before, System.currentTimeMillis(), FrameCount) + " found " + contours.size() + " contours");
+        if (verboseLogging) {
+          System.out.println(
+              logPrefix(before, System.currentTimeMillis(), FrameCount) + " found " + contours.size() + " contours");
+        }
       }
       // output an image for debugging
       // TODO FIXME
@@ -285,6 +305,10 @@ public class TowerTrackerNew {
       FrameCount++;
     }
     shouldRun = false;
+  }
+
+  public void setVerbose(boolean verbose) {
+    this.verboseLogging = verbose;
   }
 
   private void setVideoProperties() {
@@ -379,6 +403,83 @@ public class TowerTrackerNew {
         + String.format("ndist %.2f azim %.2f ", distAzimNew[0], distAzimNew[1]) + " cx "
         + 0.5 * (rec.tl().x + rec.br().x) + " cy " + 0.5 * (rec.tl().y + rec.br().y) + " area " + rec.height * rec.width
         + " aspect ratio " + (float) rec.width / rec.height);
+  }
+
+  private void setTargetInfo(Rect rec, double distance, double azimuth, MatOfPoint mop) {
+    Moments m = Imgproc.moments(mop);
+    double momentOfInertia = m.get_nu02() + m.get_nu20();
+    double area = rec.height * rec.width;
+    double contourArea = Imgproc.contourArea(mop);
+    double aspectRatio = (float) rec.width / rec.height;
+    double cx = 0.5 * (rec.tl().x + rec.br().x);
+    double cy = 0.5 * (rec.tl().y + rec.br().y);
+    targetInfo = new TargetInfo(distance, azimuth, cx, cy, area, contourArea, contourArea / area, momentOfInertia,
+        aspectRatio);
+  }
+
+  public TargetInfo getTargetInfo() {
+    return targetInfo;
+  }
+
+  public class TargetInfo {
+    private final double distance;
+    private final double azimuth;
+    private final double cx;
+    private final double cy;
+    private final double area;
+    private final double contourArea;
+    private final double areaRatio;
+    private final double momentOfInertia;
+    private final double aspectRatio;
+
+    public TargetInfo(double distance, double azimuth, double cx, double cy, double area, double contourArea,
+        double areaRatio, double momentOfInertia, double aspectRatio) {
+      this.distance = distance;
+      this.azimuth = azimuth;
+      this.cx = cx;
+      this.cy = cy;
+      this.area = area;
+      this.contourArea = contourArea;
+      this.areaRatio = areaRatio;
+      this.momentOfInertia = momentOfInertia;
+      this.aspectRatio = aspectRatio;
+    }
+
+    public double getDistance() {
+      return distance;
+    }
+
+    public double getAzimuth() {
+      return azimuth;
+    }
+
+    public double getCx() {
+      return cx;
+    }
+
+    public double getCy() {
+      return cy;
+    }
+
+    public double getArea() {
+      return area;
+    }
+
+    public double getContourArea() {
+      return contourArea;
+    }
+
+    public double getAreaRatio() {
+      return areaRatio;
+    }
+
+    public double getMomentOfInertia() {
+      return momentOfInertia;
+    }
+
+    public double getAspectRatio() {
+      return aspectRatio;
+    }
   }
 
   /**

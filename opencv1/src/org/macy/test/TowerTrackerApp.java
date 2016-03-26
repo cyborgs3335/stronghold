@@ -16,7 +16,7 @@ public class TowerTrackerApp {
     frame.add(imagePanel);
     frame.pack();
     frame.setVisible(true);
-    towerTracker = new TowerTrackerNew(imagePanel);
+    towerTracker = new TowerTrackerNew(0, imagePanel);
   }
 
   public void run() {

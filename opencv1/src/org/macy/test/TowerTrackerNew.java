@@ -15,6 +15,7 @@ import org.opencv.core.Size;
 import org.opencv.highgui.VideoCapture;
 //import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
+import org.opencv.imgproc.Moments;
 
 //import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
@@ -69,8 +70,8 @@ public class TowerTrackerNew {
   private final int CAMERA_DEVICE_ID = 1;
 
   // Video properties
-  private double videoBrightness = 0.1;
-  private double videoContrast = 0.0;
+  private double videoBrightness = 0.01;// 0.1;
+  private double videoContrast = 0.5; // 0.0;
   private double videoSaturation = 1.0;
   private double videoHue = 0.5;
 
@@ -164,22 +165,47 @@ public class TowerTrackerNew {
       Core.inRange(matHSV, LOWER_BOUNDS, UPPER_BOUNDS, matThresh);
       Imgproc.findContours(matThresh, contours, matHierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
       // make sure the contours that are detected are at least 20x20
-      // pixels with an area of 400 and an aspect ratio greater then 1
+      // pixels with an area of 400 and an aspect ratio greater than 1 and less
+      // than 2.5
       for (Iterator<MatOfPoint> iterator = contours.iterator(); iterator.hasNext();) {
         MatOfPoint matOfPoint = iterator.next();
+        // Remove contours with width or height less than 25 pixels
         Rect rec = Imgproc.boundingRect(matOfPoint);
         if (rec.height < 25 || rec.width < 25) {
           iterator.remove();
           continue;
         }
+        // Remove contours with aspect ratio less than one or greater than 2.5
         float aspect = (float) rec.width / (float) rec.height;
-        if (aspect < 1.0) {
+        if (aspect < 1.0 || aspect > 2.5) {
           iterator.remove();
+          continue;
         }
+        // Remove contours that have area greater than 50% of bounding rectangle
+        // area
+        double contourArea = Imgproc.contourArea(matOfPoint);
+        if (contourArea > 0.5 * rec.height * rec.width) {
+          iterator.remove();
+          continue;
+        }
+        // Remove contours with moment of inertia less than 0.5 (0.82 seems to
+        // be about right)
+        Moments m = Imgproc.moments(matOfPoint);
+        double momentOfInertia = m.get_nu02() + m.get_nu20();
+        if (momentOfInertia < /* 0.5 */ 0.75) {
+          iterator.remove();
+          continue;
+        }
+        // TODO score each contour based on how close it is to ideal, then
+        // choose the best one
       }
       // if there is only 1 target, then we have found the target we want
       if (contours.size() >= 1) {
         // Rect rec = Imgproc.boundingRect(contours.get(0));
+        int contourIdx = 0;
+        if (contours.size() > 1) {
+          System.out.println("Warning: more than one contour!");
+        }
         for (MatOfPoint mop : contours) {
           // Moments m = Imgproc.moments(mop);
           Rect rec = Imgproc.boundingRect(mop);
@@ -195,14 +221,16 @@ public class TowerTrackerNew {
           // Core.FONT_HERSHEY_PLAIN, 1, BLACK);
           // Imgproc.putText(matOriginal, "" + (int) azimuth, centerw,
           // Core.FONT_HERSHEY_PLAIN, 1, BLACK);
-          double[] distAzim = computeDistanceAzimuthOriginal(rec);
+          double[] distAzim = computeDistanceAzimuthNew(rec);
           double distance = distAzim[0];
           double azimuth = distAzim[1];
-          logRect(rec, distance, azimuth, logPrefix(before, System.currentTimeMillis(), FrameCount));
+          logRect(rec, distance, azimuth, mop, logPrefix(before, System.currentTimeMillis(), FrameCount));
           // logRect(rec, logPrefix(before, System.currentTimeMillis(),
           // FrameCount));
+          Imgproc.drawContours(matOriginal, contours, contourIdx, BLUE);
           Core.rectangle(matOriginal, new Point(rec.x, rec.y), new Point(rec.x + rec.width, rec.y + rec.height),
               new Scalar(0, 255, 0), 5);
+          contourIdx++;
         }
       } else {
         System.out.println(
@@ -271,13 +299,35 @@ public class TowerTrackerNew {
   public String logPrefix(long timeBefore, long timeAfter, int frameCount) {
     double elapsedTimeSec = (timeAfter - timeBefore) / 1000.0;
     double fps = (frameCount + 1) / elapsedTimeSec;
-    return "[iter=" + frameCount + " time=" + elapsedTimeSec + " fps=" + fps + "]";
+    return "[iter=" + frameCount + " time=" + elapsedTimeSec + String.format(" fps=%.2f", fps) + "]";
   }
 
-  public void logRect(Rect rec, double distance, double azimuth, String prefix) {
-    System.out.println(prefix + String.format("Distance %.2f azimuth %.2f ", distance, azimuth) + " center x "
-        + 0.5 * (rec.tl().x + rec.br().x) + " center y " + 0.5 * (rec.tl().y + rec.br().y) + " area "
-        + rec.height * rec.width + " aspect ratio " + rec.width / rec.height);
+  public void logRect(Rect rec, double distance, double azimuth, MatOfPoint mop, String prefix) {
+    Moments m = Imgproc.moments(mop);
+    double momentOfInertia = m.get_nu02() + m.get_nu20();
+    // System.out.println("Moments: m00 " + m.get_m00() + " m01 " + m.get_m01()
+    // + " m02 " + m.get_m02() + " m03 "
+    // + m.get_m03() + " m10 " + m.get_m10() + " m11 " + m.get_m11() + " m12 " +
+    // m.get_m12() + " m20 " + m.get_m20()
+    // + " m21 " + m.get_m21() + " m30 " + m.get_m30());
+    // System.out.println("Moments: mu02 " + m.get_mu02() + " mu03 " +
+    // m.get_mu03() + " mu11 " + m.get_mu11() + " mu12 "
+    // + m.get_mu12() + " mu20 " + m.get_mu20() + " mu21 " + m.get_mu21() + "
+    // mu30 " + m.get_mu30());
+    // System.out.println("Moments: nu02 " + m.get_nu02() + " nu03 " +
+    // m.get_nu03() + " nu11 " + m.get_nu11() + " nu12 "
+    // + m.get_nu12() + " nu20 " + m.get_nu20() + " nu21 " + m.get_nu21() + "
+    // nu30 " + m.get_nu30());
+    // System.out.println("Centroid cx " + m.get_m10() / m.get_m00() + " cy " +
+    // m.get_m01() / m.get_m00()
+    // + " moment-of-inertia " + (m.get_nu02() + m.get_nu20()));
+    double area = rec.height * rec.width;
+    double contourArea = Imgproc.contourArea(mop);
+    double aspectRatio = (float) rec.width / rec.height;
+    System.out.println(prefix + String.format(" Distance %.2f azimuth %.2f", distance, azimuth) + " center x "
+        + 0.5 * (rec.tl().x + rec.br().x) + " center y " + 0.5 * (rec.tl().y + rec.br().y) + " area " + area
+        + " ctr-area " + contourArea + String.format(" area-ratio %.4f moment-of-inertia %.4f aspect ratio %.3f ",
+            contourArea / area, momentOfInertia, aspectRatio));
   }
 
   public void logRect(Rect rec, String prefix) {
@@ -286,7 +336,7 @@ public class TowerTrackerNew {
     System.out.println(prefix + String.format("odist %.2f azim %.2f ", distAzimOrig[0], distAzimOrig[1])
         + String.format("ndist %.2f azim %.2f ", distAzimNew[0], distAzimNew[1]) + " cx "
         + 0.5 * (rec.tl().x + rec.br().x) + " cy " + 0.5 * (rec.tl().y + rec.br().y) + " area " + rec.height * rec.width
-        + " aspect ratio " + rec.width / rec.height);
+        + " aspect ratio " + (float) rec.width / rec.height);
   }
 
   /**

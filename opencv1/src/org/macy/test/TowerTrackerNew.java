@@ -95,6 +95,7 @@ public class TowerTrackerNew implements Runnable {
 
   private boolean shouldRun = true;
   private boolean verboseLogging = true;
+  private final TargetInfo targetInfoNone;
   private TargetInfo targetInfo;
 
   public TowerTrackerNew() {
@@ -104,7 +105,8 @@ public class TowerTrackerNew implements Runnable {
   public TowerTrackerNew(int cameraDeviceID, ImagePanel panel) {
     this.cameraDeviceId = cameraDeviceID;
     imagePanel = panel;
-    targetInfo = new TargetInfo(0, 0, 0, 0, 0, 0, 0, 0, 0);
+    targetInfoNone = new TargetInfo(0, 0, 0, 0, 0, 0, 0, 0, 0);
+    targetInfo = targetInfoNone;
   }
 
   /**
@@ -291,6 +293,7 @@ public class TowerTrackerNew implements Runnable {
           contourIdx++;
         }
       } else {
+        targetInfo = targetInfoNone;
         if (verboseLogging) {
           System.out.println(
               logPrefix(before, System.currentTimeMillis(), FrameCount) + " found " + contours.size() + " contours");

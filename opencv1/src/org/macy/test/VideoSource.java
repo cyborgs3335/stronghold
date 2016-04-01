@@ -1,12 +1,16 @@
 package org.macy.test;
 
+import java.util.logging.Logger;
+
 import org.opencv.core.Mat;
 import org.opencv.highgui.VideoCapture;
 //import org.opencv.videoio.VideoCapture;
 
 public class VideoSource {
+  private static final Logger LOG = Logger.getLogger(VideoSource.class.getName());
 
   // From /usr/include/opencv2/highgui/highgui_c.h:
+  public static final int CV_CAP_PROP_FPS = 5;
   public static final int CV_CAP_PROP_BRIGHTNESS = 10;
   public static final int CV_CAP_PROP_CONTRAST = 11;
   public static final int CV_CAP_PROP_SATURATION = 12;
@@ -15,10 +19,11 @@ public class VideoSource {
   private static final int DEFAULT_CAMERA_DEVICE_ID = 0;
 
   // Video properties
-  private double videoBrightness = 0.01;// 0.1;
-  private double videoContrast = 0.5; // 0.0;
-  private double videoSaturation = 1.0;
-  private double videoHue = 0.5;
+  private double videoBrightnessDefault = 0.01;// 0.1;
+  private double videoContrastDefault = 0.5; // 0.0;
+  private double videoSaturationDefault = 1.0;
+  private double videoHueDefault = 0.5;
+  private double videoFpsDefault = 30.0;
 
   private final VideoCapture videoCapture;
 
@@ -60,29 +65,46 @@ public class VideoSource {
     videoCapture.release();
   }
 
-  public void setVideoProperties() {
-    System.out.println("camera properties: \n" + "  brightness = " + videoCapture.get(CV_CAP_PROP_BRIGHTNESS)
-        + "  contrast   = " + videoCapture.get(CV_CAP_PROP_CONTRAST) + "  saturation = "
-        + videoCapture.get(CV_CAP_PROP_SATURATION) + "  hue        = " + videoCapture.get(CV_CAP_PROP_HUE));
-    // try {
-    // Thread.sleep(1000);
-    // } catch (InterruptedException e) {
-    // // TODO Auto-generated catch block
-    // e.printStackTrace();
-    // }
-    videoCapture.set(CV_CAP_PROP_BRIGHTNESS, videoBrightness);
-    videoCapture.set(CV_CAP_PROP_CONTRAST, videoContrast);
-    videoCapture.set(CV_CAP_PROP_SATURATION, videoSaturation);
-    videoCapture.set(CV_CAP_PROP_HUE, videoHue);
-    System.out.println("camera properties: \n" + "  brightness = " + videoCapture.get(CV_CAP_PROP_BRIGHTNESS)
-        + "  contrast   = " + videoCapture.get(CV_CAP_PROP_CONTRAST) + "  saturation = "
-        + videoCapture.get(CV_CAP_PROP_SATURATION) + "  hue        = " + videoCapture.get(CV_CAP_PROP_HUE));
-    // try {
-    // Thread.sleep(1000);
-    // } catch (InterruptedException e) {
-    // // TODO Auto-generated catch block
-    // e.printStackTrace();
-    // }
+  public double getProperty(int propertyId) {
+    return videoCapture.get(propertyId);
+  }
+
+  public boolean setProperty(int propertyId, double value) {
+    return videoCapture.set(propertyId, value);
+  }
+
+  public void setDefaultProperties() {
+    try {
+      LOG.info("camera properties: \n" + "  brightness = " + getProperty(CV_CAP_PROP_BRIGHTNESS) + "  contrast = "
+          + getProperty(CV_CAP_PROP_CONTRAST) + "  saturation = " + getProperty(CV_CAP_PROP_SATURATION) + "  hue = "
+          + getProperty(CV_CAP_PROP_HUE) + "  fps = " + getProperty(CV_CAP_PROP_FPS));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    boolean error;
+    error = setProperty(CV_CAP_PROP_BRIGHTNESS, videoBrightnessDefault);
+    if (error) {
+      LOG.warning("Unable to set BRIGHTNESS property!");
+    }
+    error = setProperty(CV_CAP_PROP_CONTRAST, videoContrastDefault);
+    if (error) {
+      LOG.warning("Unable to set CONTRAST property!");
+    }
+    error = setProperty(CV_CAP_PROP_SATURATION, videoSaturationDefault);
+    if (error) {
+      LOG.warning("Unable to set SATURATION property!");
+    }
+    error = setProperty(CV_CAP_PROP_HUE, videoHueDefault);
+    if (error) {
+      LOG.warning("Unable to set HUE property!");
+    }
+    error = setProperty(CV_CAP_PROP_FPS, videoFpsDefault);
+    if (error) {
+      LOG.warning("Unable to set FPS property!");
+    }
+    LOG.info("camera properties: \n" + "  brightness = " + getProperty(CV_CAP_PROP_BRIGHTNESS) + "  contrast = "
+        + getProperty(CV_CAP_PROP_CONTRAST) + "  saturation = " + getProperty(CV_CAP_PROP_SATURATION) + "  hue = "
+        + getProperty(CV_CAP_PROP_HUE) + "  fps = " + getProperty(CV_CAP_PROP_FPS));
   }
 
   /*

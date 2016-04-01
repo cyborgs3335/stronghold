@@ -13,6 +13,8 @@ public class FloatParameter {
   private final float defaultValue;
   private float minValue;
   private float maxValue;
+  private boolean editable;
+  private boolean enabled;
   private final PropertyChangeSupport pcs;
 
   public FloatParameter(String id, String name, String description, int width, float defaultValue, float minValue,
@@ -24,6 +26,8 @@ public class FloatParameter {
     this.defaultValue = defaultValue;
     this.minValue = minValue;
     this.maxValue = maxValue;
+    this.editable = true;
+    this.enabled = true;
     pcs = new PropertyChangeSupport(this);
   }
 
@@ -93,6 +97,26 @@ public class FloatParameter {
     float maxValueOld = this.maxValue;
     this.maxValue = maxValue;
     pcs.firePropertyChange("maxValue", maxValueOld, maxValue);
+  }
+
+  public boolean getEditable() {
+    return editable;
+  }
+
+  public void setEditable(boolean editable) {
+    boolean editableOld = this.editable;
+    this.editable = editable;
+    pcs.firePropertyChange("editable", editableOld, editable);
+  }
+
+  public boolean getEnabled() {
+    return enabled;
+  }
+
+  public void setEnabled(boolean enabled) {
+    boolean enabledOld = this.enabled;
+    this.enabled = enabled;
+    pcs.firePropertyChange("enabled", enabledOld, enabled);
   }
 
   public void addPropertyChangeListener(PropertyChangeListener listener) {

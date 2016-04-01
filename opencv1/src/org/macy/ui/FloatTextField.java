@@ -27,6 +27,8 @@ public class FloatTextField extends Box {
     label = new JLabel(parameter.getName());
     label.setToolTipText(parameter.getDescription());
     textField = new JTextField("" + parameter.getValue(), parameter.getWidth());
+    textField.setEditable(parameter.getEditable());
+    textField.setEnabled(parameter.getEnabled());
     textField.setMinimumSize(textField.getPreferredSize()); // not sure this has
                                                             // any effect
 
@@ -50,6 +52,10 @@ public class FloatTextField extends Box {
         String propertyName = evt.getPropertyName();
         if ("value".equals(propertyName)) {
           textField.setText("" + evt.getNewValue());
+        } else if ("editable".equals(propertyName)) {
+          textField.setEditable((boolean) evt.getNewValue());
+        } else if ("enabled".equals(propertyName)) {
+          textField.setEnabled((boolean) evt.getNewValue());
         }
       }
     });

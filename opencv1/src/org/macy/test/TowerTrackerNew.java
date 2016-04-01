@@ -79,6 +79,8 @@ public class TowerTrackerNew implements Runnable {
   private final TargetInfo targetInfoNone;
   private TargetInfo targetInfo;
   private volatile boolean stopTracker = false;
+  private long frameCount = -1;
+  private long timeStart = -1;
 
   public TowerTrackerNew() {
     this(new VideoSource(), null);
@@ -122,7 +124,7 @@ public class TowerTrackerNew implements Runnable {
     matHierarchy = new Mat();
     // NetworkTable table = NetworkTable.getTable("SmartDashboard");
     try {
-      videoSource.setVideoProperties();
+      videoSource.setDefaultProperties();
       // time to actually process the acquired images
       processImage();
     } catch (Exception e) {
@@ -145,10 +147,8 @@ public class TowerTrackerNew implements Runnable {
     // ImagePanel panel = ImagePanel.createDisplayWindow();
     ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
     // frame counter
-    int FrameCount = 0;
-    long before = System.currentTimeMillis();
-    // only run for the specified time
-    // while (FrameCount < 1000000) {
+    frameCount = 0;
+    timeStart = System.currentTimeMillis();
     while (!stopTracker) {
       contours.clear();
       // capture from the axis camera
@@ -253,7 +253,7 @@ public class TowerTrackerNew implements Runnable {
           double azimuth = distAzim[1];
           setTargetInfo(rec, distance, azimuth, mop);
           if (verboseLogging) {
-            logRect(rec, distance, azimuth, mop, logPrefix(before, System.currentTimeMillis(), FrameCount));
+            logRect(rec, distance, azimuth, mop, logPrefix(timeStart, System.currentTimeMillis(), frameCount));
             // logRect(rec, logPrefix(before, System.currentTimeMillis(),
             // FrameCount));
           }
@@ -266,7 +266,7 @@ public class TowerTrackerNew implements Runnable {
         targetInfo = targetInfoNone;
         if (verboseLogging) {
           System.out.println(
-              logPrefix(before, System.currentTimeMillis(), FrameCount) + " found " + contours.size() + " contours");
+              logPrefix(timeStart, System.currentTimeMillis(), frameCount) + " found " + contours.size() + " contours");
         }
       }
       // output an image for debugging
@@ -275,7 +275,7 @@ public class TowerTrackerNew implements Runnable {
       if (imagePanel != null) {
         imagePanel.drawNewImage(matOriginal);
       }
-      FrameCount++;
+      frameCount++;
     }
   }
 
@@ -309,7 +309,14 @@ public class TowerTrackerNew implements Runnable {
     return new double[] { distance, azimuth };
   }
 
-  public String logPrefix(long timeBefore, long timeAfter, int frameCount) {
+  public double getFramesPerSec() {
+    if (timeStart < 0) {
+      return 0;
+    }
+    return (frameCount + 1) / ((System.currentTimeMillis() - timeStart) / 1000.0);
+  }
+
+  public String logPrefix(long timeBefore, long timeAfter, long frameCount) {
     double elapsedTimeSec = (timeAfter - timeBefore) / 1000.0;
     double fps = (frameCount + 1) / elapsedTimeSec;
     return "[iter=" + frameCount + " time=" + elapsedTimeSec + String.format(" fps=%.2f", fps) + "]";

@@ -11,8 +11,6 @@ import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
-//import org.opencv.videoio.VideoCapture;
-import org.opencv.highgui.VideoCapture;
 //import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.imgproc.Moments;
@@ -37,12 +35,6 @@ public class TowerTrackerNew implements Runnable {
     // NetworkTable.setIPAddress("roborio-3335.local");
   }
 
-  // From /usr/include/opencv2/highgui/highgui_c.h:
-  public static final int CV_CAP_PROP_BRIGHTNESS = 10;
-  public static final int CV_CAP_PROP_CONTRAST = 11;
-  public static final int CV_CAP_PROP_SATURATION = 12;
-  public static final int CV_CAP_PROP_HUE = 13;
-
   // constants for the color bgr values
   public static final Scalar RED = new Scalar(0, 0, 255);
   public static final Scalar BLUE = new Scalar(255, 0, 0);
@@ -66,19 +58,9 @@ public class TowerTrackerNew implements Runnable {
   // the size for resizing the image
   public static final Size resize = new Size(320, 240);
 
-  // private static final int CAMERA_DEVICE_ID_DEFAULT = 0;
-  private static final int CAMERA_DEVICE_ID_DEFAULT = 1;
-  private final int cameraDeviceId;
+  private final VideoSource videoSource;
 
-  // Video properties
-  private double videoBrightness = 0.01;// 0.1;
-  private double videoContrast = 0.5; // 0.0;
-  private double videoSaturation = 1.0;
-  private double videoHue = 0.5;
-
-  // ignore these
-  private VideoCapture videoCapture;
-  private Mat matOriginal, matHSV, matThresh, clusters, matHierarchy;
+  private Mat matOriginal, matHSV, matThresh, matHierarchy;
 
   // Constants for known variables
   // the height to the top of the target in first stronghold is 97 inches
@@ -93,18 +75,21 @@ public class TowerTrackerNew implements Runnable {
 
   private final ImagePanel imagePanel;
 
-  private boolean shouldRun = true;
   private boolean verboseLogging = true;
   private final TargetInfo targetInfoNone;
   private TargetInfo targetInfo;
   private volatile boolean stopTracker = false;
 
   public TowerTrackerNew() {
-    this(CAMERA_DEVICE_ID_DEFAULT, null);
+    this(new VideoSource(), null);
   }
 
   public TowerTrackerNew(int cameraDeviceID, ImagePanel panel) {
-    this.cameraDeviceId = cameraDeviceID;
+    this(new VideoSource(cameraDeviceID), panel);
+  }
+
+  public TowerTrackerNew(VideoSource videoSource, ImagePanel panel) {
+    this.videoSource = videoSource;
     imagePanel = panel;
     targetInfoNone = new TargetInfo(0, 0, 0, 0, 0, 0, 0, 0, 0);
     targetInfo = targetInfoNone;
@@ -134,41 +119,17 @@ public class TowerTrackerNew implements Runnable {
     matOriginal = new Mat();
     matHSV = new Mat();
     matThresh = new Mat();
-    clusters = new Mat();
     matHierarchy = new Mat();
     // NetworkTable table = NetworkTable.getTable("SmartDashboard");
-    // main loop of the program
-    while (shouldRun) {
-      try {
-        // opens up the camera stream and tries to load it
-        videoCapture = new VideoCapture();
-        // replaces the ##.## with your team number
-        // videoCapture.open("http://10.33.35.11/mjpg/video.mjpg");
-        // opens default camera on device
-        videoCapture.open(cameraDeviceId);
-        // Example
-        // cap.open("http://10.30.19.11/mjpg/video.mjpg");
-        // wait until it is opened
-        int openTry = 0;
-        while (!videoCapture.isOpened() && openTry < 10) {
-          Thread.sleep(250);
-          videoCapture.open(cameraDeviceId);
-          openTry++;
-        }
-        if (!videoCapture.isOpened()) {
-          throw new IllegalStateException("Unable to open video capture device id " + cameraDeviceId);
-        }
-        setVideoProperties();
-        // time to actually process the acquired images
-        processImage();
-      } catch (Exception e) {
-        e.printStackTrace();
-        break;
-      }
+    try {
+      videoSource.setVideoProperties();
+      // time to actually process the acquired images
+      processImage();
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      videoSource.close();
     }
-    // make sure the java process quits when the loop finishes
-    videoCapture.release();
-    // System.exit(0);
   }
 
   public void stopTracker() {
@@ -191,7 +152,10 @@ public class TowerTrackerNew implements Runnable {
     while (!stopTracker) {
       contours.clear();
       // capture from the axis camera
-      videoCapture.read(matOriginal);
+      boolean imageRead = videoSource.read(matOriginal);
+      if (!imageRead) {
+        break;
+      }
       // captures from a static file for testing
       // matOriginal = Imgcodecs.imread("someFile.png");
       Imgproc.cvtColor(matOriginal, matHSV, Imgproc.COLOR_BGR2HSV);
@@ -313,36 +277,10 @@ public class TowerTrackerNew implements Runnable {
       }
       FrameCount++;
     }
-    shouldRun = false;
   }
 
   public void setVerbose(boolean verbose) {
     this.verboseLogging = verbose;
-  }
-
-  private void setVideoProperties() {
-    System.out.println("camera properties: \n" + "  brightness = " + videoCapture.get(CV_CAP_PROP_BRIGHTNESS)
-        + "  contrast   = " + videoCapture.get(CV_CAP_PROP_CONTRAST) + "  saturation = "
-        + videoCapture.get(CV_CAP_PROP_SATURATION) + "  hue        = " + videoCapture.get(CV_CAP_PROP_HUE));
-    // try {
-    // Thread.sleep(1000);
-    // } catch (InterruptedException e) {
-    // // TODO Auto-generated catch block
-    // e.printStackTrace();
-    // }
-    videoCapture.set(CV_CAP_PROP_BRIGHTNESS, videoBrightness);
-    videoCapture.set(CV_CAP_PROP_CONTRAST, videoContrast);
-    videoCapture.set(CV_CAP_PROP_SATURATION, videoSaturation);
-    videoCapture.set(CV_CAP_PROP_HUE, videoHue);
-    System.out.println("camera properties: \n" + "  brightness = " + videoCapture.get(CV_CAP_PROP_BRIGHTNESS)
-        + "  contrast   = " + videoCapture.get(CV_CAP_PROP_CONTRAST) + "  saturation = "
-        + videoCapture.get(CV_CAP_PROP_SATURATION) + "  hue        = " + videoCapture.get(CV_CAP_PROP_HUE));
-    // try {
-    // Thread.sleep(1000);
-    // } catch (InterruptedException e) {
-    // // TODO Auto-generated catch block
-    // e.printStackTrace();
-    // }
   }
 
   public double[] computeDistanceAzimuthOriginal(Rect rec) {

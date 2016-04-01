@@ -16,6 +16,7 @@ public class FloatTextField extends Box {
 
   private static final long serialVersionUID = 1L;
 
+  public static final int MIN_SEPARATION = 5;
   private final FloatParameter parameter;
   private final JLabel label;
   private final JTextField textField;
@@ -30,6 +31,9 @@ public class FloatTextField extends Box {
                                                             // any effect
 
     this.add(label);
+    this.add(Box.createHorizontalGlue());
+    this.add(Box.createHorizontalStrut(MIN_SEPARATION));
+    this.add(Box.createHorizontalGlue());
     this.add(textField);
 
     textField.addActionListener(new ActionListener() {

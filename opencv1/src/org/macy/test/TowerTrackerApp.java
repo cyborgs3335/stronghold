@@ -19,6 +19,12 @@ import org.macy.parameters.FloatParameter;
 import org.macy.test.TowerTrackerNew.TargetInfo;
 import org.macy.ui.FloatTextField;
 
+/**
+ * Tower tracker application, with graphical user interface.
+ *
+ * @author macybk@gmail.com
+ *
+ */
 public class TowerTrackerApp {
 
   private final JFrame frame;
@@ -29,6 +35,9 @@ public class TowerTrackerApp {
   private int cameraDeviceId = 0;
   private TowerTrackerMonitor trackerMonitor = null;
 
+  /**
+   * Create and start application.
+   */
   public TowerTrackerApp() {
     frame = new JFrame();
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -48,36 +57,25 @@ public class TowerTrackerApp {
     frame.add(createTrackerInfoPanel(), BorderLayout.SOUTH);
     frame.pack();
     frame.setVisible(true);
-    // towerTracker = new TowerTrackerNew(cameraDeviceId, imagePanel);
   }
 
   public void runTracker() {
-    trackerMonitor = new TowerTrackerMonitor();
+    trackerMonitor = new TowerTrackerMonitor(cameraDeviceId, imagePanel);
     new Thread(trackerMonitor).start();
-    // towerTracker = new TowerTrackerNew(cameraDeviceId, imagePanel);
-    // towerTracker.setVerbose(false);
-    // new Thread(towerTracker).start();
-    // // int count = 0;
-    // while (true) {
-    // TargetInfo info = towerTracker.getTargetInfo();
-    // // System.out.println("info: " + count++ + " distance " +
-    // // info.getDistance() + " azimuth " + info.getAzimuth());
-    // distanceParameter.setValue((float) info.getDistance());
-    // azimuthParameter.setValue((float) info.getAzimuth());
-    // }
   }
 
   public static void main(String[] args) {
-    new TowerTrackerApp();// .run();
+    new TowerTrackerApp();
   }
 
   private JPanel createTrackerInfoPanel() {
     JPanel panel = new JPanel();
     Box vbox = Box.createVerticalBox();
     Box hbox = Box.createHorizontalBox();
-    JComboBox<String> videoComboBox = getVideoDevices();
+    JComboBox<String> videoComboBox = getVideoDevicesComboBox();
     JButton startButton = new JButton("Start");
     JButton stopButton = new JButton("Stop");
+    stopButton.setEnabled(false);
     hbox.add(videoComboBox);
     hbox.add(startButton);
     hbox.add(stopButton);
@@ -119,7 +117,7 @@ public class TowerTrackerApp {
     }
   }
 
-  private JComboBox<String> getVideoDevices() {
+  private JComboBox<String> getVideoDevicesComboBox() {
     File devDir = new File("/dev");
     String[] videoDevices = devDir.list(new VideoFilenameFilter());
     Arrays.sort(videoDevices);
@@ -129,6 +127,7 @@ public class TowerTrackerApp {
       @Override
       public void actionPerformed(ActionEvent e) {
         if (e.getSource() instanceof JComboBox<?>) {
+          @SuppressWarnings("unchecked")
           JComboBox<String> c = (JComboBox<String>) e.getSource();
           String selectedItem = c.getItemAt(c.getSelectedIndex());
           System.out.println("selected item: " + selectedItem);
@@ -152,7 +151,7 @@ public class TowerTrackerApp {
     private final TowerTrackerNew towerTracker;
     private volatile boolean stopMonitor = false;
 
-    public TowerTrackerMonitor() {
+    public TowerTrackerMonitor(int cameraDeviceId, ImagePanel imagePanel) {
       towerTracker = new TowerTrackerNew(cameraDeviceId, imagePanel);
       towerTracker.setVerbose(false);
     }
@@ -160,11 +159,8 @@ public class TowerTrackerApp {
     @Override
     public void run() {
       new Thread(towerTracker).start();
-      // int count = 0;
       while (!stopMonitor) {
         TargetInfo info = towerTracker.getTargetInfo();
-        // System.out.println("info: " + count++ + " distance " +
-        // info.getDistance() + " azimuth " + info.getAzimuth());
         distanceParameter.setValue((float) info.getDistance());
         azimuthParameter.setValue((float) info.getAzimuth());
       }

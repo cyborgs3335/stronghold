@@ -97,6 +97,7 @@ public class TowerTrackerNew implements Runnable {
   private boolean verboseLogging = true;
   private final TargetInfo targetInfoNone;
   private TargetInfo targetInfo;
+  private volatile boolean stopTracker = false;
 
   public TowerTrackerNew() {
     this(CAMERA_DEVICE_ID_DEFAULT, null);
@@ -170,6 +171,10 @@ public class TowerTrackerNew implements Runnable {
     // System.exit(0);
   }
 
+  public void stopTracker() {
+    stopTracker = true;
+  }
+
   /**
    *
    * reads an image from a live image capture and outputs information to the
@@ -182,7 +187,8 @@ public class TowerTrackerNew implements Runnable {
     int FrameCount = 0;
     long before = System.currentTimeMillis();
     // only run for the specified time
-    while (FrameCount < 1000000) {
+    // while (FrameCount < 1000000) {
+    while (!stopTracker) {
       contours.clear();
       // capture from the axis camera
       videoCapture.read(matOriginal);

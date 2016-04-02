@@ -14,6 +14,10 @@ public class Autonomous extends CommandGroup {
     if (!runAutonomous) {
       return;
     }
+    // Lower arm to reset position, then fully raise
+    // addSequential(new MoveArm(Arm.Direction.DOWN, 0));
+    // addSequential(new MoveArm(Arm.Direction.UP, Arm.MAX_POSITION));
+    // Drive straight
     addSequential(new DriveStraightSimple());
     // addSequential(new SetDistanceToBox(0.10));
     // // addSequential(new DriveStraight(4)); // Use Encoders if ultrasonic is
@@ -22,8 +26,9 @@ public class Autonomous extends CommandGroup {
     // // addSequential(new DriveStraight(-2)); // Use Encoders if ultrasonic is
     // broken
 
-    // Test for low bar: drive straight, turn right(?) 15 degrees, drive
-    // straight
+    // Test for low bar: drive straight for 1 sec, turn right(?) 15 degrees,
+    // drive
+    // straight for 1 sec
     // addSequential(new AutonomousDriveStraight(1));
     // addSequential(new AutonomousDriveTurn(15, 1));
     // addSequential(new AutonomousDriveStraight(1));

@@ -117,7 +117,7 @@ public class OI {
     // hoodDown.whenReleased(new StopHood(true));
     hoodUp.whenPressed(new MoveHood(Hood.Direction.UP, Robot.robotPreferences.getHoodTargetPosition()));
     hoodDown.whenPressed(new MoveHood(Hood.Direction.DOWN, 0));
-    armUp.whenPressed(new MoveArm(Arm.MAX_POSITION));
+    armUp.whenPressed(new MoveArm(Arm.Direction.UP, Arm.MAX_POSITION));
     armUp.whenReleased(new StopArm(true));
     // shooterStart.whenPressed(new StartShooter());
     // shooterStart.whenReleased(new StopShooter(true));

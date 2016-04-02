@@ -11,10 +11,19 @@ public class MoveArm extends Command {
   private final Arm arm;
   private final double targetPosition;
 
-  public MoveArm(double targetPosition) {
+  /**
+   * Move arm to desired position. If direction is down, ignore position. Useful
+   * to reset to position 0.
+   * 
+   * @param direction
+   *          up or down
+   * @param targetPosition
+   *          if direction is down, ignore position
+   */
+  public MoveArm(Arm.Direction direction, double targetPosition) {
     requires(Robot.arm);
     arm = Robot.arm;
-    this.direction = Arm.Direction.UP;
+    this.direction = direction;
     this.targetPosition = targetPosition;
   }
 
@@ -45,7 +54,14 @@ public class MoveArm extends Command {
     // double scalar = Robot.robotPreferences.getArmDriveScalar();
     // System.out.println(this.getClass().getName() + ": execute");
     // arm.rotate(scalar * speed);
-    arm.rotate(-0.4);
+    switch (direction) {
+      case DOWN:
+        arm.rotate(0.3);
+        break;
+      case UP:
+        arm.rotate(-0.4);
+        break;
+    }
   }
 
   @Override

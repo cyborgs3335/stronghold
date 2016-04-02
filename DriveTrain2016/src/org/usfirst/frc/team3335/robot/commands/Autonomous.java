@@ -21,5 +21,11 @@ public class Autonomous extends CommandGroup {
     // addSequential(new SetDistanceToBox(0.60));
     // // addSequential(new DriveStraight(-2)); // Use Encoders if ultrasonic is
     // broken
+
+    // Test for low bar: drive straight, turn right(?) 15 degrees, drive
+    // straight
+    // addSequential(new AutonomousDriveStraight(1));
+    // addSequential(new AutonomousDriveTurn(15, 1));
+    // addSequential(new AutonomousDriveStraight(1));
   }
 }

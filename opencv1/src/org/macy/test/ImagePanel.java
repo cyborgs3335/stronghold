@@ -20,13 +20,24 @@ public class ImagePanel extends JPanel {
   private static final long serialVersionUID = 1L;
   private Image bi;
   private Dimension panelDimension;
+  private Dimension panelDimensionMinimum;
   private final JFrame parent;
 
   public ImagePanel(JFrame parent) {
+    this(parent, 640, 480);
+  }
+
+  public ImagePanel(JFrame parent, int width, int height) {
     bi = null;
-    panelDimension = new Dimension(100, 100);
+    panelDimension = new Dimension(width, height);
+    panelDimensionMinimum = new Dimension(width / 4, height / 4);
     this.parent = parent;
   }
+
+  @Override
+  public Dimension getMinimumSize() {
+    return panelDimensionMinimum;
+  };
 
   @Override
   public Dimension getPreferredSize() {

@@ -1,17 +1,20 @@
 package org.usfirst.frc.team3335.robot;
 
 import org.usfirst.frc.team3335.robot.commands.IntakeBoulder;
+import org.usfirst.frc.team3335.robot.commands.MoveArmUp;
 import org.usfirst.frc.team3335.robot.commands.MoveHood;
 import org.usfirst.frc.team3335.robot.commands.MoveTurret;
 import org.usfirst.frc.team3335.robot.commands.ResetTurretPosition;
 import org.usfirst.frc.team3335.robot.commands.StartFullOuttake;
 import org.usfirst.frc.team3335.robot.commands.StartFullShooter;
+import org.usfirst.frc.team3335.robot.commands.StopArm;
 import org.usfirst.frc.team3335.robot.commands.StopFullOuttake;
 import org.usfirst.frc.team3335.robot.commands.StopFullShooter;
 import org.usfirst.frc.team3335.robot.commands.StopIntake;
 import org.usfirst.frc.team3335.robot.commands.StopShooter;
 import org.usfirst.frc.team3335.robot.commands.StopTurret;
 import org.usfirst.frc.team3335.robot.commands.SwitchCameraLight;
+import org.usfirst.frc.team3335.robot.subsystems.Arm;
 import org.usfirst.frc.team3335.robot.subsystems.Hood;
 import org.usfirst.frc.team3335.robot.subsystems.Turret;
 
@@ -90,6 +93,8 @@ public class OI {
     JoystickButton turretCW = addButton(joyShooter, 4, "Turret CW");
     // Y button
     JoystickButton turretStop = addButton(joyShooter, 2, "Turret Stop");
+    // X Button (xbox)
+    JoystickButton armUp = addButton(joyShooter, 3, "Arm Up");
     JoystickButton hoodDown = addButton(joyShooter, 5, "Hood Down");
     JoystickButton hoodUp = addButton(joyShooter, 6, "Hood Up");
     JoystickButton shooterStart = addButton(joyShooter, 7, "Shooter Start");
@@ -112,6 +117,8 @@ public class OI {
     // hoodDown.whenReleased(new StopHood(true));
     hoodUp.whenPressed(new MoveHood(Hood.Direction.UP, Robot.robotPreferences.getHoodTargetPosition()));
     hoodDown.whenPressed(new MoveHood(Hood.Direction.DOWN, 0));
+    armUp.whenPressed(new MoveArmUp(Arm.MAX_POSITION));
+    armUp.whenReleased(new StopArm(true));
     // shooterStart.whenPressed(new StartShooter());
     // shooterStart.whenReleased(new StopShooter(true));
     shooterStart.whenPressed(new StartFullShooter());

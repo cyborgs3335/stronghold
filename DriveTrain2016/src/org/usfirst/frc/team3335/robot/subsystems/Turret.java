@@ -80,8 +80,10 @@ public class Turret extends Subsystem implements LoggableSubsystem {
    */
   @Override
   public void log() {
-    SmartDashboard.putNumber("Turret Input Voltage", turretMotor.getBusVoltage());
-    SmartDashboard.putNumber("Turret Output Voltage", turretMotor.getOutputVoltage());
+    // SmartDashboard.putNumber("Turret Input Voltage",
+    // turretMotor.getBusVoltage());
+    // SmartDashboard.putNumber("Turret Output Voltage",
+    // turretMotor.getOutputVoltage());
     SmartDashboard.putNumber("Turret Position", getAngularPosition());
     SmartDashboard.putNumber("Turret encoder raw", encoder.getRaw());
     SmartDashboard.putNumber("Turret encoder scaled", encoder.get());

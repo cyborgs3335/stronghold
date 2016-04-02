@@ -18,8 +18,8 @@ public class DriveStraightSimple extends Command {
   // private PIDController pid;
 
   // Scalar for gyro correction
-  // private final double kp = 0.1; // tested value
-  private final double kp = 0.5;
+  private final double kp = 0.1; // tested value
+  // private final double kp = -0.5;
 
   // "Speed"
   // private double valueStartDefault = -0.85; // tested

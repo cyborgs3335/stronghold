@@ -17,7 +17,14 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveStraightSimple extends Command {
   // private PIDController pid;
 
+  // Scalar for gyro correction
   private final double kp = 0.1;
+
+  // "Speed"
+  private double valueStartDefault = -0.85;
+  private double valueDefault = -0.95; // old setting
+  // private double valueDefault = -1.0; // full power
+  // private double valueDefault = -0.7; // temporary for testing
 
   public DriveStraightSimple() {
     requires(Robot.drivetrain);
@@ -33,8 +40,10 @@ public class DriveStraightSimple extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // double value = -0.95; // old setting
-    double value = -1;
+    double value = valueDefault;
+    if (timeSinceInitialized() < 0.25) { // 0.25 seconds
+      value = valueStartDefault;
+    }
     double heading = Robot.drivetrain.getHeading();
     double leftValue = value;
     double rightValue = value;

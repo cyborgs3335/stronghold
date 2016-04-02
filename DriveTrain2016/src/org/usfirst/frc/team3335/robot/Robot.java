@@ -111,6 +111,9 @@ public class Robot extends IterativeRobot {
 
   @Override
   public void autonomousInit() {
+    // Get preferences from robot
+    robotPreferences = new RobotPreferences();
+
     // autonomousCommand = (Command) autoChooser.getSelected();
     autonomousCommand.start(); // schedule the autonomous command (example)
   }

@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -84,12 +83,14 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
     // rangefinder = new AnalogInput(6);
     gyro = new AnalogGyro(RobotMap.GYRO_CHANNEL);
     gyro.calibrate();
+    gyro.reset();
 
     // AM-2314
     // m_accel = new ADXL345_I2C_SparkFun(I2C.Port.kOnboard,
     // Accelerometer.Range.k16G);
-    m_gyro = new GyroITG3200(Port.kOnboard);
-    m_gyro.initialize();
+    m_gyro = null;// new GyroITG3200(Port.kOnboard);
+    // m_gyro.initialize();
+    // m_gyro.reset();
 
     // Let's show everything on the LiveWindow
     // LiveWindow.addActuator("Drive Train", "Front_Left Motor",

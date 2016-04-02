@@ -18,13 +18,18 @@ public class DriveStraightSimple extends Command {
   // private PIDController pid;
 
   // Scalar for gyro correction
-  private final double kp = 0.1;
+  // private final double kp = 0.1; // tested value
+  private final double kp = 0.5;
 
   // "Speed"
-  private double valueStartDefault = -0.85;
-  private double valueDefault = -0.95; // old setting
+  // private double valueStartDefault = -0.85; // tested
+  private double valueStartDefault = -0.75;
+  private double valueDefault = -0.95; // old setting; tested
   // private double valueDefault = -1.0; // full power
   // private double valueDefault = -0.7; // temporary for testing
+
+  // private double rampUpTime = 0.25; // seconds; tested
+  private double rampUpTime = 0.50; // seconds
 
   public DriveStraightSimple() {
     requires(Robot.drivetrain);
@@ -41,8 +46,13 @@ public class DriveStraightSimple extends Command {
   @Override
   protected void execute() {
     double value = valueDefault;
-    if (timeSinceInitialized() < 0.25) { // 0.25 seconds
-      value = valueStartDefault;
+    double timeRunning = timeSinceInitialized();
+    if (timeRunning < rampUpTime) {
+      // value = valueStartDefault; // tested
+      // ramp up instead
+      if (rampUpTime > 0) {
+        value = (valueDefault - valueStartDefault) / rampUpTime * timeRunning + valueStartDefault;
+      }
     }
     double heading = Robot.drivetrain.getHeading();
     double leftValue = value;

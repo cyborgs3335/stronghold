@@ -1,7 +1,7 @@
 package org.usfirst.frc.team3335.robot;
 
 import org.usfirst.frc.team3335.robot.commands.IntakeBoulder;
-import org.usfirst.frc.team3335.robot.commands.MoveArmUp;
+import org.usfirst.frc.team3335.robot.commands.MoveArm;
 import org.usfirst.frc.team3335.robot.commands.MoveHood;
 import org.usfirst.frc.team3335.robot.commands.MoveTurret;
 import org.usfirst.frc.team3335.robot.commands.ResetTurretPosition;
@@ -117,7 +117,7 @@ public class OI {
     // hoodDown.whenReleased(new StopHood(true));
     hoodUp.whenPressed(new MoveHood(Hood.Direction.UP, Robot.robotPreferences.getHoodTargetPosition()));
     hoodDown.whenPressed(new MoveHood(Hood.Direction.DOWN, 0));
-    armUp.whenPressed(new MoveArmUp(Arm.MAX_POSITION));
+    armUp.whenPressed(new MoveArm(Arm.MAX_POSITION));
     armUp.whenReleased(new StopArm(true));
     // shooterStart.whenPressed(new StartShooter());
     // shooterStart.whenReleased(new StopShooter(true));

@@ -5,13 +5,13 @@ import org.usfirst.frc.team3335.robot.subsystems.Arm;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class MoveArmUp extends Command {
+public class MoveArm extends Command {
 
   private final Arm.Direction direction;
   private final Arm arm;
   private final double targetPosition;
 
-  public MoveArmUp(double targetPosition) {
+  public MoveArm(double targetPosition) {
     requires(Robot.arm);
     arm = Robot.arm;
     this.direction = Arm.Direction.UP;

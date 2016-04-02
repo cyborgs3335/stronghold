@@ -66,7 +66,7 @@ public class RobotPreferences {
       prefs.putInt(JOYSTICK_DRIVER_PORT, joystickDriverPort);
     }
 
-    joystickShooterPort = prefs.getInt(JOYSTICK_SHOOTER_PORT, 2);
+    joystickShooterPort = prefs.getInt(JOYSTICK_SHOOTER_PORT, 1);
     if (!prefs.containsKey(JOYSTICK_SHOOTER_PORT)) {
       prefs.putInt(JOYSTICK_SHOOTER_PORT, joystickShooterPort);
     }

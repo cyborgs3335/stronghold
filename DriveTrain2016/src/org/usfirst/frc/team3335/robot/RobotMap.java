@@ -31,6 +31,7 @@ public class RobotMap {
   // Digital inputs ports for competition robot
   public static final int ARM_ENCODER_A = 19;
   public static final int ARM_ENCODER_B = 7;
+  public static final int ARM_SWITCH_DOWN = 18;
   public static final int FLYWHEEL_ENCODER_A = 15; // was 4???
   public static final int FLYWHEEL_ENCODER_B = 11;
   public static final int HOOD_ENCODER_A = 0; // 4

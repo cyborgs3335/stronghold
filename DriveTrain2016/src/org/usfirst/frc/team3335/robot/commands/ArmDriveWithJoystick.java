@@ -31,8 +31,16 @@ public class ArmDriveWithJoystick extends Command {
   @Override
   protected void execute() {
     // System.out.println(this.getClass().getName() + ": execute");
-    arm.rotate(Robot.oi.getJoystickShooter().getRawAxis(1)); // TODO Verify if
-                                                             // this is correct
+    // arm.rotate(0.2 * Robot.oi.getJoystickShooter().getRawAxis(1)); // TODO
+    // Verify if
+    // this is correct
+    double joyVal = Robot.oi.getJoystickShooter().getRawAxis(1);
+    if (joyVal < 0) {
+      joyVal *= 0.4;
+    } else {
+      joyVal *= 0.3;
+    }
+    arm.rotate(joyVal);
   }
 
   // Make this return true when this Command no longer needs to run execute()

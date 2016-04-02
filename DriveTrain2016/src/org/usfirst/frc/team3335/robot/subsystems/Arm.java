@@ -4,6 +4,7 @@ import org.usfirst.frc.team3335.robot.RobotMap;
 import org.usfirst.frc.team3335.robot.commands.ArmDriveWithJoystick;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,19 +17,25 @@ public class Arm extends Subsystem implements LoggableSubsystem {
 
   private CANTalon motor;
   private Encoder encoder;
+  private DigitalInput limitSwitch;
   private double distancePerPulse;
 
-  /** Minimum position, where hood is fully down. */
+  /** Minimum position, where arm is fully down. */
   private final float MIN_POSITION = 0;
-  /** Maximum position, where hood is fully up. */
+  /** Maximum position, where arm is fully up. */
   private final float MAX_POSITION = 90;
+  /** Actual minimum position, where arm is fully down */
+  private double downPositionDistance = 0;
+
+  private final double motorMax = 0.01;
 
   public Arm() {
     super();
     motor = new CANTalon(RobotMap.ARM_MOTOR/* 2 */); // TODO verify this is
                                                      // correct motor device
     encoder = new Encoder(RobotMap.ARM_ENCODER_A, RobotMap.ARM_ENCODER_B, false, Encoder.EncodingType.k4X);
-    encoder.setDistancePerPulse(distancePerPulse);
+    // encoder.setDistancePerPulse(distancePerPulse);
+    limitSwitch = new DigitalInput(RobotMap.ARM_SWITCH_DOWN);
 
     motor.set(0);
     // encoder.reset();
@@ -43,11 +50,18 @@ public class Arm extends Subsystem implements LoggableSubsystem {
   }
 
   public void start(boolean forward) {
-    motor.set(forward ? 1 : -1);
+    motor.set(forward ? motorMax : -motorMax);
   }
 
   public void stop() {
     motor.set(0);
+  }
+
+  public boolean isSwitchSet() {
+    if (limitSwitch.get()) {
+      downPositionDistance = encoder.getDistance();
+    }
+    return limitSwitch.get();
   }
 
   public void rotate(double value) {
@@ -67,10 +81,12 @@ public class Arm extends Subsystem implements LoggableSubsystem {
   @Override
   public void log() {
     SmartDashboard.putNumber("Arm Position", getAngularPosition());
+    SmartDashboard.putNumber("Arm encoder rate", encoder.getRate());
     SmartDashboard.putNumber("Arm encoder raw", encoder.getRaw());
     SmartDashboard.putNumber("Arm encoder scaled", encoder.get());
     SmartDashboard.putBoolean("Arm encoder direction", encoder.getDirection());
     SmartDashboard.putBoolean("Arm encoder stopped", encoder.getStopped());
+    SmartDashboard.putBoolean("Arm switch state", isSwitchSet());
   }
 
   /**
@@ -79,7 +95,7 @@ public class Arm extends Subsystem implements LoggableSubsystem {
    * @return angular position in degrees
    */
   public float getAngularPosition() {
-    return (float) (360f * encoder.getDistance() / 4096);
+    return (float) (360f * (encoder.getDistance() - downPositionDistance) / 4096 / 2);
   }
 
   public boolean inLimits() {
@@ -88,7 +104,17 @@ public class Arm extends Subsystem implements LoggableSubsystem {
   }
 
   public boolean canMove(Direction direction) {
-    float pos = getAngularPosition();
+    switch (direction) {
+      case DOWN:
+        if (isSwitchSet()) {
+          return false;
+        }
+        return true;
+      case UP:
+        return getAngularPosition() < MAX_POSITION; // forward motor
+      // return true;
+    }
+    // float pos = getAngularPosition();
     // switch (direction) {
     // case UP:
     // return pos < MAX_POSITION; // forward motor
@@ -104,11 +130,11 @@ public class Arm extends Subsystem implements LoggableSubsystem {
    * Query whether the arm can be moved.
    *
    * @param value
-   *          value provided to motor; positive=up, negative=down
+   *          value provided to motor; positive=down, negative=up
    * @return true if the arm can be moved
    */
   private boolean canMove(double value) {
-    if (value < 0) {
+    if (value > 0) {
       return canMove(Direction.DOWN);
     }
     return canMove(Direction.UP);

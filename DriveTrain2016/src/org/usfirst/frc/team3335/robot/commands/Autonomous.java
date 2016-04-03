@@ -1,5 +1,7 @@
 package org.usfirst.frc.team3335.robot.commands;
 
+import org.usfirst.frc.team3335.robot.subsystems.Arm;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -15,8 +17,8 @@ public class Autonomous extends CommandGroup {
       return;
     }
     // Lower arm to reset position, then fully raise
-    // addSequential(new MoveArm(Arm.Direction.DOWN, 0));
-    // addSequential(new MoveArm(Arm.Direction.UP, Arm.MAX_POSITION));
+    addSequential(new MoveArm(Arm.Direction.DOWN, 0));
+    addSequential(new MoveArm(Arm.Direction.UP, Arm.MAX_POSITION, 1));
     // Drive straight
     addSequential(new DriveStraightSimple());
     // addSequential(new SetDistanceToBox(0.10));
@@ -30,7 +32,7 @@ public class Autonomous extends CommandGroup {
     // drive
     // straight for 1 sec
     // addSequential(new AutonomousDriveStraight(1));
-    // addSequential(new AutonomousDriveTurn(15, 1));
+    // addSequential(new AutonomousDriveTurn(15, 2));
     // addSequential(new AutonomousDriveStraight(1));
   }
 }

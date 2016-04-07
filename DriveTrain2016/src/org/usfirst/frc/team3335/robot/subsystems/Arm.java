@@ -23,7 +23,7 @@ public class Arm extends Subsystem implements LoggableSubsystem {
   /** Minimum position, where arm is fully down. */
   public static final float MIN_POSITION = 0;
   /** Maximum position, where arm is fully up. */
-  public static final float MAX_POSITION = 145;
+  public static final float MAX_POSITION = 140;
   /** Actual minimum position, where arm is fully down */
   private double downPositionDistance = 0;
 
@@ -81,7 +81,7 @@ public class Arm extends Subsystem implements LoggableSubsystem {
     // up fast rate = 170 at input value of -0.4
     double outputValue = inputValue;
     if (Math.abs(encoder.getRate()) < 100 && Math.abs(inputValue) > 0.3) {
-      outputValue = 1.5 * inputValue;
+      outputValue = Math.min(1, 2 * inputValue);
     }
     return outputValue;
   }

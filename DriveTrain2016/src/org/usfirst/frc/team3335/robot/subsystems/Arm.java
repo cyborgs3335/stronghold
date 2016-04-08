@@ -27,6 +27,9 @@ public class Arm extends Subsystem implements LoggableSubsystem {
   /** Actual minimum position, where arm is fully down */
   private double downPositionDistance = 0;
 
+  private long timeSinceSwitchSet = Long.MAX_VALUE;
+  private long maxExtraTime = 500; // milliseconds
+
   private final double motorMax = 0.01;
 
   public Arm() {
@@ -61,6 +64,11 @@ public class Arm extends Subsystem implements LoggableSubsystem {
   public boolean isSwitchSet() {
     if (limitSwitch.get()) {
       downPositionDistance = encoder.getDistance();
+      if (timeSinceSwitchSet == Long.MAX_VALUE) {
+        timeSinceSwitchSet = System.currentTimeMillis();
+      }
+    } else {
+      timeSinceSwitchSet = Long.MAX_VALUE;
     }
     return limitSwitch.get();
   }
@@ -122,6 +130,9 @@ public class Arm extends Subsystem implements LoggableSubsystem {
     switch (direction) {
       case DOWN:
         if (isSwitchSet()) {
+          if (System.currentTimeMillis() - timeSinceSwitchSet < maxExtraTime) {
+            return true;
+          }
           return false;
         }
         return true;

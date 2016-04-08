@@ -62,10 +62,10 @@ public class MoveArm extends Command {
     // arm.rotate(scalar * speed);
     switch (direction) {
       case DOWN:
-        arm.rotate(0.3);
+        arm.rotate(1);
         break;
       case UP:
-        arm.rotate(-0.4);
+        arm.rotate(-1);
         break;
     }
   }

@@ -41,9 +41,8 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
     front_right_motor = new CANTalon(RobotMap.DRIVE_TRAIN_FRONT_RIGHT_MOTOR);
     back_right_motor = new CANTalon(RobotMap.DRIVE_TRAIN_BACK_RIGHT_MOTOR);
     drive = new RobotDrive(front_left_motor, back_left_motor, front_right_motor, back_right_motor);
-    // left_encoder = new Encoder(1, 2);
-    // right_encoder = new Encoder(3, 4);
 
+    // TODO set encoder parameters, such as distance per pulse
     left_encoder = new Encoder(RobotMap.LEFT_DRIVE_ENCODER_A, RobotMap.LEFT_DRIVE_ENCODER_B, false,
         Encoder.EncodingType.k4X);
     // left_encoder.setDistancePerPulse(distancePerPulse);
@@ -123,10 +122,14 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
    */
   @Override
   public void log() {
-    // SmartDashboard.putNumber("Left Distance", left_encoder.getDistance());
-    // SmartDashboard.putNumber("Right Distance", right_encoder.getDistance());
-    // SmartDashboard.putNumber("Left Speed", left_encoder.getRate());
-    // SmartDashboard.putNumber("Right Speed", right_encoder.getRate());
+    if (left_encoder != null) {
+      SmartDashboard.putNumber("Left Distance", left_encoder.getDistance());
+      SmartDashboard.putNumber("Left Speed", left_encoder.getRate());
+    }
+    if (right_encoder != null) {
+      SmartDashboard.putNumber("Right Distance", right_encoder.getDistance());
+      SmartDashboard.putNumber("Right Speed", right_encoder.getRate());
+    }
     if (gyro != null) {
       SmartDashboard.putNumber("Gyro", gyro.getAngle());
     }
@@ -256,8 +259,12 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
     if (m_gyro != null) {
       m_gyro.reset();
     }
-    // left_encoder.reset();
-    // right_encoder.reset();
+    if (left_encoder != null) {
+      left_encoder.reset();
+    }
+    if (right_encoder != null) {
+      right_encoder.reset();
+    }
   }
 
   public double getAngleX() {
@@ -276,8 +283,8 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
    * @return The distance driven (average of left and right encoders).
    */
   public double getDistance() {
-    // return (left_encoder.getDistance() + right_encoder.getDistance())/2;
-    return 0;
+    return (left_encoder.getDistance() + right_encoder.getDistance()) / 2;
+    // return 0;
   }
 
   /**

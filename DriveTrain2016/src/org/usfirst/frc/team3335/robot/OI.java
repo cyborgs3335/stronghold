@@ -1,13 +1,12 @@
 package org.usfirst.frc.team3335.robot;
 
+import org.usfirst.frc.team3335.robot.commands.ArmPreset;
 import org.usfirst.frc.team3335.robot.commands.IntakeBoulder;
 import org.usfirst.frc.team3335.robot.commands.MoveArm;
 import org.usfirst.frc.team3335.robot.commands.MoveHood;
-import org.usfirst.frc.team3335.robot.commands.MoveTurret;
 import org.usfirst.frc.team3335.robot.commands.ResetTurretPosition;
 import org.usfirst.frc.team3335.robot.commands.StartFullOuttake;
 import org.usfirst.frc.team3335.robot.commands.StartFullShooter;
-import org.usfirst.frc.team3335.robot.commands.StopArm;
 import org.usfirst.frc.team3335.robot.commands.StopFullOuttake;
 import org.usfirst.frc.team3335.robot.commands.StopFullShooter;
 import org.usfirst.frc.team3335.robot.commands.StopIntake;
@@ -16,7 +15,6 @@ import org.usfirst.frc.team3335.robot.commands.StopTurret;
 import org.usfirst.frc.team3335.robot.commands.SwitchCameraLight;
 import org.usfirst.frc.team3335.robot.subsystems.Arm;
 import org.usfirst.frc.team3335.robot.subsystems.Hood;
-import org.usfirst.frc.team3335.robot.subsystems.Turret;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -88,9 +86,9 @@ public class OI {
 
     // ===== Shooter Joystick Buttons =====
     // A button
-    JoystickButton turretCCW = addButton(joyShooter, 1, "Turret CCW");
+    // JoystickButton turretCCW = addButton(joyShooter, 1, "Turret CCW");
     // B button
-    JoystickButton turretCW = addButton(joyShooter, 4, "Turret CW");
+    // JoystickButton turretCW = addButton(joyShooter, 4, "Turret CW");
     // Y button
     JoystickButton turretStop = addButton(joyShooter, 2, "Turret Stop");
     // X Button (xbox)
@@ -99,6 +97,7 @@ public class OI {
     JoystickButton hoodUp = addButton(joyShooter, 6, "Hood Up");
     JoystickButton shooterStart = addButton(joyShooter, 7, "Shooter Start");
     JoystickButton shooterStop = addButton(joyShooter, 8, "Shooter Stop");
+    JoystickButton armPreset = addButton(joyShooter, 1, "Arm Preset");
     // Reserved axes and buttons
     // axis 1 -- HoodDriveWithJoystick
 
@@ -118,16 +117,19 @@ public class OI {
     hoodUp.whenPressed(new MoveHood(Hood.Direction.UP, Robot.robotPreferences.getHoodTargetPosition()));
     hoodDown.whenPressed(new MoveHood(Hood.Direction.DOWN, 0));
     armUp.whenPressed(new MoveArm(Arm.Direction.UP, Arm.MAX_POSITION));
-    armUp.whenReleased(new StopArm(true));
+    // armUp.whenReleased(new StopArm(true));
     // shooterStart.whenPressed(new StartShooter());
     // shooterStart.whenReleased(new StopShooter(true));
     shooterStart.whenPressed(new StartFullShooter());
     shooterStart.whenReleased(new StopFullShooter());
     shooterStop.whenPressed(new StopShooter(true));
-    turretCCW.whenPressed(new MoveTurret(Turret.Direction.COUNTER_CLOCKWISE)); // Counter-clockwise
-    turretCCW.whenReleased(new StopTurret(true));
-    turretCW.whenPressed(new MoveTurret(Turret.Direction.CLOCKWISE)); // Clockwise
-    turretCW.whenReleased(new StopTurret(true));
+    // turretCCW.whenPressed(new
+    // MoveTurret(Turret.Direction.COUNTER_CLOCKWISE)); // Counter-clockwise
+    // turretCCW.whenReleased(new StopTurret(true));
+    // turretCW.whenPressed(new MoveTurret(Turret.Direction.CLOCKWISE)); //
+    // Clockwise
+    // turretCW.whenReleased(new StopTurret(true));
+    armPreset.whenPressed(new ArmPreset());
     turretStop.whenPressed(new StopTurret(true));
   }
 

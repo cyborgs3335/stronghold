@@ -28,7 +28,7 @@ public class Arm extends Subsystem implements LoggableSubsystem {
   private double downPositionDistance = 0;
 
   private long timeSinceSwitchSet = Long.MAX_VALUE;
-  private long maxExtraTime = 500; // milliseconds
+  private long maxExtraTime = 625; // milliseconds
 
   private final double motorMax = 0.01;
 

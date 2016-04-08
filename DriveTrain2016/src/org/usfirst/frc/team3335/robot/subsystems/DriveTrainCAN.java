@@ -44,13 +44,15 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
     // left_encoder = new Encoder(1, 2);
     // right_encoder = new Encoder(3, 4);
 
-    // left_encoder = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
+    left_encoder = new Encoder(RobotMap.LEFT_DRIVE_ENCODER_A, RobotMap.LEFT_DRIVE_ENCODER_B, false,
+        Encoder.EncodingType.k4X);
     // left_encoder.setDistancePerPulse(distancePerPulse);
     // left_encoder.setMinRate(3.14159265);
     //
-    // right_encoder = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
-    // right_encoder.setDistancePerPulse(distancePerPulse);
-    // right_encoder.setMinRate(3.14159265);
+    right_encoder = new Encoder(RobotMap.RIGHT_DRIVE_ENCODER_A, RobotMap.RIGHT_DRIVE_ENCODER_B, false,
+        Encoder.EncodingType.k4X);
+        // right_encoder.setDistancePerPulse(distancePerPulse);
+        // right_encoder.setMinRate(3.14159265);
 
     // percent vbus is default mode
     front_left_motor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);

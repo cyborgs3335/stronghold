@@ -7,6 +7,8 @@
 package org.usfirst.frc.team3335.robot;
 
 import org.usfirst.frc.team3335.robot.commands.Autonomous;
+import org.usfirst.frc.team3335.robot.commands.AutonomousDoNothing;
+import org.usfirst.frc.team3335.robot.commands.AutonomousLowBar;
 import org.usfirst.frc.team3335.robot.subsystems.Arm;
 import org.usfirst.frc.team3335.robot.subsystems.ArmPID;
 import org.usfirst.frc.team3335.robot.subsystems.CameraLight;
@@ -82,10 +84,12 @@ public class Robot extends IterativeRobot {
     oi = new OI();
 
     // instantiate the command used for the autonomous period
-    // autonomousCommand = new Autonomous();
+    autonomousCommand = new Autonomous();
     // Autonomous chooser
     autoChooser = new SendableChooser();
     autoChooser.addDefault("Default Autonomous", new Autonomous());
+    autoChooser.addObject("Low Bar", new AutonomousLowBar());
+    autoChooser.addObject("NOTHING", new AutonomousDoNothing());
     // autoChooser.addObject("No Autonomous", new Autonomous(false));
     SmartDashboard.putData("Autonomous mode chooser", autoChooser);
 
@@ -113,10 +117,12 @@ public class Robot extends IterativeRobot {
   public void autonomousInit() {
     // Get preferences from robot
     robotPreferences = new RobotPreferences();
+
     Command autoCommand = (Command) autoChooser.getSelected();
     if (autoCommand != null) {
       autonomousCommand = autoCommand;
     }
+
     autonomousCommand.start(); // schedule the autonomous command (example)
   }
 

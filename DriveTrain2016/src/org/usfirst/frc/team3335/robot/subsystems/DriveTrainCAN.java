@@ -141,6 +141,7 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
     // SmartDashboard.putNumber("Joystick Axis 1", );
     SmartDashboard.putNumber("Left Drive Value", leftDriveValue);
     SmartDashboard.putNumber("Right Drive Value", rightDriveValue);
+    // SmartDashboard.putBoolean("Brake On?", );
   }
 
   /**
@@ -169,6 +170,13 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
     } else {
       drive(leftOut, rightOut);
     }
+  }
+
+  public void setBrake(boolean brake) {
+    back_left_motor.enableBrakeMode(brake);
+    front_left_motor.enableBrakeMode(brake);
+    back_right_motor.enableBrakeMode(brake);
+    front_right_motor.enableBrakeMode(brake);
   }
 
   /**

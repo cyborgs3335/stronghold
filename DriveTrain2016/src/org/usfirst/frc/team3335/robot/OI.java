@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3335.robot;
 
 import org.usfirst.frc.team3335.robot.commands.ArmPreset;
+import org.usfirst.frc.team3335.robot.commands.BrakeOn;
 import org.usfirst.frc.team3335.robot.commands.IntakeBoulder;
 import org.usfirst.frc.team3335.robot.commands.MoveArm;
 import org.usfirst.frc.team3335.robot.commands.MoveHood;
@@ -11,7 +12,6 @@ import org.usfirst.frc.team3335.robot.commands.StopFullOuttake;
 import org.usfirst.frc.team3335.robot.commands.StopFullShooter;
 import org.usfirst.frc.team3335.robot.commands.StopIntake;
 import org.usfirst.frc.team3335.robot.commands.StopShooter;
-import org.usfirst.frc.team3335.robot.commands.StopTurret;
 import org.usfirst.frc.team3335.robot.commands.SwitchCameraLight;
 import org.usfirst.frc.team3335.robot.subsystems.Arm;
 import org.usfirst.frc.team3335.robot.subsystems.Hood;
@@ -88,9 +88,9 @@ public class OI {
     // A button
     // JoystickButton turretCCW = addButton(joyShooter, 1, "Turret CCW");
     // B button
-    // JoystickButton turretCW = addButton(joyShooter, 4, "Turret CW");
+    JoystickButton brakeOff = addButton(joyShooter, 4, "Brake Off");
     // Y button
-    JoystickButton turretStop = addButton(joyShooter, 2, "Turret Stop");
+    JoystickButton brakeOn = addButton(joyShooter, 2, "Brake On");
     // X Button (xbox)
     JoystickButton armUp = addButton(joyShooter, 3, "Arm Up");
     JoystickButton hoodDown = addButton(joyShooter, 5, "Hood Down");
@@ -126,11 +126,11 @@ public class OI {
     // turretCCW.whenPressed(new
     // MoveTurret(Turret.Direction.COUNTER_CLOCKWISE)); // Counter-clockwise
     // turretCCW.whenReleased(new StopTurret(true));
-    // turretCW.whenPressed(new MoveTurret(Turret.Direction.CLOCKWISE)); //
+    brakeOff.whenPressed(new BrakeOn(false)); //
     // Clockwise
     // turretCW.whenReleased(new StopTurret(true));
     armPreset.whenPressed(new ArmPreset());
-    turretStop.whenPressed(new StopTurret(true));
+    brakeOn.whenPressed(new BrakeOn(true));
   }
 
   private JoystickButton addButton(GenericHID joystick, int buttonNumber, String dashboardKey) {

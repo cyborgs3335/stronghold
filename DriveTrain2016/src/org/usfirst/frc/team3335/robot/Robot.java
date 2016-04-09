@@ -17,6 +17,7 @@ import org.usfirst.frc.team3335.robot.subsystems.FlyWheel;
 import org.usfirst.frc.team3335.robot.subsystems.Hood;
 import org.usfirst.frc.team3335.robot.subsystems.HoodPID;
 import org.usfirst.frc.team3335.robot.subsystems.ImageNIVision;
+import org.usfirst.frc.team3335.robot.subsystems.ImageNIVisionStream;
 import org.usfirst.frc.team3335.robot.subsystems.Intake;
 import org.usfirst.frc.team3335.robot.subsystems.LoggableSubsystem;
 import org.usfirst.frc.team3335.robot.subsystems.Turret;
@@ -53,6 +54,8 @@ public class Robot extends IterativeRobot {
   public static CameraLight cameraLight;
   public static ImageNIVision imageNIVision;
   public static ImageNIVision imageNIVision2;
+  public static ImageNIVisionStream imageNIVisionStream1;
+  public static ImageNIVisionStream imageNIVisionStream2;
 
   public static OI oi;
   public static RobotPreferences robotPreferences;
@@ -75,7 +78,9 @@ public class Robot extends IterativeRobot {
     // imageProcessor = new ImageProcessorGrip();
     cameraLight = new CameraLight();
     imageNIVision = new ImageNIVision("cam1");
-    imageNIVision2 = null; // new ImageNIVision("cam1");
+    imageNIVision2 = null; // new ImageNIVision("cam2");
+    imageNIVisionStream1 = null;// new ImageNIVisionStream("cam1");
+    imageNIVisionStream2 = null;// new ImageNIVisionStream("cam2");
 
     // Get preferences from robot
     robotPreferences = new RobotPreferences();
@@ -95,8 +100,10 @@ public class Robot extends IterativeRobot {
 
     // camera chooser
     // cameraChooser = new SendableChooser();
-    // cameraChooser.addDefault("Camera 0", new ShowCamera(imageNIVision));
-    // cameraChooser.addObject("Camera 1", new ShowCamera(imageNIVision2));
+    // cameraChooser.addDefault("Camera 1", new
+    // ShowCamera(imageNIVisionStream1));
+    // cameraChooser.addObject("Camera 2", new
+    // ShowCamera(imageNIVisionStream2));
     // SmartDashboard.putData("Camera chooser", cameraChooser);
 
     // Show what command your subsystem is running on the SmartDashboard
@@ -111,6 +118,8 @@ public class Robot extends IterativeRobot {
     addSubsystemToDashboard(cameraLight);
     addSubsystemToDashboard(imageNIVision);
     addSubsystemToDashboard(imageNIVision2);
+    addSubsystemToDashboard(imageNIVisionStream1);
+    addSubsystemToDashboard(imageNIVisionStream2);
   }
 
   @Override
@@ -187,6 +196,8 @@ public class Robot extends IterativeRobot {
     logSubsystem(cameraLight);
     logSubsystem(imageNIVision);
     logSubsystem(imageNIVision2);
+    logSubsystem(imageNIVisionStream1);
+    logSubsystem(imageNIVisionStream2);
   }
 
   private void logSubsystem(LoggableSubsystem subsystem) {

@@ -50,8 +50,8 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
     //
     right_encoder = new Encoder(RobotMap.RIGHT_DRIVE_ENCODER_A, RobotMap.RIGHT_DRIVE_ENCODER_B, false,
         Encoder.EncodingType.k4X);
-        // right_encoder.setDistancePerPulse(distancePerPulse);
-        // right_encoder.setMinRate(3.14159265);
+    // right_encoder.setDistancePerPulse(distancePerPulse);
+    // right_encoder.setMinRate(3.14159265);
 
     // percent vbus is default mode
     front_left_motor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
@@ -123,11 +123,13 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
   @Override
   public void log() {
     if (left_encoder != null) {
-      SmartDashboard.putNumber("Left Distance", left_encoder.getDistance());
+      SmartDashboard.putNumber("Left Raw Distance", left_encoder.getDistance());
+      SmartDashboard.putNumber("Left Distance", left_encoder.getDistance() / -13.5);
       SmartDashboard.putNumber("Left Speed", left_encoder.getRate());
     }
     if (right_encoder != null) {
-      SmartDashboard.putNumber("Right Distance", right_encoder.getDistance());
+      SmartDashboard.putNumber("Right Raw Distance", right_encoder.getDistance());
+      SmartDashboard.putNumber("Right Distance", right_encoder.getDistance() / -13.5);
       SmartDashboard.putNumber("Right Speed", right_encoder.getRate());
     }
     if (gyro != null) {

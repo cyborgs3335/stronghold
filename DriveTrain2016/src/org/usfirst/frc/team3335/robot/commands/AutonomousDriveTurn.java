@@ -48,9 +48,9 @@ public class AutonomousDriveTurn extends Command {
   @Override
   protected void execute() {
     if (turnAngle >= 0) {
-      Robot.drivetrain.driveScaled(-valueDefault, valueDefault);
-    } else {
       Robot.drivetrain.driveScaled(valueDefault, -valueDefault);
+    } else {
+      Robot.drivetrain.driveScaled(-valueDefault, valueDefault);
     }
   }
 

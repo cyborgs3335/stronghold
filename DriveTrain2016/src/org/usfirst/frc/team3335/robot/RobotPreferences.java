@@ -66,12 +66,12 @@ public class RobotPreferences {
       prefs.putInt(JOYSTICK_DRIVER_PORT, joystickDriverPort);
     }
 
-    joystickShooterPort = prefs.getInt(JOYSTICK_SHOOTER_PORT, 1);
+    joystickShooterPort = prefs.getInt(JOYSTICK_SHOOTER_PORT, 2);
     if (!prefs.containsKey(JOYSTICK_SHOOTER_PORT)) {
       prefs.putInt(JOYSTICK_SHOOTER_PORT, joystickShooterPort);
     }
 
-    drivetimer = prefs.getDouble(DRIVE_TIMER, 5);
+    drivetimer = prefs.getDouble(DRIVE_TIMER, 3);
     if (!prefs.containsKey(DRIVE_TIMER)) {
       prefs.putDouble(DRIVE_TIMER, drivetimer);
     }

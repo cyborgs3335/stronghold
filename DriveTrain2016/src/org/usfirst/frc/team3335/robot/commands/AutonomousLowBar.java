@@ -1,26 +1,27 @@
 package org.usfirst.frc.team3335.robot.commands;
 
+import org.usfirst.frc.team3335.robot.Robot;
+import org.usfirst.frc.team3335.robot.subsystems.Arm;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  * The main autonomous command to pickup and deliver the soda to the box.
  */
-public class Autonomous extends CommandGroup {
-  public Autonomous() {
+public class AutonomousLowBar extends CommandGroup {
+  public AutonomousLowBar() {
     this(true);
   }
 
-  public Autonomous(boolean runAutonomous) {
+  public AutonomousLowBar(boolean runAutonomous) {
     if (!runAutonomous) {
       return;
     }
-    // Lower arm to reset position, then fully raise
-    // addSequential(new MoveArm(Arm.Direction.DOWN, 0));
-    // addSequential(new MoveArm(Arm.Direction.UP, Arm.MAX_POSITION, 1));
-    // addSequential(new MoveArm(Arm.Direction.UP, 120, 1));
-    // addSequential(new TimeDelay(), 0.5);
+    // Lower arm to reset position, then lower hood
+    addParallel(new MoveArm(Arm.Direction.DOWN, 0));
+    addSequential(new LowerHood(Robot.hood));
     // Drive straight
-    addSequential(new DriveStraightSimple(2.5));
+    addSequential(new DriveStraightSimple(2, -0.8));
     // addSequential(new SetDistanceToBox(0.10));
     // // addSequential(new DriveStraight(4)); // Use Encoders if ultrasonic is
     // broken

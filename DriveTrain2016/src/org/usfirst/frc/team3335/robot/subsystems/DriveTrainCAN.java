@@ -41,14 +41,15 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
     front_right_motor = new CANTalon(RobotMap.DRIVE_TRAIN_FRONT_RIGHT_MOTOR);
     back_right_motor = new CANTalon(RobotMap.DRIVE_TRAIN_BACK_RIGHT_MOTOR);
     drive = new RobotDrive(front_left_motor, back_left_motor, front_right_motor, back_right_motor);
-    // left_encoder = new Encoder(1, 2);
-    // right_encoder = new Encoder(3, 4);
 
-    // left_encoder = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
+    // TODO set encoder parameters, such as distance per pulse
+    left_encoder = new Encoder(RobotMap.LEFT_DRIVE_ENCODER_A, RobotMap.LEFT_DRIVE_ENCODER_B, false,
+        Encoder.EncodingType.k4X);
     // left_encoder.setDistancePerPulse(distancePerPulse);
     // left_encoder.setMinRate(3.14159265);
     //
-    // right_encoder = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
+    right_encoder = new Encoder(RobotMap.RIGHT_DRIVE_ENCODER_A, RobotMap.RIGHT_DRIVE_ENCODER_B, false,
+        Encoder.EncodingType.k4X);
     // right_encoder.setDistancePerPulse(distancePerPulse);
     // right_encoder.setMinRate(3.14159265);
 
@@ -121,10 +122,16 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
    */
   @Override
   public void log() {
-    // SmartDashboard.putNumber("Left Distance", left_encoder.getDistance());
-    // SmartDashboard.putNumber("Right Distance", right_encoder.getDistance());
-    // SmartDashboard.putNumber("Left Speed", left_encoder.getRate());
-    // SmartDashboard.putNumber("Right Speed", right_encoder.getRate());
+    if (left_encoder != null) {
+      SmartDashboard.putNumber("Left Raw Distance", left_encoder.getDistance());
+      SmartDashboard.putNumber("Left Distance", left_encoder.getDistance() / -13.5);
+      SmartDashboard.putNumber("Left Speed", left_encoder.getRate());
+    }
+    if (right_encoder != null) {
+      SmartDashboard.putNumber("Right Raw Distance", right_encoder.getDistance());
+      SmartDashboard.putNumber("Right Distance", right_encoder.getDistance() / -13.5);
+      SmartDashboard.putNumber("Right Speed", right_encoder.getRate());
+    }
     if (gyro != null) {
       SmartDashboard.putNumber("Gyro", gyro.getAngle());
     }
@@ -136,6 +143,7 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
     // SmartDashboard.putNumber("Joystick Axis 1", );
     SmartDashboard.putNumber("Left Drive Value", leftDriveValue);
     SmartDashboard.putNumber("Right Drive Value", rightDriveValue);
+    // SmartDashboard.putBoolean("Brake On?", );
   }
 
   /**
@@ -164,6 +172,13 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
     } else {
       drive(leftOut, rightOut);
     }
+  }
+
+  public void setBrake(boolean brake) {
+    back_left_motor.enableBrakeMode(brake);
+    front_left_motor.enableBrakeMode(brake);
+    back_right_motor.enableBrakeMode(brake);
+    front_right_motor.enableBrakeMode(brake);
   }
 
   /**
@@ -254,8 +269,12 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
     if (m_gyro != null) {
       m_gyro.reset();
     }
-    // left_encoder.reset();
-    // right_encoder.reset();
+    if (left_encoder != null) {
+      left_encoder.reset();
+    }
+    if (right_encoder != null) {
+      right_encoder.reset();
+    }
   }
 
   public double getAngleX() {
@@ -274,8 +293,8 @@ public class DriveTrainCAN extends Subsystem implements LoggableSubsystem {
    * @return The distance driven (average of left and right encoders).
    */
   public double getDistance() {
-    // return (left_encoder.getDistance() + right_encoder.getDistance())/2;
-    return 0;
+    return (left_encoder.getDistance() + right_encoder.getDistance()) / 2;
+    // return 0;
   }
 
   /**

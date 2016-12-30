@@ -33,9 +33,13 @@ public class RobotMap {
   public static final int ARM_ENCODER_B = 7;
   public static final int ARM_SWITCH_DOWN = 18;
   public static final int FLYWHEEL_ENCODER_A = 15; // was 4???
-  public static final int FLYWHEEL_ENCODER_B = 11;
+  public static final int FLYWHEEL_ENCODER_B = 14;
   public static final int HOOD_ENCODER_A = 0; // 4
   public static final int HOOD_ENCODER_B = 1; // 2
+  public static final int LEFT_DRIVE_ENCODER_A = 10;
+  public static final int LEFT_DRIVE_ENCODER_B = 11;
+  public static final int RIGHT_DRIVE_ENCODER_A = 22;
+  public static final int RIGHT_DRIVE_ENCODER_B = 23;
   public static final int HOOD_SWITCH = 4; // temporarily???
   public static final int INTAKE_SWITCH = 9;
   public static final int TURRET_CW_SWITCH = 8;

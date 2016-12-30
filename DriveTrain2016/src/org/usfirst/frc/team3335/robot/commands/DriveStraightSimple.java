@@ -24,15 +24,28 @@ public class DriveStraightSimple extends Command {
   // "Speed"
   // private double valueStartDefault = -0.85; // tested
   private double valueStartDefault = -0.75;
-  private double valueDefault = -0.95; // old setting; tested
-  // private double valueDefault = -1.0; // full power
+  // private double valueDefault = -0.95; // old setting; tested
+  private double valueDefault = -1.0; // full power
   // private double valueDefault = -0.7; // temporary for testing
 
-  // private double rampUpTime = 0.25; // seconds; tested
-  private double rampUpTime = 0.50; // seconds
+  private double rampUpTime = 0.25; // seconds; tested
+  // private double rampUpTime = 0.50; // seconds
+
+  private final double driveTime;
 
   public DriveStraightSimple() {
+    this(3);
+  }
+
+  public DriveStraightSimple(double time) {
     requires(Robot.drivetrain);
+    driveTime = time;
+  }
+
+  public DriveStraightSimple(double time, double value) {
+    requires(Robot.drivetrain);
+    driveTime = time;
+    valueDefault = value;
   }
 
   // Called just before this Command runs the first time
@@ -57,11 +70,11 @@ public class DriveStraightSimple extends Command {
     double heading = Robot.drivetrain.getHeading();
     double leftValue = value;
     double rightValue = value;
-    if (heading < 0) {
-      leftValue = computeScalar2(leftValue, heading);
-    } else {
-      rightValue = computeScalar2(rightValue, heading);
-    }
+    // if (heading < 0) {
+    // leftValue = computeScalar2(leftValue, heading);
+    // } else {
+    // rightValue = computeScalar2(rightValue, heading);
+    // }
     Robot.drivetrain.driveScaled(leftValue, rightValue);
   }
 
@@ -96,7 +109,7 @@ public class DriveStraightSimple extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (timeSinceInitialized() > Robot.robotPreferences.getDriveTimer()) {
+    if (timeSinceInitialized() > driveTime) {
       return true;
     }
     return false;

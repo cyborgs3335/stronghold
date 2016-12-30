@@ -10,11 +10,12 @@ public class MoveArm extends Command {
   private final Arm.Direction direction;
   private final Arm arm;
   private final double targetPosition;
+  private double timeOut = -1;
 
   /**
    * Move arm to desired position. If direction is down, ignore position. Useful
    * to reset to position 0.
-   * 
+   *
    * @param direction
    *          up or down
    * @param targetPosition
@@ -25,6 +26,11 @@ public class MoveArm extends Command {
     arm = Robot.arm;
     this.direction = direction;
     this.targetPosition = targetPosition;
+  }
+
+  public MoveArm(Arm.Direction direction, double targetPosition, double timeOut) {
+    this(direction, targetPosition);
+    this.timeOut = timeOut;
   }
 
   @Override
@@ -56,16 +62,19 @@ public class MoveArm extends Command {
     // arm.rotate(scalar * speed);
     switch (direction) {
       case DOWN:
-        arm.rotate(0.3);
+        arm.rotate(1);
         break;
       case UP:
-        arm.rotate(-0.4);
+        arm.rotate(-1);
         break;
     }
   }
 
   @Override
   protected boolean isFinished() {
+    if (timeOut > 0 && timeSinceInitialized() > timeOut) {
+      return true;
+    }
     if (direction.equals(Arm.Direction.UP)) {
       return !Robot.arm.canMove(direction) || Robot.arm.getAngularPosition() >= targetPosition;
     }

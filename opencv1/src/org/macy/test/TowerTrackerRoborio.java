@@ -106,8 +106,8 @@ public class TowerTrackerRoborio implements Runnable {
   public static void main(String[] args) {
     // ImagePanel panel = ImagePanel.createDisplayWindow();
     // new TowerTrackerNew(1, panel).run();
-    // int cameraId = 0;
-    int cameraId = 1;
+    int cameraId = 0;
+    // int cameraId = 1;
     TowerTrackerRoborio tracker = new TowerTrackerRoborio(cameraId, null);
     tracker.setVerbose(false);
     new Thread(tracker).start();

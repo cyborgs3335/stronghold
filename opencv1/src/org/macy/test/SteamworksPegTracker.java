@@ -363,9 +363,13 @@ public class SteamworksPegTracker implements IObjectTracker {
 
   public double[] computeDistanceAzimuthNew(Rect rec) {
     double pixelFOV = matOriginal.width();
-    double targetFeet = 20.0 / 12.0;
+    // double targetFeet = 20.0 / 12.0; // Stronghold goal
+    double targetFeet = 10.25 / 12.0; // SteamWorks peg target
     double diagonalFOVDegrees = 68.5; // 68.5 deg for Microsoft LifeCam HD-3000
-    diagonalFOVDegrees /= 1.5; // Empirically determined; approximate
+    // Empirically determined fudge factor (Stronghold)
+    // diagonalFOVDegrees /= 1.5; // Stronghold with LifeCam
+    // diagonalFOVDegrees /= 1.125; // SteamWorks with DellXPS13 built-in
+    diagonalFOVDegrees /= 1.37; // SteamWorks with LifeCam
     // d = Tft*FOVpixel/(2*Tpixel*tanΘ);
     double distance = targetFeet * pixelFOV / (2 * rec.width * Math.tan(Math.toRadians(diagonalFOVDegrees / 2)));
     double targetCx = rec.x + rec.width / 2;

@@ -146,7 +146,8 @@ public class SteamworksPegTracker implements IObjectTracker {
   public void processImage() {
     // ImagePanel panel = ImagePanel.createDisplayWindow();
     // ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
-    GripPipelineOne grip = new GripPipelineOne();
+    // GripPipelineOne grip = new GripPipelineOne();
+    GripPipelineTwo grip = new GripPipelineTwo();
     // frame counter
     frameCount = 0;
     timeStart = System.currentTimeMillis();

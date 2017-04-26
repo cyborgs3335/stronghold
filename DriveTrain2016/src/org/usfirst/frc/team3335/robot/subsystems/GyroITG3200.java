@@ -72,7 +72,7 @@ public class GyroITG3200 extends SensorBase implements PIDSource, LiveWindowSend
     // TODO: This report is incorrect. Need to create instance for I2C ITG3200
     // Gyro
     // UsageReporting.report( tResourceType.kResourceType_I2C, tInstances.?? );
-    LiveWindow.addSensor("ITG3200_Gyro_I2C", port.getValue(), this);
+    LiveWindow.addSensor("ITG3200_Gyro_I2C", port.value, this);
   }
 
   /**
@@ -92,7 +92,7 @@ public class GyroITG3200 extends SensorBase implements PIDSource, LiveWindowSend
     // TODO: This report is incorrect. Need to create instance for I2C ITG3200
     // Gyro
     // UsageReporting.report( tResourceType.kResourceType_I2C, tInstances.?? );
-    LiveWindow.addSensor("ITG3200_Gyro_I2C", port.getValue(), this);
+    LiveWindow.addSensor("ITG3200_Gyro_I2C", port.value, this);
   }
 
   /**

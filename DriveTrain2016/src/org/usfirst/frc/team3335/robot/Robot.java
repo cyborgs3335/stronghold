@@ -77,7 +77,8 @@ public class Robot extends IterativeRobot {
     fly = new FlyWheel();
     // imageProcessor = new ImageProcessorGrip();
     cameraLight = new CameraLight();
-    imageNIVision = new ImageNIVision("cam1");
+    // imageNIVision = new ImageNIVision("cam1");
+    imageNIVision = new ImageNIVision();
     imageNIVision2 = null; // new ImageNIVision("cam2");
     imageNIVisionStream1 = null;// new ImageNIVisionStream("cam1");
     imageNIVisionStream2 = null;// new ImageNIVisionStream("cam2");

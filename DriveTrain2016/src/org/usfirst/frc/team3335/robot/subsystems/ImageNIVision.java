@@ -1,13 +1,13 @@
 package org.usfirst.frc.team3335.robot.subsystems;
 
-import com.ni.vision.NIVision.Image;
+//import com.ni.vision.NIVision.Image;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class ImageNIVision extends Subsystem implements LoggableSubsystem {
-  private int session;
-  private Image frame;
+  // private int session;
+  // private Image frame;
   private CameraServer server;
 
   /**
@@ -16,7 +16,7 @@ public class ImageNIVision extends Subsystem implements LoggableSubsystem {
    * @param cameraName
    *          name of camera, as found on roborio web page; e.g., "cam0"
    */
-  public ImageNIVision(String cameraName) {
+  public ImageNIVision(/* String cameraName */) {
 
     // frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
     //
@@ -27,10 +27,11 @@ public class ImageNIVision extends Subsystem implements LoggableSubsystem {
     // NIVision.IMAQdxConfigureGrab(session);
 
     server = CameraServer.getInstance();
-    server.setQuality(50);
+    // server.setQuality(50);
     // the camera name (ex "cam0") can be found through the roborio web
     // interface
-    server.startAutomaticCapture(cameraName);
+    // server.startAutomaticCapture(cameraName);
+    server.startAutomaticCapture();
   }
 
   // public void init() {

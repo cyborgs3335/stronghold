@@ -3,7 +3,8 @@ package org.usfirst.frc.team3335.robot.subsystems;
 import org.usfirst.frc.team3335.robot.RobotMap;
 import org.usfirst.frc.team3335.robot.commands.SetHoodPosition;
 
-import edu.wpi.first.wpilibj.CANTalon;
+import com.ctre.CANTalon;
+
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;

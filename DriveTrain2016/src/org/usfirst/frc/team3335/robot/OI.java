@@ -32,6 +32,8 @@ public class OI {
   private Joystick joyShooter = new Joystick(Robot.robotPreferences.getJoystickShooterPort());
 
   public OI() {
+    boolean useArms = false;
+
     // Put Some buttons on the SmartDashboard
     // SmartDashboard.putData("Elevator Bottom", new SetElevatorSetpoint(0));
     // SmartDashboard.putData("Elevator Platform", new
@@ -116,7 +118,9 @@ public class OI {
     // hoodDown.whenReleased(new StopHood(true));
     hoodUp.whenPressed(new MoveHood(Hood.Direction.UP, Robot.robotPreferences.getHoodTargetPosition()));
     hoodDown.whenPressed(new MoveHood(Hood.Direction.DOWN, 0));
-    armUp.whenPressed(new MoveArm(Arm.Direction.UP, Arm.MAX_POSITION));
+    if (useArms) {
+      armUp.whenPressed(new MoveArm(Arm.Direction.UP, Arm.MAX_POSITION));
+    }
     // armUp.whenReleased(new StopArm(true));
     // shooterStart.whenPressed(new StartShooter());
     // shooterStart.whenReleased(new StopShooter(true));
@@ -129,7 +133,9 @@ public class OI {
     brakeOff.whenPressed(new BrakeOn(false)); //
     // Clockwise
     // turretCW.whenReleased(new StopTurret(true));
-    armPreset.whenPressed(new ArmPreset());
+    if (useArms) {
+      armPreset.whenPressed(new ArmPreset());
+    }
     brakeOn.whenPressed(new BrakeOn(true));
   }
 

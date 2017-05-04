@@ -16,7 +16,7 @@ public class ImageNIVision extends Subsystem implements LoggableSubsystem {
    * @param cameraName
    *          name of camera, as found on roborio web page; e.g., "cam0"
    */
-  public ImageNIVision(/* String cameraName */) {
+  public ImageNIVision(int cameraID) {
 
     // frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
     //
@@ -31,7 +31,7 @@ public class ImageNIVision extends Subsystem implements LoggableSubsystem {
     // the camera name (ex "cam0") can be found through the roborio web
     // interface
     // server.startAutomaticCapture(cameraName);
-    server.startAutomaticCapture();
+    server.startAutomaticCapture(cameraID);
   }
 
   // public void init() {
